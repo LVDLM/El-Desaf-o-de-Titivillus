@@ -69,6 +69,10 @@ const App: React.FC = () => {
     loadLevel(stats.level);
   };
 
+  const handleMainMenu = () => {
+    setGameState(GameState.MENU);
+  };
+
   // Render logic
   return (
     <div className="min-h-screen bg-[#2b2b2b] selection:bg-gold selection:text-black">
@@ -119,6 +123,7 @@ const App: React.FC = () => {
           stats={stats}
           onNextLevel={handleNextLevel}
           onRetry={handleStartGame} 
+          onMainMenu={handleMainMenu}
         />
       )}
 
@@ -128,6 +133,7 @@ const App: React.FC = () => {
           stats={stats}
           onNextLevel={handleNextLevel} 
           onRetry={handleRetry}
+          onMainMenu={handleMainMenu}
         />
       )}
     </div>

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { RotateCcw, Award, Save, Check } from 'lucide-react';
+import { RotateCcw, Award, Save, Check, Home } from 'lucide-react';
 import { PlayerStats } from '../types';
 import { submitScore } from '../services/supabaseClient';
 
@@ -8,9 +8,10 @@ interface GameOverScreenProps {
   stats: PlayerStats;
   onNextLevel: () => void;
   onRetry: () => void;
+  onMainMenu: () => void;
 }
 
-const GameOverScreen: React.FC<GameOverScreenProps> = ({ success, stats, onNextLevel, onRetry }) => {
+const GameOverScreen: React.FC<GameOverScreenProps> = ({ success, stats, onNextLevel, onRetry, onMainMenu }) => {
   const [username, setUsername] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -62,9 +63,7 @@ const GameOverScreen: React.FC<GameOverScreenProps> = ({ success, stats, onNextL
           </div>
         </div>
 
-        {/* Score Submission Form - Only show on Game Over or if user wants to quit, but primarily on Game Over for now. 
-            Ideally we should also allow saving on success if they choose to stop, but for now we keep it simple.
-            Showing on Game Over when score > 0 */}
+        {/* Score Submission Form */}
         {!success && stats.score > 0 && !isSubmitted && (
           <form onSubmit={handleSubmitScore} className="mb-8 bg-parchment-300/50 p-4 rounded border border-parchment-800/30">
             <h3 className="font-display font-bold text-lg mb-3 uppercase tracking-widest">Inmortaliza tu Nombre</h3>
@@ -96,23 +95,33 @@ const GameOverScreen: React.FC<GameOverScreenProps> = ({ success, stats, onNextL
           </div>
         )}
 
-        <div className="flex gap-4 justify-center">
-          {success ? (
-            <button
-              onClick={onNextLevel}
-              className="bg-parchment-800 text-parchment-100 px-6 py-3 rounded font-display font-bold text-lg hover:bg-parchment-900 transition-colors flex items-center gap-2 shadow-lg transform hover:-translate-y-1"
-            >
-              <Award /> Siguiente Manuscrito
-            </button>
-          ) : (
-            <button
-              onClick={onRetry}
-              className="bg-blood text-white px-6 py-3 rounded font-display font-bold text-lg hover:bg-red-900 transition-colors flex items-center gap-2 shadow-lg transform hover:-translate-y-1"
-            >
-              <RotateCcw /> Intentar de Nuevo
-            </button>
-          )}
+        <div className="flex flex-col items-center gap-4">
+          <div className="flex gap-4 justify-center w-full">
+            {success ? (
+              <button
+                onClick={onNextLevel}
+                className="bg-parchment-800 text-parchment-100 px-6 py-3 rounded font-display font-bold text-lg hover:bg-parchment-900 transition-colors flex items-center gap-2 shadow-lg transform hover:-translate-y-1"
+              >
+                <Award /> Siguiente Manuscrito
+              </button>
+            ) : (
+              <button
+                onClick={onRetry}
+                className="bg-blood text-white px-6 py-3 rounded font-display font-bold text-lg hover:bg-red-900 transition-colors flex items-center gap-2 shadow-lg transform hover:-translate-y-1"
+              >
+                <RotateCcw /> Intentar de Nuevo
+              </button>
+            )}
+          </div>
+
+          <button
+            onClick={onMainMenu}
+            className="text-parchment-900/60 hover:text-parchment-900 font-serif text-sm flex items-center gap-2 transition-colors hover:underline"
+          >
+            <Home size={16} /> Volver al Menú Principal
+          </button>
         </div>
+
       </div>
     </div>
   );

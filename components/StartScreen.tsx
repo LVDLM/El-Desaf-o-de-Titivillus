@@ -1,5 +1,6 @@
 import React from 'react';
 import { Scroll, Feather, Trophy } from 'lucide-react';
+import { isSupabaseConfigured } from '../services/supabaseClient';
 
 interface StartScreenProps {
   onStart: () => void;
@@ -8,7 +9,7 @@ interface StartScreenProps {
 
 const StartScreen: React.FC<StartScreenProps> = ({ onStart, onOpenLeaderboard }) => {
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen p-4 text-parchment-900">
+    <div className="flex flex-col items-center justify-center min-h-screen p-4 text-parchment-900 relative">
       <div className="max-w-2xl w-full bg-parchment-200 border-8 border-parchment-800 rounded-lg shadow-2xl p-8 relative overflow-hidden">
         {/* Decorative Corners */}
         <div className="absolute top-0 left-0 w-16 h-16 border-t-4 border-l-4 border-gold m-2"></div>
@@ -70,6 +71,14 @@ const StartScreen: React.FC<StartScreenProps> = ({ onStart, onOpenLeaderboard })
             "Verba volant, scripta manent... si recte scripta sunt."
           </p>
         </div>
+      </div>
+
+      {/* Connection Status Indicator */}
+      <div className="absolute bottom-2 right-2 flex items-center gap-2 text-xs font-sans opacity-50 bg-black/20 p-1 rounded backdrop-blur-sm">
+        <div className={`w-2 h-2 rounded-full ${isSupabaseConfigured ? 'bg-green-500 shadow-[0_0_5px_rgba(34,197,94,0.8)]' : 'bg-red-500 shadow-[0_0_5px_rgba(239,68,68,0.8)]'}`}></div>
+        <span className="text-parchment-200">
+          {isSupabaseConfigured ? 'Conexión con los Archivos: Establecida' : 'Conexión con los Archivos: Modo de Pruebas'}
+        </span>
       </div>
     </div>
   );

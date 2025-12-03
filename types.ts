@@ -23,6 +23,8 @@ export interface LevelData {
   timeLimit: number; // in seconds
   description: string; // "Copia de un tratado de botánica, siglo XII"
   difficultyLevel: number;
+  bookTitle?: string;
+  bookAuthor?: string;
 }
 
 export interface PlayerStats {

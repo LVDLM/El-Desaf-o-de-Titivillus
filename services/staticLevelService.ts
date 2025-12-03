@@ -1,111 +1,36 @@
-import { LevelData, TextToken } from "../types";
+import { LevelData } from "../types";
+import { LEVEL_1_POOL } from "../data/levels/difficulty1";
+import { LEVEL_2_POOL } from "../data/levels/difficulty2";
+import { LEVEL_3_POOL } from "../data/levels/difficulty3";
+import { LEVEL_4_POOL } from "../data/levels/difficulty4";
 
-// Helper to generate unique IDs
-const generateId = () => Math.random().toString(36).substr(2, 9);
+// Map difficulty levels to their respective data pools
+const DIFFICULTY_POOLS: { [key: number]: LevelData[] } = {
+  1: LEVEL_1_POOL,
+  2: LEVEL_2_POOL,
+  3: LEVEL_3_POOL,
+  4: LEVEL_4_POOL
+};
 
-// Helper to create a token easily
-const t = (text: string, correction?: string): TextToken => ({
-  id: generateId(),
-  text,
-  isError: !!correction,
-  correction: correction || text,
-  userFixed: false,
-  revealed: false
-});
-
-// Helper to create space
-const s = (): TextToken => ({
-  id: generateId(),
-  text: " ",
-  isError: false,
-  correction: " ",
-  userFixed: false,
-  revealed: false
-});
-
-// Level Database
-const LEVELS: LevelData[] = [
-  {
-    difficultyLevel: 1,
-    description: "Refrán Popular",
-    totalErrors: 2,
-    timeLimit: 30,
-    originalText: "El hábito no hace al monje.",
-    tokens: [
-      t("El"), s(), 
-      t("á", "há"), t("bi"), t("to"), s(), // Error: á -> há
-      t("no"), s(), 
-      t("a", "ha"), t("ce"), s(), // Error: a -> ha
-      t("al"), s(), 
-      t("mon"), t("je"), t(".")
-    ]
-  },
-  {
-    difficultyLevel: 2,
-    description: "Advertencia Medieval",
-    totalErrors: 3,
-    timeLimit: 45,
-    originalText: "Cría cuervos y te sacarán los ojos.",
-    tokens: [
-      t("Crí"), t("a"), s(),
-      t("cuer"), t("vos"), s(),
-      t("i", "y"), s(), // Error: i -> y
-      t("te"), s(),
-      t("sa"), t("ca"), t("ran", "rán"), s(), // Error: ran -> rán
-      t("los"), s(),
-      t("o"), t("jos"), t("!", ".") // Error: ! -> . (Manuscript has !, corrects to .)
-    ]
-  },
-  {
-    difficultyLevel: 3,
-    description: "Don Quijote de la Mancha (Frag.)",
-    totalErrors: 5,
-    timeLimit: 60,
-    originalText: "En un lugar de la Mancha, de cuyo nombre no quiero acordarme...",
-    tokens: [
-      t("Hen", "En"), s(), // Error: Hen -> En
-      t("un"), s(), 
-      t("lu"), t("gar"), s(), 
-      t("de"), s(), 
-      t("la"), s(), 
-      t("Man"), t("xa", "cha"), t(","), s(), // Error: xa -> cha
-      t("de"), s(), 
-      t("cu"), t("yo"), s(), 
-      t("non", "nom"), t("bre"), s(), // Error: non -> nom (Results in nonbre -> nombre)
-      t("no"), s(), 
-      t("kie", "quie"), t("ro"), s(), // Error: kie -> quie
-      t("a"), t("cor"), t("dar"), t("me"), t("..", "...") // Error: .. -> ...
-    ]
-  },
-  {
-    difficultyLevel: 4,
-    description: "Cantar de mio Cid",
-    totalErrors: 6,
-    timeLimit: 90,
-    originalText: "De los sus ojos tan fuertemente llorando, tornaba la cabeza y estábalos catando.",
-    tokens: [
-      t("De"), s(), t("los"), s(), t("sus"), s(), 
-      t("o"), t("jos"), s(),
-      t("tam", "tan"), s(), // Error: tam -> tan
-      t("fuer"), t("ti", "te"), t("men"), t("te"), s(), // Error: ti -> te
-      t("yo", "llo"), t("ran"), t("do"), t(","), s(), // Error: yo -> llo
-      t("tor"), t("na"), t("va", "ba"), s(), // Error: va -> ba
-      t("la"), s(),
-      t("ca"), t("ve", "be"), t("za"), s(), // Error: ve -> be
-      t("y"), s(),
-      t("es"), t("ta", "tá"), t("ba"), t("los"), s(), // Error: ta -> tá
-      t("ca"), t("tan"), t("do"), t(".")
-    ]
-  }
-];
-
-export const getStaticLevel = async (levelIndex: number): Promise<LevelData> => {
-  // Simulate network delay strictly for effect, but very fast (300ms)
+export const getStaticLevel = async (levelNumber: number): Promise<LevelData> => {
+  // Simulate network delay strictly for effect (300ms)
   await new Promise(resolve => setTimeout(resolve, 300));
   
-  const safeIndex = (levelIndex - 1) % LEVELS.length;
+  // Determine difficulty based on level number.
+  // Level 1 -> Difficulty 1
+  // Level 2 -> Difficulty 2
+  // Level 3 -> Difficulty 3
+  // Level 4+ -> Difficulty 4 (Cap at max difficulty available)
+  const difficulty = Math.min(levelNumber, 4);
+
+  const pool = DIFFICULTY_POOLS[difficulty] || LEVEL_4_POOL;
+  
+  // Select a random level from the pool
+  const randomIndex = Math.floor(Math.random() * pool.length);
+  const selectedTemplate = pool[randomIndex];
+
   // Deep copy to avoid mutating the static definition between replays
-  const level = JSON.parse(JSON.stringify(LEVELS[safeIndex]));
+  const level = JSON.parse(JSON.stringify(selectedTemplate));
   
   // Recalculate total errors dynamically to ensure accuracy matches the tokens provided
   level.totalErrors = level.tokens.filter((t: any) => t.isError).length;

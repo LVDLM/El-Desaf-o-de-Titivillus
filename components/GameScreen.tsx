@@ -101,16 +101,34 @@ const GameScreen: React.FC<GameScreenProps> = ({ levelData, onComplete, onGameOv
             <BookOpen size={20} />
             <h3 className="font-display font-bold uppercase tracking-widest text-sm">Texto Original (Modelo)</h3>
           </div>
-          <div className="bg-parchment-300 shadow-2xl relative flex-grow rounded-l-md border-r-4 border-parchment-900 p-6 md:p-10 overflow-hidden">
+          <div className="bg-parchment-300 shadow-2xl relative flex-grow rounded-l-md border-r-4 border-parchment-900 p-6 md:p-10 flex flex-col justify-between overflow-hidden">
              {/* Book Styling */}
              <div className="absolute inset-0 bg-black/5 pointer-events-none"></div>
-             <div className="relative text-xl md:text-2xl leading-relaxed text-justify text-ink font-serif">
+             
+             {/* Main Text Content */}
+             <div className="relative text-xl md:text-2xl leading-relaxed text-justify text-ink font-serif mb-8">
                {/* Simple Drop Cap simulation */}
                <span className="float-left text-6xl leading-[0.8] font-display font-bold text-parchment-900 mr-2 mt-[-4px]">
                  {levelData.originalText.charAt(0)}
                </span>
                {levelData.originalText.slice(1)}
              </div>
+
+             {/* Citation Footer */}
+             {(levelData.bookTitle || levelData.bookAuthor) && (
+               <div className="relative mt-4 pt-4 border-t border-parchment-900/20 text-right">
+                 {levelData.bookTitle && (
+                   <div className="font-display font-bold text-parchment-900/90 text-sm md:text-base italic">
+                     {levelData.bookTitle}
+                   </div>
+                 )}
+                 {levelData.bookAuthor && (
+                   <div className="font-serif text-parchment-900/60 text-xs md:text-sm mt-1">
+                     {levelData.bookAuthor}
+                   </div>
+                 )}
+               </div>
+             )}
           </div>
         </div>
 

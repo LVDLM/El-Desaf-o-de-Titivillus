@@ -59,7 +59,7 @@ export const LEVEL_2_POOL: LevelData[] = [
       t("Tom"), s(),
       t("a"), t("pa"), t("re"), t("cio", "ció"), s(), // Error: aparecio -> apareció
       t("en"), s(), t("la"), s(),
-      t("a"), t("ce"), t("ra"), s(),
+      t("a"), t("ze", "ce"), t("ra"), s(), // Error: azera -> acera
       t("con"), s(), t("un"), s(),
       t("cu"), t("bo"), s(), t("de"), s(), t("cal"), s(),
       t("y"), s(), t("u"), t("na"), s(),

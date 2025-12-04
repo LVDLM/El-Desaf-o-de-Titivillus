@@ -5,7 +5,7 @@ export const LEVEL_1_POOL: LevelData[] = [
   {
     difficultyLevel: 1,
     description: "Refrán Popular",
-    totalErrors: 2,
+    totalErrors: 3,
     timeLimit: 30,
     originalText: "El hábito no hace al monje.",
     bookTitle: "Refranero Español",
@@ -16,7 +16,7 @@ export const LEVEL_1_POOL: LevelData[] = [
       t("no"), s(), 
       t("a", "ha"), t("ce"), s(), // Error: a -> ha
       t("al"), s(), 
-      t("mon"), t("je"), t(".")
+      t("mon", "mon"), t("ge", "je"), t(".") // Error: monge -> monje
     ]
   },
   {

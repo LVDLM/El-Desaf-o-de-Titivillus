@@ -136,7 +136,7 @@ export const LEVEL_3_POOL: LevelData[] = [
   {
     difficultyLevel: 3,
     description: "Los miserables (Frag.)",
-    totalErrors: 6,
+    totalErrors: 3,
     timeLimit: 100,
     originalText: "En 1815, el señor Carlos Francisco Bienvenido Myriel era obispo de Digne. Era un anciano de unos setenta y cinco años; ocupaba la sede de Digne desde 1806.",
     bookTitle: "Los miserables",
@@ -174,7 +174,7 @@ export const LEVEL_3_POOL: LevelData[] = [
   {
     difficultyLevel: 3,
     description: "La montaña mágica (Frag.)",
-    totalErrors: 5,
+    totalErrors: 4,
     timeLimit: 90,
     originalText: "Un joven sencillo viajaba en pleno verano desde Hamburgo, su ciudad natal, a Davos-Platz, en los Grisones. Hacía el viaje para una estancia de tres semanas.",
     bookTitle: "La montaña mágica",
@@ -188,7 +188,7 @@ export const LEVEL_3_POOL: LevelData[] = [
       t("ple"), t("no"), s(),
       t("ve"), t("ra"), t("no"), s(),
       t("des"), t("de"), s(),
-      t("Am", "Ham"), t("bur"), t("go"), t(","), s(), // 2
+      t("Am", "Ham"), t("bur"), t("go"), t(","), s(), // Amburgo -> Hamburgo
       t("su"), s(),
       t("ciu"), t("da", "dad"), s(), // 3. ciuda -> ciudad
       t("na"), t("tal"), t(","), s(),

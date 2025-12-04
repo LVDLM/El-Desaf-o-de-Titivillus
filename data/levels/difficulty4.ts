@@ -34,12 +34,12 @@ export const LEVEL_4_POOL: LevelData[] = [
     bookAuthor: "Marcel Proust",
     tokens: [
       t("A"), s(), t("ve"), t("ces"), t(","), s(),
-      t("a", "ha"), t("pe", "pe"), t("nas", "nas"), s(), // 1. apenas -> hapenas
+      t("ha", "a"), t("pe", "pe"), t("nas", "nas"), s(), // 1. hapenas -> apenas
       t("ha"), t("bía"), s(),
       t("a"), t("pa"), t("ga"), t("do"), s(),
       t("la"), s(),
-      t("bu", "bu"), t("jia", "jía"), t(","), s(), // 2
-      t("se", "ce"), t("rrá", "rrá"), t("ban", "ban"), t("se", "se"), s(), // 3
+      t("bu"), t("jia", "jía"), t(","), s(), // 2. bujia -> bujía
+      t("se", "ce"), t("rrá", "rrá"), t("ban", "ban"), t("se", "se"), s(), // 3. serrábanse -> cerrábanse
       t("mis"), s(),
       t("ho", "o"), t("jos"), s(), // 4. hojos -> ojos
       t("tan"), s(),
@@ -55,7 +55,7 @@ export const LEVEL_4_POOL: LevelData[] = [
       t("me"), t("dia"), s(),
       t("ho"), t("ra"), s(),
       t("des"), t("pués"), s(),
-      t("dez", "des"), t("per"), t("tá"), t("ba", "ba"), t("me", "me"), s(), // 5
+      t("dez", "des"), t("per"), t("tá"), t("ba", "ba"), t("me", "me"), s(), // 5. dezpertabame -> despertábame
       t("la"), s(),
       t("y", "i"), t("dea"), s(), // 6. ydea -> idea
       t("de"), s(),
@@ -173,7 +173,7 @@ export const LEVEL_4_POOL: LevelData[] = [
       t("no"), s(),
       t("im"), t("por"), t("ta"), s(),
       t("cuán"), t("tos"), s(),
-      t("e", "ex"), t("sac", "ac"), t("ta", "ta"), t("men", "men"), t("te", "te"), t("—"), t(","), s(), // 2
+      t("es", "ex"), t("sac", "ac"), t("ta", "ta"), t("men", "men"), t("te", "te"), t("—"), t(","), s(), // 2. esactamente -> exactamente
       t("te"), t("nien"), t("do"), s(),
       t("po"), t("co"), s(),
       t("o"), s(),
@@ -197,7 +197,7 @@ export const LEVEL_4_POOL: LevelData[] = [
       t("un"), s(),
       t("po"), t("co"), s(),
       t("por"), s(),
-      t("a"), t("y", "hí"), t(".") // 6
+      t("a"), t("hí"), t(".") // 6
     ]
   },
     // 1. Frankenstein - Fragmento inicial
@@ -213,7 +213,7 @@ export const LEVEL_4_POOL: LevelData[] = [
       t("Soy"), s(),
       t("na"), t("tu"), t("ral"), s(),
       t("de"), s(),
-      t("Gi"), t("ne"), t("bra", "nebra"), t(","), s(), // Error 1: Ginebra -> Ginebra (Ji->Gi, pero aquí G->sin G)
+      t("Ji", "Gi"), t("ne"), t("bra"), t(","), s(), // Error 1: Jinebra -> Ginebra
       t("y"), s(),
       t("mi"), s(),
       t("fa"), t("mi"), t("lia"), s(),
@@ -221,14 +221,14 @@ export const LEVEL_4_POOL: LevelData[] = [
       t("u"), t("na"), s(),
       t("de"), s(),
       t("las"), s(),
-      t("más", "mas"), s(), // Error 2: más -> mas (falta tilde)
+      t("mas", "más"), s(), // Error 2: mas -> más (falta tilde)
       t("dis"), t("tin"), t("gui"), t("das"), s(),
       t("de"), s(),
       t("a"), t("que"), t("lla"), s(),
       t("re"), t("pú"), t("bli"), t("ca"), t("."), s(),
       t("Mis"), s(),
       t("an"), t("te"), t("pa"), t("sa"), t("dos"), s(),
-      t("ha"), t("bían", "avían"), s(), // Error 3: habían -> avían (h desaparece)
+      t("a", "ha"), t("ví", "bí"), t("an", "an"), s(), // Error 3: avían -> habían
       t("si"), t("do"), s(),
       t("du"), t("ran"), t("te"), s(),
       t("mu"), t("chos"), s(),
@@ -239,7 +239,7 @@ export const LEVEL_4_POOL: LevelData[] = [
       t("y"), s(),
       t("mi"), s(),
       t("pa"), t("dre"), s(),
-      t("ha"), t("bía", "vía"), s(), // Error 4: había -> havía -> vía (simplificado a vía)
+      t("ha", "ha"), t("ví", "bí"), t("a", "a"), s(), // Error 4: havía -> había
       t("o"), t("cu"), t("pa"), t("do"), s(),
       t("con"), s(),
       t("ho"), t("nor"), s(),
@@ -290,13 +290,13 @@ export const LEVEL_4_POOL: LevelData[] = [
       t("en"), s(),
       t("to"), t("da"), s(),
       t("In"), t("gla"), t("te"), t("rra"), s(),
-      t("hu"), t("vie", "bie"), t("ra", "ra"), s(), // 5
+      t("hu"), t("vie", "bie"), t("ra", "ra"), s(), // 5. huviera -> hubiera
       t("po"), t("di"), t("do"), s(),
       t("en"), t("con"), t("trar"), s(),
       t("un"), s(),
       t("lu"), t("gar"), s(),
       t("tan"), s(),
-      t("a"), t("par"), t("tá", "ta"), t("do", "do"), t(".") // 6
+      t("a"), t("par"), t("tá", "ta"), t("do", "do"), t(".") // 6. apartádo -> apartado
     ]
   },
 
@@ -311,7 +311,7 @@ export const LEVEL_4_POOL: LevelData[] = [
     bookAuthor: "Bram Stoker",
     tokens: [
       t("De"), t("jé"), s(),
-      t("Mú"), t("nich", "nich"), s(), // Error 1: Múnich -> Munich (falta tilde)
+      t("Mu", "Mú"), t("nich"), s(), // Error 1: Munich -> Múnich (falta tilde)
       t("a"), s(),
       t("las"), s(),
       t("o"), t("cho"), s(),
@@ -324,7 +324,7 @@ export const LEVEL_4_POOL: LevelData[] = [
       t("pri"), t("me"), t("ro"), s(),
       t("de"), s(),
       t("ma"), t("yo"), t(","), s(),
-      t("lle"), t("gan", "yegan"), t("do"), s(), // Error 2: llegando -> yegando (ll->y)
+      t("ye", "lle"), t("gan", "gan"), t("do"), s(), // Error 2: yegando -> llegando (y->ll)
       t("a"), s(),
       t("Vie"), t("na"), s(),
       t("a"), s(),
@@ -332,7 +332,7 @@ export const LEVEL_4_POOL: LevelData[] = [
       t("ma"), t("ña"), t("na"), s(),
       t("si"), t("guien"), t("te"), s(),
       t("tem"), t("pra"), t("no"), t("."), s(),
-      t("De"), t("be"), t("ría", "vería"), s(), // Error 3: Debería -> Devería (b->v)
+      t("De"), t("ve", "be"), t("ría"), s(), // Error 3: Devería -> Debería (v->b)
       t("ha"), t("ber"), s(),
       t("lle"), t("ga"), t("do"), s(),
       t("a"), s(),
@@ -344,7 +344,7 @@ export const LEVEL_4_POOL: LevelData[] = [
       t("pe"), t("ro"), s(),
       t("el"), s(),
       t("tren"), s(),
-      t("lle"), t("va"), t("ba", "va"), s(), // Error 4: llevaba -> lleva (desaparece -ba)
+      t("lle"), t("va", "va"), t("va", "ba"), s(), // Error 4: llevava -> llevaba
       t("u"), t("na"), s(),
       t("ho"), t("ra"), s(),
       t("de"), s(),
@@ -363,11 +363,11 @@ export const LEVEL_4_POOL: LevelData[] = [
     bookAuthor: "H.G. Wells",
     tokens: [
       t("Na"), t("die"), s(),
-      t("ha"), t("bría", "vría"), s(), // Error 1: habría -> havría -> vría
+      t("ha"), t("bría", "bría"), s(), // Correcto (no error)
       t("cre"), t("í"), t("do"), t(","), s(),
       t("en"), s(),
       t("los"), s(),
-      t("úl"), t("ti"), t("mos", "timos"), s(), // Error 2: últimos -> ultimos (falta tilde)
+      t("ul", "úl"), t("ti"), t("mos"), s(), // Error 1: ultimos -> últimos
       t("a"), t("ños"), s(),
       t("del"), s(),
       t("si"), t("glo"), s(),
@@ -377,13 +377,13 @@ export const LEVEL_4_POOL: LevelData[] = [
       t("a"), t("sun"), t("tos"), s(),
       t("hu"), t("ma"), t("nos"), s(),
       t("e"), t("ran"), s(),
-      t("ob"), t("ser"), t("va", "ba"), t("dos"), s(), // Error 3: observados -> obserba dos (v->b)
+      t("ob"), t("ser"), t("ba", "va"), t("dos"), s(), // Error 2: obserbados -> observados
       t("a"), t("gu"), t("da"), s(),
       t("y"), s(),
       t("a"), t("ten"), t("ta"), t("men"), t("te"), s(),
       t("por"), s(),
       t("in"), t("te"), t("li"), t("gen"), t("cias"), s(),
-      t("más", "mas"), s(), // Error 4: más -> mas (falta tilde)
+      t("mas", "más"), s(), // Error 3: mas -> más (falta tilde)
       t("de"), t("sa"), t("rro"), t("lla"), t("das"), s(),
       t("que"), s(),
       t("la"), s(),
@@ -412,7 +412,7 @@ export const LEVEL_4_POOL: LevelData[] = [
       t("El"), s(),
       t("es"), t("tu"), t("dio"), s(),
       t("es"), t("ta"), t("ba"), s(),
-      t("lle","ye"), t("no"), s(), // Error 1: lleno -> yeno (ll->y)
+      t("ye", "lle"), t("no"), s(), // Error 1: yeno -> lleno
       t("del"), s(),
       t("in"), t("ten"), t("so"), s(),
       t("per"), t("fu"), t("me"), s(),
@@ -422,13 +422,13 @@ export const LEVEL_4_POOL: LevelData[] = [
       t("y"), s(),
       t("cuan"), t("do"), s(),
       t("la"), s(),
-      t("li"), t("ge","je"), t("ra"), s(), // Error 2: ligera -> lijera (g->j)
+      t("li"), t("je", "ge"), t("ra"), s(), // Error 2: lijera -> ligera
       t("bri"), t("sa"), s(),
       t("de"), s(),
       t("ve"), t("ra"), t("no"), s(),
       t("a"), t("gi"), t("ta"), t("ba"), s(),
       t("los"), s(),
-      t("ár","ar"), t("bo"), t("les"), s(), // Error 3: árboles -> arboles (falta tilde)
+      t("ar", "ár"), t("bo"), t("les"), s(), // Error 3: arboles -> árboles
       t("del"), s(),
       t("jar"), t("dín"), t(","), s(),
       t("en"), t("tra"), t("ba"), s(),
@@ -444,7 +444,7 @@ export const LEVEL_4_POOL: LevelData[] = [
       t("li"), t("las"), s(),
       t("o"), s(),
       t("el"), s(),
-      t("más", "mas"), s(), // Error 4: más -> mas (falta tilde)
+      t("mas", "más"), s(), // Error 4: mas -> más
       t("de"), t("li"), t("ca"), t("do"), s(),
       t("per"), t("fu"), t("me"), s(),
       t("del"), s(),
@@ -468,18 +468,18 @@ export const LEVEL_4_POOL: LevelData[] = [
       t("muer"), t("to"), s(),
       t("ma"), t("má"), t("."), s(),
       t("O"), s(),
-      t("qui"), t("zá", "za"), s(), // Error 1: quizá -> quiza (falta tilde)
+      t("qui"), t("za", "zá"), s(), // Error 1: quiza -> quizá
       t("a"), t("yer"), t(","), s(),
       t("no"), s(),
       t("lo"), s(),
       t("sé"), t("."), s(),
-      t("Re"), t("ci"), t("bí", "bi"), s(), // Error 2: Recibí -> Recibi (falta tilde)
+      t("Re"), t("ci"), t("bi", "bí"), s(), // Error 2: Recibi -> Recibí
       t("un"), s(),
       t("te"), t("le"), t("gra"), t("ma"), s(),
       t("del"), s(),
       t("a"), t("si"), t("lo"), t(":"), s(),
       t("'"), t("Ma"), t("dre"), s(),
-      t("fa"), t("lle","ye"), t("ci"), t("da"), t("."), s(), // Error 3: fallecida -> fayecida (ll->y)
+      t("fa"), t("ye", "lle"), t("ci"), t("da"), t("."), s(), // Error 3: fayecida -> fallecida
       t("En"), t("tie"), t("rro"), s(),
       t("ma"), t("ña"), t("na"), t("."), s(),
       t("Sen"), t("ti"), t("das"), s(),
@@ -489,7 +489,7 @@ export const LEVEL_4_POOL: LevelData[] = [
       t("quie"), t("re"), s(),
       t("de"), t("cir"), s(),
       t("na"), t("da"), t("."), s(),
-      t("Qui"), t("zá", "za"), s(), // Error 4: Quizá -> Quiza (falta tilde) - segunda vez
+      t("Qui"), t("za", "zá"), s(), // Error 4: Quiza -> Quizá
       t("ha"), t("ya"), s(),
       t("si"), t("do"), s(),
       t("a"), t("yer"), t(".")

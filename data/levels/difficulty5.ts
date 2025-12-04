@@ -12,7 +12,7 @@ export const LEVEL_5_POOL: LevelData[] = [
     bookTitle: "Frankenstein",
     bookAuthor: "Mary Shelley",
     tokens: [
-      t("Víc"), t("tor", "tor"), s(), // Error 1: Víctor -> Victor (falta tilde)
+      t("Vic", "Víc"), t("tor"), s(), // Error 1: Victor -> Víctor
       t("Fran"), t("kens"), t("tein"), s(),
       t("com"), t("pren"), t("de"), s(),
       t("en"), s(),
@@ -23,7 +23,7 @@ export const LEVEL_5_POOL: LevelData[] = [
       t("que"), s(),
       t("ha"), s(),
       t("cre"), t("a"), t("do"), t(","), s(),
-      t("re"), t("cha"), t("za", "sa"), s(), // Error 2: rechaza -> rechasa (z->s)
+      t("re"), t("cha", "cha"), t("sa", "za"), s(), // Error 2: rechasa -> rechaza
       t("con"), s(),
       t("es"), t("pan"), t("to"), s(),
       t("el"), s(),
@@ -32,7 +32,7 @@ export const LEVEL_5_POOL: LevelData[] = [
       t("su"), s(),
       t("ex"), t("pe"), t("ri"), t("men"), t("to"), s(),
       t("y"), s(),
-      t("hu"), t("ye", "lle"), s(), // Error 3: huye -> hulle (y->ll)
+      t("hu"), t("lle", "ye"), s(), // Error 3: hulle -> huye
       t("de"), s(),
       t("su"), s(),
       t("la"), t("bo"), t("ra"), t("to"), t("rio"), t("."), s(),
@@ -44,7 +44,7 @@ export const LEVEL_5_POOL: LevelData[] = [
       t("de"), t("sa"), t("pa"), t("re"), t("ci"), t("do"), t("."), s(),
       t("Tras"), s(),
       t("un"), s(),
-      t("pe"), t("río", "riodo"), t("do"), s(), // Error 4: período -> periodo (falta tilde, simplificado)
+      t("pe"), t("rio", "río"), t("do"), s(), // Error 4: periodo -> período
       t("de"), s(),
       t("con"), t("va"), t("le"), t("cen"), t("cia"), s(),
       t("de"), t("bi"), t("do"), s(),
@@ -52,11 +52,11 @@ export const LEVEL_5_POOL: LevelData[] = [
       t("ex"), t("ce"), t("so"), s(),
       t("de"), s(),
       t("tra"), t("ba"), t("jo"), t(","), s(),
-      t("Víc"), t("tor"), s(),
+      t("Vic", "Víc"), t("tor"), s(),
       t("re"), t("gre"), t("sa"), s(),
       t("a"), s(),
       t("su"), s(),
-      t("Gi"), t("ne"), t("bra", "nebra"), s(), // Error 5: Ginebra -> Ginebra (sin G inicial)
+      t("Ji", "Gi"), t("ne"), t("bra"), s(), // Error 5: Jinebra -> Ginebra
       t("na"), t("tal"), s(),
       t("con"), s(),
       t("su"), s(),
@@ -93,17 +93,17 @@ export const LEVEL_5_POOL: LevelData[] = [
       t("de"), s(),
       t("la"), s(),
       t("no"), t("che"), s(),
-      t("es"), t("tá", "ta"), s(), // Error 1: está -> esta (falta tilde)
+      t("es"), t("ta", "tá"), s(), // Error 1: esta -> está
       t("frí"), t("o"), t(","), s(),
       t("y"), s(),
       t("se"), t("gu"), t("ra"), t("men"), t("te"), s(),
       t("us"), t("ted"), s(),
-      t("ne"), t("ce"), t("si"), t("ta", "cita"), s(), // Error 2: necesita -> nececita (s->c)
+      t("ne"), t("ce"), t("ci", "si"), t("ta"), s(), // Error 2: nececita -> necesita
       t("co"), t("mer"), s(),
       t("y"), s(),
       t("des"), t("can"), t("sar"), t("."), s(),
       t("Mien"), t("tras"), s(),
-      t("ha"), t("bla"), t("ba", "va"), t(","), s(), // Error 3: hablaba -> hablava (b->v)
+      t("ha"), t("bla"), t("va", "ba"), t(","), s(), // Error 3: hablava -> hablaba
       t("pu"), t("so"), s(),
       t("la"), s(),
       t("lám"), t("pa"), t("ra"), s(),
@@ -114,8 +114,8 @@ export const LEVEL_5_POOL: LevelData[] = [
       t("la"), s(),
       t("pa"), t("red"), t(","), s(),
       t("y"), s(),
-      t("sa"), t("lien", "llien"), t("do"), t(","), s(), // Error 4: saliendo -> salliendo (li->lli)
-      t("to"), t("mó", "mo"), s(), // Error 5: tomó -> tomo (falta tilde)
+      t("sa"), t("llien", "lien"), t("do"), t(","), s(), // Error 4: salliendo -> saliendo
+      t("to"), t("mo", "mó"), s(), // Error 5: tomo -> tomó
       t("mi"), s(),
       t("e"), t("qui"), t("pa"), t("je"), t(".")
     ]
@@ -131,7 +131,7 @@ export const LEVEL_5_POOL: LevelData[] = [
     bookTitle: "La guerra de los mundos",
     bookAuthor: "H.G. Wells",
     tokens: [
-      t("A"), t("van"), t("za"), t("ban", "van"), s(), // Error 1: Avanzaban -> Avanzavan (b->v)
+      t("A"), t("van"), t("za"), t("van", "ban"), s(), // Error 1: Avanzavan -> Avanzaban
       t("gru"), t("pi"), t("tos"), s(),
       t("de"), s(),
       t("dos"), s(),
@@ -141,14 +141,14 @@ export const LEVEL_5_POOL: LevelData[] = [
       t("de"), t("te"), t("ní"), t("an"), t(","), s(),
       t("ob"), t("ser"), t("va"), t("ban"), s(),
       t("y"), s(),
-      t("vol"), t("ví", "bí"), t("an"), s(), // Error 2: volvían -> volbían (v->b)
+      t("vol"), t("bí", "ví"), t("an"), s(), // Error 2: volbían -> volvían
       t("a"), s(),
       t("a"), t("van"), t("zar"), t("."), s(),
       t("E"), t("ra"), s(),
       t("la"), s(),
       t("de"), t("le"), t("ga"), t("ción"), t("."), s(),
       t("Se"), s(),
-      t("ha"), t("bía", "vía"), s(), // Error 3: había -> havía (b->v, simplificado a vía)
+      t("ha"), t("vía", "bía"), s(), // Error 3: havía -> había
       t("e"), t("fec"), t("tua"), t("do"), s(),
       t("u"), t("na"), s(),
       t("a"), t("pre"), t("su"), t("ra"), t("da"), s(),
@@ -167,9 +167,9 @@ export const LEVEL_5_POOL: LevelData[] = [
       t("de"), s(),
       t("su"), s(),
       t("as"), t("pec"), t("to"), s(),
-      t("re"), t("pul"), t("si"), t("vo", "bo"), t(","), s(), // Error 4: repulsivo -> repulsibo (v->b)
+      t("re"), t("pul"), t("si"), t("bo", "vo"), t(","), s(), // Error 4: repulsibo -> repulsivo
       t("se"), s(),
-      t("re"), t("sol"), t("vió", "bio"), s(), // Error 5: resolvió -> resolbio (vi->bi, simplificado)
+      t("re"), t("sol"), t("bio", "vió"), s(), // Error 5: resolbio -> resolvió
       t("tra"), t("tar"), s(),
       t("de"), s(),
       t("co"), t("mu"), t("ni"), t("car"), t("se"), s(),
@@ -190,11 +190,11 @@ export const LEVEL_5_POOL: LevelData[] = [
     tokens: [
       t("Lord"), s(),
       t("Hen"), t("ry"), s(),
-      t("sa"), t("lió", "lio"), s(), // Error 1: salió -> salio (falta tilde)
+      t("sa"), t("lio", "lió"), s(), // Error 1: salio -> salió
       t("al"), s(),
       t("jar"), t("dín"), s(),
       t("y"), s(),
-      t("en"), t("con"), t("tró", "tro"), s(), // Error 2: encontró -> encontro (falta tilde)
+      t("en"), t("con"), t("tro", "tró"), s(), // Error 2: encontro -> encontró
       t("a"), s(),
       t("Do"), t("rian"), s(),
       t("Gray"), s(),
@@ -208,7 +208,7 @@ export const LEVEL_5_POOL: LevelData[] = [
       t("flo"), t("res"), s(),
       t("del"), s(),
       t("li"), t("lo"), t(","), s(),
-      t("be"), t("bien", "vien"), t("do"), s(), // Error 3: bebiendo -> beviendo (b->v)
+      t("be"), t("vien", "bien"), t("do"), s(), // Error 3: beviendo -> bebiendo
       t("fe"), t("bril"), t("men"), t("te"), s(),
       t("su"), s(),
       t("per"), t("fu"), t("me"), s(),
@@ -216,12 +216,12 @@ export const LEVEL_5_POOL: LevelData[] = [
       t("co"), t("mo"), s(),
       t("si"), s(),
       t("se"), s(),
-      t("tra"), t("ta"), t("se", "ze"), s(), // Error 4: tratase -> trataze (s->z)
+      t("tra"), t("ta"), t("ze", "se"), s(), // Error 4: trataze -> tratase
       t("de"), s(),
       t("vi"), t("no"), t("."), s(),
       t("Se"), s(),
       t("le"), s(),
-      t("a"), t("cer"), t("có", "co"), s(), // Error 5: acercó -> acerco (falta tilde)
+      t("a"), t("cer"), t("co", "có"), s(), // Error 5: acerco -> acercó
       t("y"), s(),
       t("le"), s(),
       t("pu"), t("so"), s(),
@@ -245,7 +245,7 @@ export const LEVEL_5_POOL: LevelData[] = [
     tokens: [
       t("Te"), t("ní"), t("a"), s(),
       t("los"), s(),
-      t("ca"), t("be"), t("llos", "yos"), s(), // Error 1: cabellos -> cabeyos (ll->y)
+      t("ca"), t("be"), t("yos", "llos"), s(), // Error 1: cabeyos -> cabellos
       t("so"), t("bre"), s(),
       t("los"), s(),
       t("o"), t("jos"), s(),
@@ -261,16 +261,16 @@ export const LEVEL_5_POOL: LevelData[] = [
       t("bal"), t("sa"), t("."), s(),
       t("El"), s(),
       t("tiem"), t("po"), s(),
-      t("es"), t("ta"), t("ba", "va"), s(), // Error 2: estaba -> estaba (b->v)
-      t("es"), t("plén"), t("di"), t("do", "do"), s(), // Error 3: espléndido -> esplendido (falta tilde)
+      t("es"), t("ta"), t("va", "ba"), s(), // Error 2: estava -> estaba
+      t("es"), t("plen", "plén"), t("di"), t("do"), s(), // Error 3: esplendido -> espléndido
       t("y"), t(","), s(),
       t("co"), t("mo"), s(),
       t("bro"), t("me"), t("an"), t("do"), t(","), s(),
-      t("de"), t("jé", "je"), s(), // Error 4: dejé -> deje (falta tilde)
+      t("de"), t("je", "jé"), s(), // Error 4: deje -> dejé
       t("ir"), s(),
       t("la"), s(),
       t("ca"), t("be"), t("za"), s(),
-      t("ha"), t("cia", "zia"), s(), // Error 5: hacia -> hazia (c->z)
+      t("ha"), t("zia", "cia"), s(), // Error 5: hazia -> hacia
       t("a"), t("trás"), s(),
       t("y"), s(),
       t("la"), s(),

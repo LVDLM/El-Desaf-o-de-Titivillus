@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { RotateCcw, Award, Save, Check, Home } from 'lucide-react';
 import { PlayerStats } from '../types';
 import { submitScore } from '../services/supabaseClient';
@@ -15,6 +15,20 @@ const GameOverScreen: React.FC<GameOverScreenProps> = ({ success, stats, onNextL
   const [username, setUsername] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
+
+  useEffect(() => {
+    if (!success) {
+      // Play evil laugh sound on game over failure
+      const audio = new Audio("https://cdn.pixabay.com/download/audio/2022/03/15/audio_6b3f80310f.mp3?filename=evil-laugh-89423.mp3");
+      audio.volume = 0.5;
+      audio.play().catch(e => console.warn("Audio play blocked", e));
+    } else {
+      // Play turn page sound on success
+      const audio = new Audio("https://cdn.pixabay.com/download/audio/2025/05/05/audio_ca4220361e.mp3?filename=turn-a-page-336933.mp3");
+      audio.volume = 0.6;
+      audio.play().catch(e => console.warn("Audio play blocked", e));
+    }
+  }, [success]);
 
   const handleSubmitScore = async (e: React.FormEvent) => {
     e.preventDefault();

@@ -8,6 +8,16 @@ interface StartScreenProps {
 }
 
 const StartScreen: React.FC<StartScreenProps> = ({ onStart, onOpenLeaderboard }) => {
+  
+  const handleStartClick = () => {
+    // Play writing sound
+    const audio = new Audio("https://cdn.pixabay.com/download/audio/2022/03/15/audio_744997de40.mp3?filename=fast-and-slow-marker-strokes-82047.mp3");
+    audio.volume = 0.6;
+    audio.play().catch(e => console.warn("Audio play blocked", e));
+    
+    onStart();
+  };
+
   return (
     <div className="flex flex-col items-center justify-center min-h-screen p-4 text-parchment-900 relative">
       <div className="max-w-2xl w-full bg-parchment-200 border-8 border-parchment-800 rounded-lg shadow-2xl p-8 relative overflow-hidden">
@@ -48,7 +58,7 @@ const StartScreen: React.FC<StartScreenProps> = ({ onStart, onOpenLeaderboard })
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
             <button
-              onClick={onStart}
+              onClick={handleStartClick}
               className="group relative inline-flex items-center justify-center px-8 py-4 font-display font-bold text-white transition-all duration-200 bg-parchment-800 font-lg rounded-sm hover:bg-parchment-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-parchment-900 shadow-lg hover:-translate-y-1"
             >
               <span className="absolute inset-0 w-full h-full -mt-1 rounded-lg opacity-30 bg-gradient-to-b from-transparent via-transparent to-black"></span>

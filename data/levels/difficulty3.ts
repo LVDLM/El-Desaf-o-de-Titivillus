@@ -107,7 +107,7 @@ export const LEVEL_3_POOL: LevelData[] = [
     tokens: [
       t("En"), s(), t("1815"), t(","), s(),
       t("el"), s(),
-      t("se", "se"), t("nor", "ñor"), s(), // 1. senor -> señor
+      t("se"), t("nor", "ñor"), s(), // 1. senor -> señor
       t("Car"), t("los"), s(),
       t("Fran"), t("cis"), t("co"), s(),
       t("Bien"), t("ve"), t("ni"), t("do"), s(),
@@ -125,7 +125,7 @@ export const LEVEL_3_POOL: LevelData[] = [
       t("y"), s(),
       t("sin", "cin"), t("co"), s(), // 4
       t("a", "a"), t("nos", "ños"), t(";"), s(), // 5. anos -> años
-      t("o"), t("cu"), t("pa", "pa"), t("va", "ba"), s(), // 6. ocupava -> ocupaba
+      t("o"), t("cu"), t("pa"), t("va", "ba"), s(), // 6. ocupava -> ocupaba
       t("la"), s(),
       t("se"), t("de"), s(),
       t("de"), s(),

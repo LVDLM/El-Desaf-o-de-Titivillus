@@ -412,7 +412,7 @@ export const LEVEL_4_POOL: LevelData[] = [
       t("El"), s(),
       t("es"), t("tu"), t("dio"), s(),
       t("es"), t("ta"), t("ba"), s(),
-      t("lle"), t("no", "yeno"), s(), // Error 1: lleno -> yeno (ll->y)
+      t("lle","ye"), t("no"), s(), // Error 1: lleno -> yeno (ll->y)
       t("del"), s(),
       t("in"), t("ten"), t("so"), s(),
       t("per"), t("fu"), t("me"), s(),
@@ -422,13 +422,13 @@ export const LEVEL_4_POOL: LevelData[] = [
       t("y"), s(),
       t("cuan"), t("do"), s(),
       t("la"), s(),
-      t("li"), t("ge"), t("ra", "jera"), s(), // Error 2: ligera -> lijera (g->j)
+      t("li"), t("ge","je"), t("ra"), s(), // Error 2: ligera -> lijera (g->j)
       t("bri"), t("sa"), s(),
       t("de"), s(),
       t("ve"), t("ra"), t("no"), s(),
       t("a"), t("gi"), t("ta"), t("ba"), s(),
       t("los"), s(),
-      t("ár"), t("bo"), t("les", "boles"), s(), // Error 3: árboles -> arboles (falta tilde)
+      t("ár","ar"), t("bo"), t("les"), s(), // Error 3: árboles -> arboles (falta tilde)
       t("del"), s(),
       t("jar"), t("dín"), t(","), s(),
       t("en"), t("tra"), t("ba"), s(),
@@ -479,7 +479,7 @@ export const LEVEL_4_POOL: LevelData[] = [
       t("del"), s(),
       t("a"), t("si"), t("lo"), t(":"), s(),
       t("'"), t("Ma"), t("dre"), s(),
-      t("fa"), t("lle"), t("ci", "ye"), t("da"), t("."), s(), // Error 3: fallecida -> fayecida (ll->y)
+      t("fa"), t("lle","ye"), t("ci"), t("da"), t("."), s(), // Error 3: fallecida -> fayecida (ll->y)
       t("En"), t("tie"), t("rro"), s(),
       t("ma"), t("ña"), t("na"), t("."), s(),
       t("Sen"), t("ti"), t("das"), s(),

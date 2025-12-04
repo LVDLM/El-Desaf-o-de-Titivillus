@@ -1,31 +1,37 @@
 import React, { useEffect, useState } from 'react';
 import { LevelData, TextToken } from '../types';
-import { Hourglass, AlertOctagon, BookOpen, Feather } from 'lucide-react';
+import { Hourglass, AlertOctagon, BookOpen, Feather, LogOut, AlertTriangle, X } from 'lucide-react';
 
 interface GameScreenProps {
   levelData: LevelData;
   onComplete: (score: number) => void;
   onGameOver: () => void;
+  onMainMenu: () => void;
 }
 
-const GameScreen: React.FC<GameScreenProps> = ({ levelData, onComplete, onGameOver }) => {
+const GameScreen: React.FC<GameScreenProps> = ({ levelData, onComplete, onGameOver, onMainMenu }) => {
   const [tokens, setTokens] = useState<TextToken[]>(levelData.tokens);
   const [timeLeft, setTimeLeft] = useState(levelData.timeLimit);
   const [foundErrors, setFoundErrors] = useState(0);
   const [mistakes, setMistakes] = useState(0);
   const [lastFeedback, setLastFeedback] = useState<{ id: string, type: 'good' | 'bad' } | null>(null);
+  const [showQuitConfirm, setShowQuitConfirm] = useState(false);
 
   // Timer Logic
   useEffect(() => {
+    // Pause timer if game is over or if the quit confirmation modal is open
     if (timeLeft <= 0) {
       onGameOver();
       return;
     }
+    
+    if (showQuitConfirm) return;
+
     const timer = setInterval(() => {
       setTimeLeft((prev) => prev - 1);
     }, 1000);
     return () => clearInterval(timer);
-  }, [timeLeft, onGameOver]);
+  }, [timeLeft, onGameOver, showQuitConfirm]);
 
   // Check win condition
   useEffect(() => {
@@ -44,6 +50,9 @@ const GameScreen: React.FC<GameScreenProps> = ({ levelData, onComplete, onGameOv
   }, [foundErrors, levelData.totalErrors, timeLeft, mistakes, onComplete]);
 
   const handleTokenClick = (id: string) => {
+    // Prevent clicking while confirm modal is open
+    if (showQuitConfirm) return;
+
     // Find token
     const tokenIndex = tokens.findIndex(t => t.id === id);
     if (tokenIndex === -1) return;
@@ -73,10 +82,10 @@ const GameScreen: React.FC<GameScreenProps> = ({ levelData, onComplete, onGameOv
   };
 
   return (
-    <div className="flex flex-col items-center min-h-screen p-2 md:p-4 pt-4 md:pt-8 text-parchment-900 font-serif">
+    <div className="flex flex-col items-center min-h-screen p-2 md:p-4 pt-4 md:pt-8 text-parchment-900 font-serif relative">
       
       {/* Header / HUD */}
-      <div className="w-full max-w-6xl flex justify-between items-center mb-4 md:mb-6 px-4 py-3 bg-parchment-800 text-parchment-100 rounded shadow-lg border-2 border-gold sticky top-2 z-50">
+      <div className="w-full max-w-6xl flex justify-between items-center mb-4 md:mb-6 px-4 py-3 bg-parchment-800 text-parchment-100 rounded shadow-lg border-2 border-gold sticky top-2 z-40">
         <div className="flex items-center gap-2">
            <Hourglass className={`${timeLeft < 10 ? 'text-red-500 animate-pulse' : 'text-parchment-200'}`} />
            <span className="text-xl font-display font-bold tabular-nums">{timeLeft}s</span>
@@ -179,11 +188,51 @@ const GameScreen: React.FC<GameScreenProps> = ({ levelData, onComplete, onGameOv
 
       </div>
 
-      {/* Instructions Footer */}
-      <div className="mt-6 mb-8 text-parchment-300 text-center max-w-lg opacity-70 text-sm md:text-base">
-        <p>Compara tu manuscrito (derecha) con el original (izquierda).</p>
-        <p>Pincha sobre las <span className="text-gold">sílabas</span> o signos erróneos para aplicar la corrección en <span className="text-red-400 font-bold">tinta roja</span>.</p>
+      {/* Instructions Footer with Quit Button */}
+      <div className="mt-6 mb-8 w-full max-w-6xl flex flex-col md:flex-row items-center justify-between gap-4">
+        <div className="text-parchment-300 text-center md:text-left text-sm md:text-base opacity-70 flex-grow">
+          <p>Compara tu manuscrito (derecha) con el original (izquierda).</p>
+          <p>Pincha sobre las <span className="text-gold">sílabas</span> o signos erróneos para aplicar la corrección en <span className="text-red-400 font-bold">tinta roja</span>.</p>
+        </div>
+        
+        <button 
+          onClick={() => setShowQuitConfirm(true)}
+          className="flex items-center gap-2 text-parchment-300 hover:text-red-400 opacity-60 hover:opacity-100 transition-all font-serif text-sm border border-transparent hover:border-red-400/30 rounded px-3 py-1"
+        >
+          <LogOut size={16} />
+          Abandonar Scriptorium
+        </button>
       </div>
+
+      {/* Quit Confirmation Modal */}
+      {showQuitConfirm && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4">
+           <div className="bg-parchment-200 border-4 border-parchment-800 rounded shadow-2xl p-6 max-w-sm w-full text-center relative animate-ink-blot">
+              <div className="flex justify-center mb-4">
+                <AlertTriangle className="text-blood w-12 h-12" />
+              </div>
+              <h3 className="text-2xl font-display font-bold text-parchment-900 mb-2">¿Abandonar Tarea?</h3>
+              <p className="font-serif text-parchment-900 mb-6 leading-relaxed">
+                Si abandonas ahora, <strong>todo tu progreso se perderá</strong> y Titivillus habrá ganado esta batalla.
+              </p>
+              
+              <div className="flex flex-col gap-3">
+                <button 
+                  onClick={onMainMenu}
+                  className="bg-parchment-800 text-parchment-100 px-4 py-2 rounded font-bold hover:bg-blood transition-colors"
+                >
+                  Sí, renuncio a mi pluma
+                </button>
+                <button 
+                  onClick={() => setShowQuitConfirm(false)}
+                  className="bg-transparent border-2 border-parchment-800 text-parchment-900 px-4 py-2 rounded font-bold hover:bg-parchment-300 transition-colors"
+                >
+                  No, volveré al trabajo
+                </button>
+              </div>
+           </div>
+        </div>
+      )}
     </div>
   );
 };

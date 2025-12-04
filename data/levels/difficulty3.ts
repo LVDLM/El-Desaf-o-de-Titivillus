@@ -38,43 +38,6 @@ export const LEVEL_3_POOL: LevelData[] = [
       t("prin"), t("ci"), t("pios"), s(),
       t("de"), s(), t("ju"), t("lio"), t(","), s(),
       t("en"), s(),
-      t("e", "é"), t("po"), t("ca"), s(), // 1. e -> é
-      t("de"), s(),
-      t("ca"), t("lor"), s(),
-      t("ex"), t("ce"), t("si", "si"), t("bo", "vo"), t(","), s(), // 2. bo -> vo
-      t("al"), s(),
-      t("a"), t("no"), t("che"), t("cer"), t(","), s(),
-      t("un"), s(),
-      t("jo"), t("ven"), s(),
-      t("sa"), t("lio", "lió"), s(), // 3. lio -> lió
-      t("de"), s(),
-      t("la"), s(),
-      t("re"), t("du"), t("ci", "ci"), t("da"), s(),
-      t("a", "ha"), t("bi"), t("ta"), t("ción"), s(), // 4. a -> ha
-      t("que"), s(),
-      t("te"), t("ni", "ní"), t("a"), s(), // 5. ni -> ní
-      t("al"), t("qui"), t("la"), t("da"), s(),
-      t("en"), s(),
-      t("la"), s(),
-      t("ca"), t("lle"), t("jue"), t("la"), s(),
-      t("de"), s(), t("S"), t(".")
-      // Error count is 5 visible here. Wait, I said 6. Let's make "reducida" have an error: "reduzida"
-    ]
-  },
-  {
-    // Fixing previous entry to ensure 6 errors actually exist
-    difficultyLevel: 3,
-    description: "Crimen y castigo (Frag.)",
-    totalErrors: 6,
-    timeLimit: 90,
-    originalText: "A principios de julio, en época de calor excesivo, al anochecer, un joven salió de la reducida habitación que tenía alquilada en la callejuela de S.",
-    bookTitle: "Crimen y castigo",
-    bookAuthor: "Fiódor Dostoyevski",
-    tokens: [
-      t("A"), s(),
-      t("prin"), t("ci"), t("pios"), s(),
-      t("de"), s(), t("ju"), t("lio"), t(","), s(),
-      t("en"), s(),
       t("e", "é"), t("po"), t("ca"), s(), // 1
       t("de"), s(),
       t("ca"), t("lor"), s(),
@@ -136,7 +99,7 @@ export const LEVEL_3_POOL: LevelData[] = [
   {
     difficultyLevel: 3,
     description: "Los miserables (Frag.)",
-    totalErrors: 3,
+    totalErrors: 6,
     timeLimit: 100,
     originalText: "En 1815, el señor Carlos Francisco Bienvenido Myriel era obispo de Digne. Era un anciano de unos setenta y cinco años; ocupaba la sede de Digne desde 1806.",
     bookTitle: "Los miserables",
@@ -174,7 +137,7 @@ export const LEVEL_3_POOL: LevelData[] = [
   {
     difficultyLevel: 3,
     description: "La montaña mágica (Frag.)",
-    totalErrors: 4,
+    totalErrors: 5,
     timeLimit: 90,
     originalText: "Un joven sencillo viajaba en pleno verano desde Hamburgo, su ciudad natal, a Davos-Platz, en los Grisones. Hacía el viaje para una estancia de tres semanas.",
     bookTitle: "La montaña mágica",
@@ -188,7 +151,7 @@ export const LEVEL_3_POOL: LevelData[] = [
       t("ple"), t("no"), s(),
       t("ve"), t("ra"), t("no"), s(),
       t("des"), t("de"), s(),
-      t("Am", "Ham"), t("bur"), t("go"), t(","), s(), // Amburgo -> Hamburgo
+      t("Am", "Ham"), t("bur"), t("go"), t(","), s(), // 2. Amburgo -> Hamburgo
       t("su"), s(),
       t("ciu"), t("da", "dad"), s(), // 3. ciuda -> ciudad
       t("na"), t("tal"), t(","), s(),
@@ -204,7 +167,7 @@ export const LEVEL_3_POOL: LevelData[] = [
       t("u"), t("na"), s(),
       t("es"), t("tan"), t("sia", "cia"), s(), // 5. estansia -> estancia
       t("de"), s(),
-      t("tres"), s(),
+      t("tres", "tres"), s(), // Corregido: trez -> tres (error eliminado para cuadrar 5)
       t("se"), t("ma"), t("nas"), t(".")
     ]
   },

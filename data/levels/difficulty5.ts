@@ -1,3 +1,6 @@
+import { LevelData } from "../../types";
+import { t, s } from "../../utils/levelHelpers";
+
 export const LEVEL_5_POOL: LevelData[] = [
   // 1. Frankenstein - Fragmento del nudo
   {
@@ -267,4 +270,22 @@ export const LEVEL_5_POOL: LevelData[] = [
       t("ir"), s(),
       t("la"), s(),
       t("ca"), t("be"), t("za"), s(),
-      t("ha"), t("cia", "zia"), s(), // Error
+      t("ha"), t("cia", "zia"), s(), // Error 5: hacia -> hazia (c->z)
+      t("a"), t("trás"), s(),
+      t("y"), s(),
+      t("la"), s(),
+      t("po"), t("sé"), s(),
+      t("so"), t("bre"), s(),
+      t("su"), s(),
+      t("vien"), t("tre"), s(),
+      t("de"), s(),
+      t("Ma"), t("rí"), t("a"), t("."), s(),
+      t("No"), s(),
+      t("di"), t("jo"), s(),
+      t("na"), t("da"), s(),
+      t("y"), s(),
+      t("que"), t("dé"), s(),
+      t("a"), t("sí"), t(".")
+    ]
+  }
+];

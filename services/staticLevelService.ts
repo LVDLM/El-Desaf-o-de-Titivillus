@@ -3,13 +3,15 @@ import { LEVEL_1_POOL } from "../data/levels/difficulty1";
 import { LEVEL_2_POOL } from "../data/levels/difficulty2";
 import { LEVEL_3_POOL } from "../data/levels/difficulty3";
 import { LEVEL_4_POOL } from "../data/levels/difficulty4";
+import { LEVEL_5_POOL } from "../data/levels/difficulty5";
 
 // Map difficulty levels to their respective data pools
 const DIFFICULTY_POOLS: { [key: number]: LevelData[] } = {
   1: LEVEL_1_POOL,
   2: LEVEL_2_POOL,
   3: LEVEL_3_POOL,
-  4: LEVEL_4_POOL
+  4: LEVEL_4_POOL,
+  5: LEVEL_5_POOL
 };
 
 export const getStaticLevel = async (levelNumber: number): Promise<LevelData> => {
@@ -20,10 +22,11 @@ export const getStaticLevel = async (levelNumber: number): Promise<LevelData> =>
   // Level 1 -> Difficulty 1
   // Level 2 -> Difficulty 2
   // Level 3 -> Difficulty 3
-  // Level 4+ -> Difficulty 4 (Cap at max difficulty available)
-  const difficulty = Math.min(levelNumber, 4);
+  // Level 4 -> Difficulty 4
+  // Level 5+ -> Difficulty 5
+  const difficulty = Math.min(levelNumber, 5);
 
-  const pool = DIFFICULTY_POOLS[difficulty] || LEVEL_4_POOL;
+  const pool = DIFFICULTY_POOLS[difficulty] || LEVEL_5_POOL;
   
   // Select a random level from the pool
   const randomIndex = Math.floor(Math.random() * pool.length);

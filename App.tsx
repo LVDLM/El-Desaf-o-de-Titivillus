@@ -114,6 +114,7 @@ const App: React.FC = () => {
           levelData={currentLevelData} 
           onComplete={handleLevelComplete}
           onGameOver={handleGameOver}
+          onMainMenu={handleMainMenu}
         />
       )}
 

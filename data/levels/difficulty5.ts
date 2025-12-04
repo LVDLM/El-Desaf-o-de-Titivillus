@@ -32,7 +32,7 @@ export const LEVEL_5_POOL: LevelData[] = [
       t("su"), s(),
       t("ex"), t("pe"), t("ri"), t("men"), t("to"), s(),
       t("y"), s(),
-      t("hu"), t("lle", "ye"), s(), // Error 3: hulle -> huye
+      t("hu", "hu"), t("lle", "ye"), s(), // Error 3: hulle -> huye
       t("de"), s(),
       t("su"), s(),
       t("la"), t("bo"), t("ra"), t("to"), t("rio"), t("."), s(),

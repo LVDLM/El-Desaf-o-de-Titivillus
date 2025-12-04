@@ -41,7 +41,7 @@ export const LEVEL_3_POOL: LevelData[] = [
       t("e", "é"), t("po"), t("ca"), s(), // 1
       t("de"), s(),
       t("ca"), t("lor"), s(),
-      t("ex"), t("ce"), t("si", "si"), t("bo", "vo"), t(","), s(), // 2
+      t("ex"), t("ce"), t("si"), t("bo", "vo"), t(","), s(), // 2
       t("al"), s(),
       t("a"), t("no"), t("che"), t("cer"), t(","), s(),
       t("un"), s(),
@@ -113,7 +113,7 @@ export const LEVEL_3_POOL: LevelData[] = [
       t("Bien"), t("ve"), t("ni"), t("do"), s(),
       t("My"), t("riel"), s(),
       t("e"), t("ra"), s(),
-      t("o", "o"), t("vis", "bis"), t("po"), s(), // 2
+      t("o"), t("vis", "bis"), t("po"), s(), // 2
       t("de"), s(),
       t("Dig"), t("ne"), t("."), s(),
       t("E"), t("ra"), s(),
@@ -124,7 +124,7 @@ export const LEVEL_3_POOL: LevelData[] = [
       t("se"), t("ten"), t("ta"), s(),
       t("y"), s(),
       t("sin", "cin"), t("co"), s(), // 4
-      t("a", "a"), t("nos", "ños"), t(";"), s(), // 5. anos -> años
+      t("a"), t("nos", "ños"), t(";"), s(), // 5. anos -> años
       t("o"), t("cu"), t("pa"), t("va", "ba"), s(), // 6. ocupava -> ocupaba
       t("la"), s(),
       t("se"), t("de"), s(),
@@ -167,7 +167,7 @@ export const LEVEL_3_POOL: LevelData[] = [
       t("u"), t("na"), s(),
       t("es"), t("tan"), t("sia", "cia"), s(), // 5. estansia -> estancia
       t("de"), s(),
-      t("tres", "tres"), s(), // Corregido: trez -> tres (error eliminado para cuadrar 5)
+      t("tres"), s(),
       t("se"), t("ma"), t("nas"), t(".")
     ]
   },

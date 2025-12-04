@@ -34,12 +34,12 @@ export const LEVEL_4_POOL: LevelData[] = [
     bookAuthor: "Marcel Proust",
     tokens: [
       t("A"), s(), t("ve"), t("ces"), t(","), s(),
-      t("ha", "a"), t("pe", "pe"), t("nas", "nas"), s(), // 1. hapenas -> apenas
+      t("ha", "a"), t("pe"), t("nas"), s(), // 1. hapenas -> apenas
       t("ha"), t("bía"), s(),
       t("a"), t("pa"), t("ga"), t("do"), s(),
       t("la"), s(),
       t("bu"), t("jia", "jía"), t(","), s(), // 2. bujia -> bujía
-      t("se", "ce"), t("rrá", "rrá"), t("ban", "ban"), t("se", "se"), s(), // 3. serrábanse -> cerrábanse
+      t("se", "ce"), t("rrá"), t("ban"), t("se"), s(), // 3. serrábanse -> cerrábanse
       t("mis"), s(),
       t("ho", "o"), t("jos"), s(), // 4. hojos -> ojos
       t("tan"), s(),
@@ -55,7 +55,7 @@ export const LEVEL_4_POOL: LevelData[] = [
       t("me"), t("dia"), s(),
       t("ho"), t("ra"), s(),
       t("des"), t("pués"), s(),
-      t("dez", "des"), t("per"), t("tá"), t("ba", "ba"), t("me", "me"), s(), // 5. dezpertabame -> despertábame
+      t("dez", "des"), t("per"), t("tá"), t("ba"), t("me"), s(), // 5. dezpertabame -> despertábame
       t("la"), s(),
       t("y", "i"), t("dea"), s(), // 6. ydea -> idea
       t("de"), s(),
@@ -82,7 +82,7 @@ export const LEVEL_4_POOL: LevelData[] = [
     tokens: [
       t("Ma"), t("jes"), t("tuo"), t("zo", "so"), s(), // 1
       t("y"), s(),
-      t("ren", "re"), t("chon", "chon"), t("cho", "cho"), t(","), s(), // 2
+      t("ren", "re"), t("chon"), t("cho"), t(","), s(), // 2
       t("Buck"), s(),
       t("Mu"), t("lli"), t("gan"), s(),
       t("a"), t("pa"), t("re"), t("cio", "ció"), s(), // 3
@@ -92,7 +92,7 @@ export const LEVEL_4_POOL: LevelData[] = [
       t("de"), s(),
       t("la"), s(),
       t("es"), t("ca"), t("le"), t("ra"), t(","), s(),
-      t("por"), t("tán", "tan"), t("do", "do"), s(), // 4
+      t("por"), t("tán", "tan"), t("do"), s(), // 4
       t("un"), s(),
       t("cuen"), t("co"), s(),
       t("de"), s(),
@@ -107,7 +107,7 @@ export const LEVEL_4_POOL: LevelData[] = [
       t("se"), s(),
       t("man"), t("te"), t("nía"), s(),
       t("sua"), t("ve"), t("men"), t("te"), s(),
-      t("in", "hin"), t("cha", "cha"), t("da", "da"), s(), // 5
+      t("in", "hin"), t("cha"), t("da"), s(), // 5
       t("a"), s(),
       t("su"), s(),
       t("es"), t("pal"), t("da"), t(".")
@@ -126,7 +126,7 @@ export const LEVEL_4_POOL: LevelData[] = [
       t("de"), t("bi", "bí"), t("a"), s(), // 1. debia -> debía
       t("de"), s(),
       t("a", "ha"), t("ber"), s(), // 2
-      t("ca"), t("lu", "lum"), t("nia", "nia"), t("do", "do"), s(), // 3
+      t("ca"), t("lum"), t("nia"), t("do"), s(), // 3. caluniado
       t("a"), s(),
       t("Jo"), t("sef"), s(),
       t("K"), t("."), t(","), s(),
@@ -165,7 +165,7 @@ export const LEVEL_4_POOL: LevelData[] = [
     bookAuthor: "Herman Melville",
     tokens: [
       t("Lla"), t("mad"), t("me"), s(),
-      t("Iz", "Is"), t("mael", "mael"), t("."), s(), // 1
+      t("Iz", "Is"), t("mael"), t("."), s(), // 1
       t("Ha"), t("ce"), s(),
       t("al"), t("gu"), t("nos"), s(),
       t("a"), t("ños"), s(),
@@ -173,7 +173,7 @@ export const LEVEL_4_POOL: LevelData[] = [
       t("no"), s(),
       t("im"), t("por"), t("ta"), s(),
       t("cuán"), t("tos"), s(),
-      t("es", "ex"), t("sac", "ac"), t("ta", "ta"), t("men", "men"), t("te", "te"), t("—"), t(","), s(), // 2. esactamente -> exactamente
+      t("es", "ex"), t("sac", "ac"), t("ta"), t("men"), t("te"), t("—"), t(","), s(), // 2. esactamente -> exactamente
       t("te"), t("nien"), t("do"), s(),
       t("po"), t("co"), s(),
       t("o"), s(),
@@ -193,14 +193,13 @@ export const LEVEL_4_POOL: LevelData[] = [
       t("tie"), t("rra"), t(","), s(),
       t("pen"), t("sé"), s(),
       t("en"), s(),
-      t("na"), t("be", "ve"), t("gar", "gar"), s(), // 5
+      t("na"), t("be", "ve"), t("gar"), s(), // 5
       t("un"), s(),
       t("po"), t("co"), s(),
       t("por"), s(),
       t("a"), t("hí"), t(".") // 6
     ]
   },
-    // 1. Frankenstein - Fragmento inicial
   {
     difficultyLevel: 4,
     description: "Frankenstein - Inicio",
@@ -228,7 +227,7 @@ export const LEVEL_4_POOL: LevelData[] = [
       t("re"), t("pú"), t("bli"), t("ca"), t("."), s(),
       t("Mis"), s(),
       t("an"), t("te"), t("pa"), t("sa"), t("dos"), s(),
-      t("a", "ha"), t("ví", "bí"), t("an", "an"), s(), // Error 3: avían -> habían
+      t("a", "ha"), t("ví", "bí"), t("an"), s(), // Error 3: avían -> habían
       t("si"), t("do"), s(),
       t("du"), t("ran"), t("te"), s(),
       t("mu"), t("chos"), s(),
@@ -239,7 +238,7 @@ export const LEVEL_4_POOL: LevelData[] = [
       t("y"), s(),
       t("mi"), s(),
       t("pa"), t("dre"), s(),
-      t("ha", "ha"), t("ví", "bí"), t("a", "a"), s(), // Error 4: havía -> había
+      t("ha", "ha"), t("ví", "bí"), t("a"), s(), // Error 4: havía -> había
       t("o"), t("cu"), t("pa"), t("do"), s(),
       t("con"), s(),
       t("ho"), t("nor"), s(),
@@ -267,17 +266,17 @@ export const LEVEL_4_POOL: LevelData[] = [
       t("vi"), t("si"), t("ta"), s(),
       t("a"), s(),
       t("mi"), s(),
-      t("ca"), t("ze", "se"), t("ro", "ro"), t(","), s(), // 1
+      t("ca"), t("ze", "se"), t("ro"), t(","), s(), // 1
       t("el"), s(),
       t("so"), t("li"), t("ta"), t("rio"), s(),
       t("ve"), t("ci"), t("no"), s(),
       t("con"), s(),
       t("el"), s(),
       t("que"), s(),
-      t("a", "ha"), t("bré", "bré"), s(), // 2
+      t("a", "ha"), t("bré"), s(), // 2
       t("de"), s(),
       t("ver"), t("me"), s(),
-      t("fas"), t("ti"), t("bia", "dia"), t("do", "do"), t("."), s(), // 3
+      t("fas"), t("ti"), t("bia", "dia"), t("do"), t("."), s(), // 3
       t("¡"), t("Es"), t("te"), s(),
       t("es"), s(),
       t("cier"), t("ta"), t("men"), t("te"), s(),
@@ -290,17 +289,15 @@ export const LEVEL_4_POOL: LevelData[] = [
       t("en"), s(),
       t("to"), t("da"), s(),
       t("In"), t("gla"), t("te"), t("rra"), s(),
-      t("hu"), t("vie", "bie"), t("ra", "ra"), s(), // 5. huviera -> hubiera
+      t("hu", "hu"), t("vie", "bie"), t("ra"), s(), // 5. huviera -> hubiera
       t("po"), t("di"), t("do"), s(),
       t("en"), t("con"), t("trar"), s(),
       t("un"), s(),
       t("lu"), t("gar"), s(),
       t("tan"), s(),
-      t("a"), t("par"), t("tá", "ta"), t("do", "do"), t(".") // 6. apartádo -> apartado
+      t("a"), t("par"), t("tá", "ta"), t("do"), t(".") // 6. apartádo -> apartado
     ]
   },
-
-    // 2. Drácula - Fragmento inicial
   {
     difficultyLevel: 4,
     description: "Drácula - Inicio del diario",
@@ -324,7 +321,7 @@ export const LEVEL_4_POOL: LevelData[] = [
       t("pri"), t("me"), t("ro"), s(),
       t("de"), s(),
       t("ma"), t("yo"), t(","), s(),
-      t("ye", "lle"), t("gan", "gan"), t("do"), s(), // Error 2: yegando -> llegando (y->ll)
+      t("ye", "lle"), t("gan"), t("do"), s(), // Error 2: yegando -> llegando (y->ll)
       t("a"), s(),
       t("Vie"), t("na"), s(),
       t("a"), s(),
@@ -351,8 +348,6 @@ export const LEVEL_4_POOL: LevelData[] = [
       t("re"), t("tra"), t("so"), t(".")
     ]
   },
-
-  // 3. La guerra de los mundos - Fragmento inicial
   {
     difficultyLevel: 4,
     description: "La guerra de los mundos - Inicio",
@@ -363,7 +358,7 @@ export const LEVEL_4_POOL: LevelData[] = [
     bookAuthor: "H.G. Wells",
     tokens: [
       t("Na"), t("die"), s(),
-      t("ha"), t("bría", "bría"), s(), // Correcto (no error)
+      t("ha"), t("bría"), s(), // Correcto (no error)
       t("cre"), t("í"), t("do"), t(","), s(),
       t("en"), s(),
       t("los"), s(),
@@ -398,8 +393,6 @@ export const LEVEL_4_POOL: LevelData[] = [
       t("él"), t(".")
     ]
   },
-
-  // 4. El retrato de Dorian Gray - Fragmento inicial
   {
     difficultyLevel: 4,
     description: "El retrato de Dorian Gray - Inicio",
@@ -452,8 +445,6 @@ export const LEVEL_4_POOL: LevelData[] = [
       t("ro"), t("sa"), t(".")
     ]
   },
-
-  // 5. El extranjero - Fragmento inicial
   {
     difficultyLevel: 4,
     description: "El extranjero - Inicio",

@@ -16,7 +16,7 @@ export const LEVEL_1_POOL: LevelData[] = [
       t("no"), s(), 
       t("a", "ha"), t("ce"), s(), // Error: a -> ha
       t("al"), s(), 
-      t("mon", "mon"), t("ge", "je"), t(".") // Error: monge -> monje
+      t("mon"), t("ge", "je"), t(".") // Error: monge -> monje
     ]
   },
   {

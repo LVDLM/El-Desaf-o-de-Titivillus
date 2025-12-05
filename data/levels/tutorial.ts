@@ -12,7 +12,7 @@ export const TUTORIAL_LEVEL: LevelData = {
   bookAuthor: "Tradición Oral",
   tokens: [
     t("En"), s(),
-    t("ca"), t("sa"), s(),
+    t("ca"), t("za", "sa"), s(), // Error 1: caza -> decidera ( )
     t("del"), s(),
     t("e", "he"), t("rre"), t("ro"), t(","), s(), // Error 1: errero -> herrero (falta h)
     t("cu"), t("chi", "chi"), t("yo", "llo"), s(), // Error 2: cuchiyo -> cuchillo (y -> ll)

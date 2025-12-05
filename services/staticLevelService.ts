@@ -4,6 +4,7 @@ import { LEVEL_2_POOL } from "../data/levels/difficulty2";
 import { LEVEL_3_POOL } from "../data/levels/difficulty3";
 import { LEVEL_4_POOL } from "../data/levels/difficulty4";
 import { LEVEL_5_POOL } from "../data/levels/difficulty5";
+import { TUTORIAL_LEVEL } from "../data/levels/tutorial";
 
 // Map difficulty levels to their respective data pools
 const DIFFICULTY_POOLS: { [key: number]: LevelData[] } = {
@@ -17,6 +18,14 @@ const DIFFICULTY_POOLS: { [key: number]: LevelData[] } = {
 export const getStaticLevel = async (levelNumber: number): Promise<LevelData> => {
   // Simulate network delay strictly for effect (300ms)
   await new Promise(resolve => setTimeout(resolve, 300));
+
+  // Special case for Tutorial
+  if (levelNumber === 0) {
+    // Return a fresh copy of the tutorial
+    const level = JSON.parse(JSON.stringify(TUTORIAL_LEVEL));
+    level.totalErrors = level.tokens.filter((t: any) => t.isError).length;
+    return level;
+  }
   
   // Determine difficulty based on level number.
   // Level 1 -> Difficulty 1

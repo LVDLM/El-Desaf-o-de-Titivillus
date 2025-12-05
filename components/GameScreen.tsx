@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { LevelData, TextToken } from '../types';
-import { Hourglass, AlertOctagon, BookOpen, Feather, LogOut, AlertTriangle, X } from 'lucide-react';
+import { Hourglass, AlertOctagon, BookOpen, Feather, LogOut, AlertTriangle, Info } from 'lucide-react';
 
 interface GameScreenProps {
   levelData: LevelData;
@@ -17,25 +17,48 @@ const GameScreen: React.FC<GameScreenProps> = ({ levelData, onComplete, onGameOv
   const [lastFeedback, setLastFeedback] = useState<{ id: string, type: 'good' | 'bad' } | null>(null);
   const [showQuitConfirm, setShowQuitConfirm] = useState(false);
 
+  // Tutorial States
+  const [tutorialMessage, setTutorialMessage] = useState<string | null>(null);
+  const [seenCorrectMsg, setSeenCorrectMsg] = useState(false);
+  const [seenWrongMsg, setSeenWrongMsg] = useState(false);
+
+  // Initialize tutorial
+  useEffect(() => {
+    if (levelData.isTutorial) {
+      setTutorialMessage("Lee el texto de la izquierda con atención. Luego, lee el de la derecha y encuentra los errores.");
+    }
+  }, [levelData.isTutorial]);
+
   // Timer Logic
   useEffect(() => {
-    // Pause timer if game is over or if the quit confirmation modal is open
+    // Pause timer if game is over, quit modal is open, or tutorial message is showing
     if (timeLeft <= 0) {
       onGameOver();
       return;
     }
     
-    if (showQuitConfirm) return;
+    if (showQuitConfirm || tutorialMessage) return;
 
     const timer = setInterval(() => {
       setTimeLeft((prev) => prev - 1);
     }, 1000);
     return () => clearInterval(timer);
-  }, [timeLeft, onGameOver, showQuitConfirm]);
+  }, [timeLeft, onGameOver, showQuitConfirm, tutorialMessage]);
 
   // Check win condition
   useEffect(() => {
     if (foundErrors === levelData.totalErrors) {
+      
+      // If tutorial, show final message before completing
+      if (levelData.isTutorial) {
+        let msg = "¡Muy bien! Parece que ya puedes empezar a jugar.";
+        if (!seenWrongMsg) {
+          msg += "\n\n(Recuerda: Si te equivocas y pinchas algo correcto, perderás unos valiosos segundos).";
+        }
+        setTutorialMessage(msg);
+        return; // Wait for user to close modal to trigger onComplete
+      }
+
       // Calculate score based on time left and accuracy
       const timeBonus = timeLeft * 10;
       const penalty = mistakes * 50;
@@ -47,11 +70,19 @@ const GameScreen: React.FC<GameScreenProps> = ({ levelData, onComplete, onGameOv
         onComplete(finalScore);
       }, 1500);
     }
-  }, [foundErrors, levelData.totalErrors, timeLeft, mistakes, onComplete]);
+  }, [foundErrors, levelData.totalErrors, timeLeft, mistakes, onComplete, levelData.isTutorial, seenWrongMsg]);
+
+  const handleTutorialClose = () => {
+    setTutorialMessage(null);
+    // If we just closed the final success message of the tutorial, finish the level
+    if (levelData.isTutorial && foundErrors === levelData.totalErrors) {
+       onComplete(0); // Score 0 for tutorial
+    }
+  };
 
   const handleTokenClick = (id: string) => {
-    // Prevent clicking while confirm modal is open
-    if (showQuitConfirm) return;
+    // Prevent clicking while modals are open
+    if (showQuitConfirm || tutorialMessage) return;
 
     // Find token
     const tokenIndex = tokens.findIndex(t => t.id === id);
@@ -69,15 +100,31 @@ const GameScreen: React.FC<GameScreenProps> = ({ levelData, onComplete, onGameOv
       setTokens(newTokens);
       setFoundErrors(prev => prev + 1);
       setLastFeedback({ id, type: 'good' });
+
+      // Tutorial: First correct click
+      if (levelData.isTutorial && !seenCorrectMsg) {
+        setSeenCorrectMsg(true);
+        setTutorialMessage("Los errores corregidos aparecerán en rojo. Mira el contador de errores para saber cuántos te faltan por descubrir.");
+      }
       
     } else {
       // Incorrect click (The text was actually correct)
       setMistakes(prev => prev + 1);
-      setTimeLeft(prev => Math.max(0, prev - 5)); // 5 second penalty
+      
+      // Only deduct time if NOT tutorial (or if tutorial and we want to simulate it, but usually tutorial shouldn't fail on time)
+      // We'll deduct time in tutorial too to show the effect, but the modal explains it.
+      setTimeLeft(prev => Math.max(0, prev - 5)); 
+      
       setLastFeedback({ id, type: 'bad' });
       
       // Trigger shake animation on the element
       setTimeout(() => setLastFeedback(null), 500);
+
+      // Tutorial: First wrong click
+      if (levelData.isTutorial && !seenWrongMsg) {
+        setSeenWrongMsg(true);
+        setTutorialMessage("Si te equivocas y pinchas algo correcto, perderás unos valiosos segundos.");
+      }
     }
   };
 
@@ -230,6 +277,28 @@ const GameScreen: React.FC<GameScreenProps> = ({ levelData, onComplete, onGameOv
                   No, volveré al trabajo
                 </button>
               </div>
+           </div>
+        </div>
+      )}
+
+      {/* Tutorial Message Modal */}
+      {tutorialMessage && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
+           <div className="bg-parchment-200 border-4 border-gold rounded shadow-2xl p-8 max-w-md w-full text-center relative animate-ink-blot">
+              <div className="flex justify-center mb-4">
+                <Info className="text-parchment-800 w-12 h-12" />
+              </div>
+              <h3 className="text-2xl font-display font-bold text-parchment-900 mb-4">Consejo del maestre</h3>
+              <p className="font-serif text-lg text-parchment-900 mb-8 leading-relaxed whitespace-pre-line">
+                {tutorialMessage}
+              </p>
+              
+              <button 
+                onClick={handleTutorialClose}
+                className="bg-parchment-800 text-parchment-100 px-6 py-2 rounded font-bold hover:bg-gold hover:text-parchment-900 transition-colors border-2 border-transparent hover:border-parchment-800"
+              >
+                Entendido
+              </button>
            </div>
         </div>
       )}

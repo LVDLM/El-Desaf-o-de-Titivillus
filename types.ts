@@ -25,6 +25,7 @@ export interface LevelData {
   difficultyLevel: number;
   bookTitle?: string;
   bookAuthor?: string;
+  isTutorial?: boolean; // Flag to trigger tutorial logic
 }
 
 export interface PlayerStats {

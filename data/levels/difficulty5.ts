@@ -2,290 +2,317 @@ import { LevelData } from "../../types";
 import { t, s } from "../../utils/levelHelpers";
 
 export const LEVEL_5_POOL: LevelData[] = [
-  // 1. Frankenstein - Fragmento del nudo
   {
     difficultyLevel: 5,
-    description: "Frankenstein - El monstruo",
-    totalErrors: 5,
-    timeLimit: 85,
-    originalText: "Víctor Frankenstein comprende en ese momento el horror que ha creado, rechaza con espanto el resultado de su experimento y huye de su laboratorio. Al volver, el monstruo ha desaparecido. Tras un período de convalecencia debido al exceso de trabajo, Víctor regresa a su Ginebra natal con su familia.",
-    bookTitle: "Frankenstein",
-    bookAuthor: "Mary Shelley",
+    description: "Crimen y castigo (Frag.)",
+    totalErrors: 6,
+    timeLimit: 90,
+    originalText: "A principios de julio, en época de calor excesivo, al anochecer, un joven salió de la reducida habitación que tenía alquilada en la callejuela de S.",
+    bookTitle: "Crimen y castigo",
+    bookAuthor: "Fiódor Dostoyevski",
     tokens: [
-      t("Vic", "Víc"), t("tor"), s(), // Error 1: Victor -> Víctor
-      t("Fran"), t("kens"), t("tein"), s(),
-      t("com"), t("pren"), t("de"), s(),
+      t("A"), s(),
+      t("prin"), t("ci"), t("pios"), s(),
+      t("de"), s(), t("ju"), t("lio"), t(","), s(),
       t("en"), s(),
-      t("e"), t("se"), s(),
-      t("mo"), t("men"), t("to"), s(),
-      t("el"), s(),
-      t("ho"), t("rror"), s(),
+      t("e", "é"), t("po"), t("ca"), s(), // Error 1: epoca -> época (falta tilde esdrújula)
+      t("de"), s(),
+      t("ca"), t("lor"), s(),
+      t("ex"), t("ce"), t("si"), t("bo", "vo"), t(","), s(), // Error 2: excesibo -> excesivo (b -> v)
+      t("al"), s(),
+      t("a"), t("no"), t("che"), t("cer"), t(","), s(),
+      t("un"), s(),
+      t("jo"), t("ven"), s(),
+      t("sa"), t("lio", "lió"), s(), // Error 3: salio -> salió (falta tilde aguda)
+      t("de"), s(),
+      t("la"), s(),
+      t("re"), t("du"), t("zi", "ci"), t("da"), s(), // Error 4: reduzida -> reducida (z -> c)
+      t("a", "ha"), t("bi"), t("ta"), t("ción"), s(), // Error 5: abitacion -> habitación (falta H)
       t("que"), s(),
-      t("ha"), s(),
-      t("cre"), t("a"), t("do"), t(","), s(),
-      t("re"), t("cha", "cha"), t("sa", "za"), s(), // Error 2: rechasa -> rechaza
-      t("con"), s(),
-      t("es"), t("pan"), t("to"), s(),
-      t("el"), s(),
-      t("re"), t("sul"), t("ta"), t("do"), s(),
-      t("de"), s(),
-      t("su"), s(),
-      t("ex"), t("pe"), t("ri"), t("men"), t("to"), s(),
-      t("y"), s(),
-      t("hu", "hu"), t("lle", "ye"), s(), // Error 3: hulle -> huye
-      t("de"), s(),
-      t("su"), s(),
-      t("la"), t("bo"), t("ra"), t("to"), t("rio"), t("."), s(),
-      t("Al"), s(),
-      t("vol"), t("ver"), t(","), s(),
-      t("el"), s(),
-      t("mons"), t("truo"), s(),
-      t("ha"), s(),
-      t("de"), t("sa"), t("pa"), t("re"), t("ci"), t("do"), t("."), s(),
-      t("Tras"), s(),
-      t("un"), s(),
-      t("pe"), t("rio", "río"), t("do"), s(), // Error 4: periodo -> período
-      t("de"), s(),
-      t("con"), t("va"), t("le"), t("cen"), t("cia"), s(),
-      t("de"), t("bi"), t("do"), s(),
-      t("al"), s(),
-      t("ex"), t("ce"), t("so"), s(),
-      t("de"), s(),
-      t("tra"), t("ba"), t("jo"), t(","), s(),
-      t("Vic", "Víc"), t("tor"), s(),
-      t("re"), t("gre"), t("sa"), s(),
-      t("a"), s(),
-      t("su"), s(),
-      t("Ji", "Gi"), t("ne"), t("bra"), s(), // Error 5: Jinebra -> Ginebra
-      t("na"), t("tal"), s(),
-      t("con"), s(),
-      t("su"), s(),
-      t("fa"), t("mi"), t("lia"), t(".")
-    ]
-  },
-
-  // 2. Drácula - Fragmento del nudo
-  {
-    difficultyLevel: 5,
-    description: "Drácula - El Conde recibe a Harker",
-    totalErrors: 5,
-    timeLimit: 85,
-    originalText: "Yo soy Drácula; y le doy mi bienvenida, señor Harker, en mi casa. Pase; el aire de la noche está frío, y seguramente usted necesita comer y descansar. Mientras hablaba, puso la lámpara sobre un soporte en la pared, y saliendo, tomó mi equipaje.",
-    bookTitle: "Drácula",
-    bookAuthor: "Bram Stoker",
-    tokens: [
-      t("Yo"), s(),
-      t("soy"), s(),
-      t("Drá"), t("cu"), t("la"), t(";"), s(),
-      t("y"), s(),
-      t("le"), s(),
-      t("doy"), s(),
-      t("mi"), s(),
-      t("bien"), t("ve"), t("ni"), t("da"), t(","), s(),
-      t("se"), t("ñor"), s(),
-      t("Har"), t("ker"), t(","), s(),
-      t("en"), s(),
-      t("mi"), s(),
-      t("ca"), t("sa"), t("."), s(),
-      t("Pa"), t("se"), t(";"), s(),
-      t("el"), s(),
-      t("ai"), t("re"), s(),
-      t("de"), s(),
-      t("la"), s(),
-      t("no"), t("che"), s(),
-      t("es"), t("ta", "tá"), s(), // Error 1: esta -> está
-      t("frí"), t("o"), t(","), s(),
-      t("y"), s(),
-      t("se"), t("gu"), t("ra"), t("men"), t("te"), s(),
-      t("us"), t("ted"), s(),
-      t("ne"), t("ce"), t("ci", "si"), t("ta"), s(), // Error 2: nececita -> necesita
-      t("co"), t("mer"), s(),
-      t("y"), s(),
-      t("des"), t("can"), t("sar"), t("."), s(),
-      t("Mien"), t("tras"), s(),
-      t("ha"), t("bla"), t("va", "ba"), t(","), s(), // Error 3: hablava -> hablaba
-      t("pu"), t("so"), s(),
-      t("la"), s(),
-      t("lám"), t("pa"), t("ra"), s(),
-      t("so"), t("bre"), s(),
-      t("un"), s(),
-      t("so"), t("por"), t("te"), s(),
+      t("te"), t("ni", "ní"), t("a"), s(), // Error 6: tenia -> tenía (falta tilde hiato)
+      t("al"), t("qui"), t("la"), t("da"), s(),
       t("en"), s(),
       t("la"), s(),
-      t("pa"), t("red"), t(","), s(),
-      t("y"), s(),
-      t("sa"), t("llien", "lien"), t("do"), t(","), s(), // Error 4: salliendo -> saliendo
-      t("to"), t("mo", "mó"), s(), // Error 5: tomo -> tomó
-      t("mi"), s(),
-      t("e"), t("qui"), t("pa"), t("je"), t(".")
+      t("ca"), t("lle"), t("jue"), t("la"), s(),
+      t("de"), s(), t("S"), t(".")
     ]
   },
-
-  // 3. La guerra de los mundos - Fragmento del nudo
   {
     difficultyLevel: 5,
-    description: "La guerra de los mundos - Contacto",
-    totalErrors: 5,
-    timeLimit: 85,
-    originalText: "Avanzaban grupitos de dos o tres, se detenían, observaban y volvían a avanzar. Era la delegación. Se había efectuado una apresurada consulta, y como los marcianos eran, sin duda alguna, inteligentes, a pesar de su aspecto repulsivo, se resolvió tratar de comunicarse con ellos.",
-    bookTitle: "La guerra de los mundos",
-    bookAuthor: "H.G. Wells",
+    description: "Los miserables (Frag.)",
+    totalErrors: 6,
+    timeLimit: 100,
+    originalText: "En 1815, el señor Carlos Francisco Bienvenido Myriel era obispo de Digne. Era un anciano de unos setenta y cinco años; ocupaba la sede de Digne desde 1806.",
+    bookTitle: "Los miserables",
+    bookAuthor: "Victor Hugo",
     tokens: [
-      t("A"), t("van"), t("za"), t("van", "ban"), s(), // Error 1: Avanzavan -> Avanzaban
-      t("gru"), t("pi"), t("tos"), s(),
+      t("En"), s(), t("1815"), t(","), s(),
+      t("el"), s(),
+      t("se"), t("nor", "ñor"), s(), // Error 1: senor -> señor (n -> ñ)
+      t("Car"), t("los"), s(),
+      t("Fran"), t("cis"), t("co"), s(),
+      t("Bien"), t("ve"), t("ni"), t("do"), s(),
+      t("My"), t("riel"), s(),
+      t("e"), t("ra"), s(),
+      t("o"), t("vis", "bis"), t("po"), s(), // Error 2: ovispo -> obispo (v -> b)
       t("de"), s(),
-      t("dos"), s(),
-      t("o"), s(),
-      t("tres"), t(","), s(),
-      t("se"), s(),
-      t("de"), t("te"), t("ní"), t("an"), t(","), s(),
-      t("ob"), t("ser"), t("va"), t("ban"), s(),
-      t("y"), s(),
-      t("vol"), t("bí", "ví"), t("an"), s(), // Error 2: volbían -> volvían
-      t("a"), s(),
-      t("a"), t("van"), t("zar"), t("."), s(),
+      t("Dig"), t("ne"), t("."), s(),
       t("E"), t("ra"), s(),
+      t("un"), s(),
+      t("an"), t("sia", "cia"), t("no"), s(), // Error 3: ansiano -> anciano (s -> c)
+      t("de"), s(),
+      t("u"), t("nos"), s(),
+      t("se"), t("ten"), t("ta"), s(),
+      t("y"), s(),
+      t("sin", "cin"), t("co"), s(), // Error 4: sinco -> cinco (s -> c)
+      t("a"), t("nos", "ños"), t(";"), s(), // Error 5: anos -> años (n -> ñ)
+      t("o"), t("cu"), t("pa"), t("va", "ba"), s(), // Error 6: ocupava -> ocupaba (v -> b)
       t("la"), s(),
-      t("de"), t("le"), t("ga"), t("ción"), t("."), s(),
-      t("Se"), s(),
-      t("ha"), t("vía", "bía"), s(), // Error 3: havía -> había
-      t("e"), t("fec"), t("tua"), t("do"), s(),
-      t("u"), t("na"), s(),
-      t("a"), t("pre"), t("su"), t("ra"), t("da"), s(),
-      t("con"), t("sul"), t("ta"), t(","), s(),
-      t("y"), s(),
-      t("co"), t("mo"), s(),
-      t("los"), s(),
-      t("mar"), t("cia"), t("nos"), s(),
-      t("e"), t("ran"), t(","), s(),
-      t("sin"), s(),
-      t("du"), t("da"), s(),
-      t("al"), t("gu"), t("na"), t(","), s(),
-      t("in"), t("te"), t("li"), t("gen"), t("tes"), t(","), s(),
-      t("a"), s(),
-      t("pe"), t("sar"), s(),
+      t("se"), t("de"), s(),
       t("de"), s(),
-      t("su"), s(),
-      t("as"), t("pec"), t("to"), s(),
-      t("re"), t("pul"), t("si"), t("bo", "vo"), t(","), s(), // Error 4: repulsibo -> repulsivo
-      t("se"), s(),
-      t("re"), t("sol"), t("bio", "vió"), s(), // Error 5: resolbio -> resolvió
-      t("tra"), t("tar"), s(),
-      t("de"), s(),
-      t("co"), t("mu"), t("ni"), t("car"), t("se"), s(),
-      t("con"), s(),
-      t("e"), t("llos"), t(".")
+      t("Dig"), t("ne"), s(),
+      t("des"), t("de"), s(),
+      t("1806"), t(".")
     ]
   },
-
-  // 4. El retrato de Dorian Gray - Fragmento del nudo
   {
     difficultyLevel: 5,
-    description: "El retrato de Dorian Gray - Lord Henry",
-    totalErrors: 5,
-    timeLimit: 80,
-    originalText: "Lord Henry salió al jardín y encontró a Dorian Gray con el rostro hundido en las grandes flores del lilo, bebiendo febrilmente su perfume fresco como si se tratase de vino. Se le acercó y le puso una mano en el hombro.",
-    bookTitle: "El retrato de Dorian Gray",
-    bookAuthor: "Oscar Wilde",
+    description: "La metamorfosis (Frag.)",
+    totalErrors: 6,
+    timeLimit: 90,
+    originalText: "Una mañana, tras un sueño intranquilo, Gregorio Samsa se despertó convertido en un monstruoso insecto. Estaba echado sobre el duro caparazón de su espalda.",
+    bookTitle: "La metamorfosis",
+    bookAuthor: "Franz Kafka",
     tokens: [
-      t("Lord"), s(),
-      t("Hen"), t("ry"), s(),
-      t("sa"), t("lio", "lió"), s(), // Error 1: salio -> salió
-      t("al"), s(),
-      t("jar"), t("dín"), s(),
-      t("y"), s(),
-      t("en"), t("con"), t("tro", "tró"), s(), // Error 2: encontro -> encontró
-      t("a"), s(),
-      t("Do"), t("rian"), s(),
-      t("Gray"), s(),
-      t("con"), s(),
-      t("el"), s(),
-      t("ros"), t("tro"), s(),
-      t("hun"), t("di"), t("do"), s(),
-      t("en"), s(),
-      t("las"), s(),
-      t("gran"), t("des"), s(),
-      t("flo"), t("res"), s(),
-      t("del"), s(),
-      t("li"), t("lo"), t(","), s(),
-      t("be"), t("vien", "bien"), t("do"), s(), // Error 3: beviendo -> bebiendo
-      t("fe"), t("bril"), t("men"), t("te"), s(),
-      t("su"), s(),
-      t("per"), t("fu"), t("me"), s(),
-      t("fres"), t("co"), s(),
-      t("co"), t("mo"), s(),
-      t("si"), s(),
+      t("U"), t("na"), s(),
+      t("ma"), t("ña"), t("na"), t(","), s(),
+      t("tras"), s(),
+      t("un"), s(),
+      t("sue"), t("ño"), s(),
+      t("in"), t("tran"), t("qi", "qui"), t("lo"), t(","), s(), // Error 1: intranqilo -> intranquilo (q -> qu)
+      t("Gre"), t("go"), t("rio"), s(),
+      t("Sam"), t("sa"), s(),
       t("se"), s(),
-      t("tra"), t("ta"), t("ze", "se"), s(), // Error 4: trataze -> tratase
-      t("de"), s(),
-      t("vi"), t("no"), t("."), s(),
-      t("Se"), s(),
-      t("le"), s(),
-      t("a"), t("cer"), t("co", "có"), s(), // Error 5: acerco -> acercó
-      t("y"), s(),
-      t("le"), s(),
-      t("pu"), t("so"), s(),
-      t("u"), t("na"), s(),
-      t("ma"), t("no"), s(),
+      t("des"), t("per"), t("to", "tó"), s(), // Error 2: desperto -> despertó (falta tilde aguda)
+      t("con"), t("ver"), t("ti"), t("do"), s(),
       t("en"), s(),
-      t("el"), s(),
-      t("hom"), t("bro"), t(".")
-    ]
-  },
-
-  // 5. El extranjero - Fragmento del nudo
-  {
-    difficultyLevel: 5,
-    description: "El extranjero - Marie en la playa",
-    totalErrors: 5,
-    timeLimit: 75,
-    originalText: "Tenía los cabellos sobre los ojos y reía. Me icé a su lado sobre la balsa. El tiempo estaba espléndido y, como bromeando, dejé ir la cabeza hacia atrás y la posé sobre su vientre de María. No dijo nada y quedé así.",
-    bookTitle: "El extranjero",
-    bookAuthor: "Albert Camus",
-    tokens: [
-      t("Te"), t("ní"), t("a"), s(),
-      t("los"), s(),
-      t("ca"), t("be"), t("yos", "llos"), s(), // Error 1: cabeyos -> cabellos
+      t("un"), s(),
+      t("mos", "mons"), t("truo"), t("so"), s(), // Error 3: mostruoso -> monstruoso (falta n)
+      t("in"), t("sep", "sec"), t("to"), t("."), s(), // Error 4: insepto -> insecto (p -> c)
+      t("Es"), t("ta"), t("ba"), s(),
+      t("e"), t("cha"), t("do"), s(),
       t("so"), t("bre"), s(),
-      t("los"), s(),
+      t("el"), s(),
+      t("du"), t("ro"), s(),
+      t("ca"), t("pa"), t("ra"), t("zon", "zón"), s(), // Error 5: carapazon -> carapazón (falta tilde aguda)
+      t("de"), s(),
+      t("su"), s(),
+      t("ez", "es"), t("pal"), t("da"), t(".") // Error 6: ezpalda -> espalda (z -> s)
+    ]
+  },
+  {
+    difficultyLevel: 5,
+    description: "Cantar de mio Cid",
+    totalErrors: 6,
+    timeLimit: 90,
+    originalText: "De los sus ojos tan fuertemente llorando, tornaba la cabeza y estábalos catando.",
+    bookTitle: "Cantar de mio Cid",
+    bookAuthor: "Anónimo",
+    tokens: [
+      t("De"), s(), t("los"), s(), t("sus"), s(), 
       t("o"), t("jos"), s(),
-      t("y"), s(),
-      t("re"), t("í"), t("a"), t("."), s(),
-      t("Me"), s(),
-      t("i"), t("cé"), s(),
-      t("a"), s(),
-      t("su"), s(),
-      t("la"), t("do"), s(),
-      t("so"), t("bre"), s(),
+      t("tam", "tan"), s(), // Error 1: tam -> tan (m -> n final)
+      t("fuer"), t("ti", "te"), t("men"), t("te"), s(), // Error 2: fuertimente -> fuertemente (i -> e)
+      t("yo", "llo"), t("ran"), t("do"), t(","), s(), // Error 3: yorando -> llorando (y -> ll)
+      t("tor"), t("na"), t("va", "ba"), s(), // Error 4: tornava -> tornaba (v -> b)
       t("la"), s(),
-      t("bal"), t("sa"), t("."), s(),
-      t("El"), s(),
+      t("ca"), t("ve", "be"), t("za"), s(), // Error 5: caveza -> cabeza (v -> b)
+      t("y"), s(),
+      t("es"), t("ta", "tá"), t("ba"), t("los"), s(), // Error 6: estabalos -> estábalos (falta tilde esdrújula)
+      t("ca"), t("tan"), t("do"), t(".")
+    ]
+  },
+  {
+    difficultyLevel: 5,
+    description: "En busca del tiempo perdido (Frag.)",
+    totalErrors: 6,
+    timeLimit: 110,
+    originalText: "A veces, apenas había apagado la bujía, cerrábanse mis ojos tan presto, que ni tiempo tenía para decirme: 'Ya me duermo'. Y media hora después despertábame la idea de que ya era hora de ir a buscar el sueño.",
+    bookTitle: "En busca del tiempo perdido",
+    bookAuthor: "Marcel Proust",
+    tokens: [
+      t("A"), s(), t("ve"), t("ces"), t(","), s(),
+      t("ha", "a"), t("pe"), t("nas"), s(), // Error 1: hapenas -> apenas (h innecesaria)
+      t("ha"), t("bía"), s(),
+      t("a"), t("pa"), t("ga"), t("do"), s(),
+      t("la"), s(),
+      t("bu"), t("jia", "jía"), t(","), s(), // Error 2: bujia -> bujía (falta tilde)
+      t("se", "ce"), t("rrá"), t("ban"), t("se"), s(), // Error 3: serrábanse -> cerrábanse (s -> c)
+      t("mis"), s(),
+      t("ho", "o"), t("jos"), s(), // Error 4: hojos -> ojos (h innecesaria)
+      t("tan"), s(),
+      t("pres"), t("to"), t(","), s(),
+      t("que"), s(),
+      t("ni"), s(),
       t("tiem"), t("po"), s(),
-      t("es"), t("ta"), t("va", "ba"), s(), // Error 2: estava -> estaba
-      t("es"), t("plen", "plén"), t("di"), t("do"), s(), // Error 3: esplendido -> espléndido
-      t("y"), t(","), s(),
-      t("co"), t("mo"), s(),
-      t("bro"), t("me"), t("an"), t("do"), t(","), s(),
-      t("de"), t("je", "jé"), s(), // Error 4: deje -> dejé
-      t("ir"), s(),
+      t("te"), t("nía"), s(),
+      t("pa"), t("ra"), s(),
+      t("de"), t("cir"), t("me"), t(":"), s(),
+      t("'"), t("Ya"), s(), t("me"), s(), t("duer"), t("mo"), t("'"), t("."), s(),
+      t("Y"), s(),
+      t("me"), t("dia"), s(),
+      t("ho"), t("ra"), s(),
+      t("des"), t("pués"), s(),
+      t("dez", "des"), t("per"), t("tá"), t("ba"), t("me"), s(), // Error 5: dezpertabame -> despertábame (z -> s)
       t("la"), s(),
-      t("ca"), t("be"), t("za"), s(),
-      t("ha"), t("zia", "cia"), s(), // Error 5: hazia -> hacia
-      t("a"), t("trás"), s(),
-      t("y"), s(),
-      t("la"), s(),
-      t("po"), t("sé"), s(),
-      t("so"), t("bre"), s(),
-      t("su"), s(),
-      t("vien"), t("tre"), s(),
+      t("y", "i"), t("dea"), s(), // Error 6: ydea -> idea (y -> i)
       t("de"), s(),
-      t("Ma"), t("rí"), t("a"), t("."), s(),
-      t("No"), s(),
-      t("di"), t("jo"), s(),
+      t("que"), s(),
+      t("ya"), s(),
+      t("e"), t("ra"), s(),
+      t("ho"), t("ra"), s(),
+      t("de"), s(),
+      t("ir"), s(),
+      t("a"), s(),
+      t("bus"), t("car"), s(),
+      t("el"), s(),
+      t("sue"), t("ño"), t(".")
+    ]
+  },
+  {
+    difficultyLevel: 5,
+    description: "El proceso (Frag.)",
+    totalErrors: 6,
+    timeLimit: 110,
+    originalText: "Alguien debía de haber calumniado a Josef K., porque sin haber hecho nada malo fue detenido una mañana. La cocinera de su patrona, la señora Grubach, no apareció en aquella ocasión.",
+    bookTitle: "El proceso",
+    bookAuthor: "Franz Kafka",
+    tokens: [
+      t("Al"), t("guien"), s(),
+      t("de"), t("bi", "bí"), t("a"), s(), // Error 1: debia -> debía (falta tilde hiato)
+      t("de"), s(),
+      t("a", "ha"), t("ber"), s(), // Error 2: aber -> haber (falta h)
+      t("ca"), t("lum"), t("nia"), t("do"), s(),
+      t("a"), s(),
+      t("Jo"), t("sef"), s(),
+      t("K"), t("."), t(","), s(),
+      t("por"), t("que"), s(),
+      t("sin"), s(),
+      t("ha"), t("ber"), s(),
+      t("he"), t("cho"), s(),
       t("na"), t("da"), s(),
+      t("ma"), t("lo"), s(),
+      t("fue"), s(),
+      t("de"), t("te"), t("ni"), t("do"), s(),
+      t("u"), t("na"), s(),
+      t("ma", "ma"), t("na", "ña"), t("na", "na"), t("."), s(), // Error 3: manana -> mañana (n -> ñ duplicada)
+      t("La"), s(),
+      t("co"), t("ci"), t("ne"), t("ra"), s(),
+      t("de"), s(),
+      t("su"), s(),
+      t("pa"), t("tro"), t("na"), t(","), s(),
+      t("la"), s(),
+      t("se"), t("ño"), t("ra"), s(),
+      t("Gru"), t("baj", "bach"), t(","), s(), // Error 4: Grubaj -> Grubach (j -> ch)
+      t("no"), s(),
+      t("a"), t("pa"), t("re"), t("ció"), s(),
+      t("en"), s(),
+      t("a"), t("que"), t("lla"), s(),
+      t("o", "o"), t("ca", "ca"), t("sion", "sión"), t("."), // Error 6: ocasion -> ocasión (falta tilde aguda)
+    ]
+  },
+  {
+    difficultyLevel: 5,
+    description: "Moby Dick (Frag.)",
+    totalErrors: 6,
+    timeLimit: 110,
+    originalText: "Llamadme Ismael. Hace algunos años —no importa cuántos exactamente—, teniendo poco o ningún dinero en el bolsillo y nada en particular que me interesara en tierra, pensé en navegar un poco por ahí.",
+    bookTitle: "Moby Dick",
+    bookAuthor: "Herman Melville",
+    tokens: [
+      t("Lla"), t("mad"), t("me"), s(),
+      t("Iz", "Is"), t("mael"), t("."), s(), // Error 1: Izmael -> Ismael (z -> s)
+      t("Ha"), t("ce"), s(),
+      t("al"), t("gu"), t("nos"), s(),
+      t("a"), t("ños"), s(),
+      t("—"), s(),
+      t("no"), s(),
+      t("im"), t("por"), t("ta"), s(),
+      t("cuán"), t("tos"), s(),
+      t("es", "ex"), t("sac", "ac"), t("ta"), t("men"), t("te"), t("—"), t(","), s(), // Error 2: esactamente -> exactamente (s -> x)
+      t("te"), t("nien"), t("do"), s(),
+      t("po"), t("co"), s(),
+      t("o"), s(),
+      t("nin"), t("gún"), s(),
+      t("di"), t("ne"), t("ro"), s(),
+      t("en"), s(),
+      t("el"), s(),
+      t("bol"), t("si", "si"), t("yo", "llo"), s(), // Error 3: bolsiyo -> bolsillo (y -> ll)
       t("y"), s(),
-      t("que"), t("dé"), s(),
-      t("a"), t("sí"), t(".")
+      t("na"), t("da"), s(),
+      t("en"), s(),
+      t("par"), t("ti"), t("cu"), t("lar"), s(),
+      t("que"), s(),
+      t("me"), s(),
+      t("in"), t("te"), t("re", "re"), t("za", "sa"), t("ra", "ra"), s(), // Error 4: interezara -> interesara (z -> s)
+      t("en"), s(),
+      t("tie"), t("rra"), t(","), s(),
+      t("pen"), t("sé"), s(),
+      t("en"), s(),
+      t("na"), t("be", "ve"), t("gar"), s(), // Error 5: nabegar -> navegar (b -> v)
+      t("un"), s(),
+      t("po"), t("co"), s(),
+      t("por"), s(),
+      t("a"), t("hí"), t(".") // 6
+    ]
+  },
+  {
+    difficultyLevel: 5,
+    description: "Cumbres Borrascosas (Frag.)",
+    totalErrors: 6,
+    timeLimit: 110,
+    originalText: "Acabo de regresar de una visita a mi casero, el solitario vecino con el que habré de verme fastidiado. ¡Este es ciertamente un hermoso país! No creo que en toda Inglaterra hubiera podido encontrar un lugar tan apartado.",
+    bookTitle: "Cumbres Borrascosas",
+    bookAuthor: "Emily Brontë",
+    tokens: [
+      t("A"), t("ca"), t("bo"), s(),
+      t("de"), s(),
+      t("re"), t("gre"), t("sar"), s(),
+      t("de"), s(),
+      t("u"), t("na"), s(),
+      t("vi"), t("si"), t("ta"), s(),
+      t("a"), s(),
+      t("mi"), s(),
+      t("ca"), t("ze", "se"), t("ro"), t(","), s(), // Error 1: cazero -> casero (z -> s)
+      t("el"), s(),
+      t("so"), t("li"), t("ta"), t("rio"), s(),
+      t("ve"), t("ci"), t("no"), s(),
+      t("con"), s(),
+      t("el"), s(),
+      t("que"), s(),
+      t("a", "ha"), t("bré"), s(), // Error 2: abré -> habré (falta h)
+      t("de"), s(),
+      t("ver"), t("me"), s(),
+      t("fas"), t("ti"), t("bia", "dia"), t("do"), t("."), s(), // Error 3: fastibiado -> fastidiado (b -> d)
+      t("¡"), t("Es"), t("te"), s(),
+      t("es"), s(),
+      t("cier"), t("ta"), t("men"), t("te"), s(),
+      t("un"), s(),
+      t("her"), t("mo"), t("so"), s(),
+      t("pais", "país"), t("!"), s(), // Error 4: pais -> país (falta tilde hiato)
+      t("No"), s(),
+      t("cre"), t("o"), s(),
+      t("que"), s(),
+      t("en"), s(),
+      t("to"), t("da"), s(),
+      t("In"), t("gla"), t("te"), t("rra"), s(),
+      t("hu", "hu"), t("vie", "bie"), t("ra"), s(), // Error 5: huviera -> hubiera (v -> b)
+      t("po"), t("di"), t("do"), s(),
+      t("en"), t("con"), t("trar"), s(),
+      t("un"), s(),
+      t("lu"), t("gar"), s(),
+      t("tan"), s(),
+      t("a"), t("par"), t("tá", "ta"), t("do"), t(".") // Error 6: apartádo -> apartado (tilde sobrante)
     ]
   }
 ];

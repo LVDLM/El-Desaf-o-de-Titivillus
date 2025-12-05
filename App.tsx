@@ -12,7 +12,7 @@ const App: React.FC = () => {
   const [currentLevelData, setCurrentLevelData] = useState<LevelData | null>(null);
   const [stats, setStats] = useState<PlayerStats>({
     score: 0,
-    level: 1,
+    level: 0, // Start at 0 for tutorial logic consistency
     errorsCaught: 0,
     mistakesMade: 0
   });
@@ -35,13 +35,14 @@ const App: React.FC = () => {
 
   const handleStartGame = () => {
     // Reset stats for new game
+    // Start at Level 0 (Tutorial)
     setStats({
       score: 0,
-      level: 1,
+      level: 0,
       errorsCaught: 0,
       mistakesMade: 0
     });
-    loadLevel(1);
+    loadLevel(0);
   };
 
   const handleLevelComplete = (levelScore: number) => {
@@ -61,8 +62,10 @@ const App: React.FC = () => {
   };
 
   const handleNextLevel = () => {
-    setStats(prev => ({ ...prev, level: prev.level + 1 }));
-    loadLevel(stats.level + 1);
+    // Increment level
+    const nextLevel = stats.level + 1;
+    setStats(prev => ({ ...prev, level: nextLevel }));
+    loadLevel(nextLevel);
   };
 
   const handleRetry = () => {

@@ -23,7 +23,8 @@ export const getStaticLevel = async (levelNumber: number): Promise<LevelData> =>
   if (levelNumber === 0) {
     // Return a fresh copy of the tutorial
     const level = JSON.parse(JSON.stringify(TUTORIAL_LEVEL));
-    level.totalErrors = level.tokens.filter((t: any) => t.isError).length;
+    // NOTE: We do NOT recalculate totalErrors for tutorial because we want it to be 4 
+    // (3 real errors + 1 lesson about penalties), even though there are only 3 error tokens.
     return level;
   }
   

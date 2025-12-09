@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { Scroll, Feather, Trophy, PenTool, Edit3, Zap, Book } from 'lucide-react';
+import { Scroll, Feather, Trophy, PenTool, Edit3, Zap, HelpCircle } from 'lucide-react';
 import { isSupabaseConfigured } from '../services/supabaseClient';
 
 interface StartScreenProps {
   onStart: () => void;
+  onTutorial: () => void;
   onOpenLeaderboard: () => void;
   rewardUnlocked: boolean;
   gameMode: 'corrector' | 'scribe';
@@ -23,6 +24,7 @@ const KONAMI_CODE = [
 
 const StartScreen: React.FC<StartScreenProps> = ({ 
   onStart, 
+  onTutorial,
   onOpenLeaderboard, 
   rewardUnlocked, 
   gameMode, 
@@ -132,26 +134,37 @@ const StartScreen: React.FC<StartScreenProps> = ({
             </div>
           )}
 
-          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-            <button
-              onClick={handleStartClick}
-              className={`group relative inline-flex items-center justify-center px-8 py-4 font-display font-bold text-white transition-all duration-200 font-lg rounded-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-parchment-900 shadow-lg hover:-translate-y-1 ${gameMode === 'scribe' ? 'bg-parchment-900 hover:bg-black' : 'bg-parchment-800 hover:bg-parchment-900'}`}
-            >
-              <span className="absolute inset-0 w-full h-full -mt-1 rounded-lg opacity-30 bg-gradient-to-b from-transparent via-transparent to-black"></span>
-              <span className="relative flex items-center gap-2 text-xl">
-                {gameMode === 'scribe' ? <PenTool className="w-6 h-6" /> : <Scroll className="w-6 h-6" />} 
-                {gameMode === 'scribe' ? 'Comenzar Transcripción' : 'Tomar la Pluma'}
-              </span>
-            </button>
+          <div className="flex flex-col gap-4 items-center">
+            
+            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center w-full">
+              <button
+                onClick={handleStartClick}
+                className={`group relative inline-flex items-center justify-center px-8 py-4 font-display font-bold text-white transition-all duration-200 font-lg rounded-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-parchment-900 shadow-lg hover:-translate-y-1 ${gameMode === 'scribe' ? 'bg-parchment-900 hover:bg-black' : 'bg-parchment-800 hover:bg-parchment-900'}`}
+              >
+                <span className="absolute inset-0 w-full h-full -mt-1 rounded-lg opacity-30 bg-gradient-to-b from-transparent via-transparent to-black"></span>
+                <span className="relative flex items-center gap-2 text-xl">
+                  {gameMode === 'scribe' ? <PenTool className="w-6 h-6" /> : <Scroll className="w-6 h-6" />} 
+                  {gameMode === 'scribe' ? 'Comenzar Transcripción' : 'Tomar la Pluma'}
+                </span>
+              </button>
+
+              <button
+                onClick={onOpenLeaderboard}
+                className="group relative inline-flex items-center justify-center px-6 py-4 font-display font-bold text-parchment-900 transition-all duration-200 bg-gold/20 border-2 border-parchment-800 font-lg rounded-sm hover:bg-gold/40 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-parchment-900"
+              >
+                <span className="relative flex items-center gap-2 text-lg">
+                  <Trophy className="w-5 h-5 text-blood" /> Ver Anales
+                </span>
+              </button>
+            </div>
 
             <button
-              onClick={onOpenLeaderboard}
-              className="group relative inline-flex items-center justify-center px-6 py-4 font-display font-bold text-parchment-900 transition-all duration-200 bg-gold/20 border-2 border-parchment-800 font-lg rounded-sm hover:bg-gold/40 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-parchment-900"
-            >
-              <span className="relative flex items-center gap-2 text-lg">
-                <Trophy className="w-5 h-5 text-blood" /> Ver Anales
-              </span>
+                onClick={onTutorial}
+                className="group relative inline-flex items-center justify-center px-4 py-2 font-serif text-sm font-bold text-parchment-900/70 transition-all duration-200 hover:text-parchment-900 hover:underline"
+              >
+                <HelpCircle className="w-4 h-4 mr-2" /> ¿Cómo jugar?
             </button>
+
           </div>
 
           {/* GOD MODE LEVEL SELECTOR */}

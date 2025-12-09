@@ -12,7 +12,7 @@ const App: React.FC = () => {
   const [currentLevelData, setCurrentLevelData] = useState<LevelData | null>(null);
   const [stats, setStats] = useState<PlayerStats>({
     score: 0,
-    level: 0, // Start at 0 for tutorial logic consistency
+    level: 0, 
     errorsCaught: 0,
     mistakesMade: 0
   });
@@ -24,13 +24,19 @@ const App: React.FC = () => {
   const [showRewardNotification, setShowRewardNotification] = useState(false);
   const [gameMode, setGameMode] = useState<'corrector' | 'scribe'>('corrector');
 
+  // Tutorial Persistence
+  const [hasPlayedTutorial, setHasPlayedTutorial] = useState(false);
+
   // God Mode State
   const [isGodMode, setIsGodMode] = useState(false);
 
-  // Load unlock status on mount
+  // Load unlock status and tutorial status on mount
   useEffect(() => {
     const unlocked = localStorage.getItem('titivillus_scribe_mode_unlocked') === 'true';
     setRewardUnlocked(unlocked);
+
+    const tutorialSeen = localStorage.getItem('titivillus_tutorial_completed') === 'true';
+    setHasPlayedTutorial(tutorialSeen);
   }, []);
 
   const loadLevel = useCallback(async (levelNum: number) => {
@@ -47,7 +53,17 @@ const App: React.FC = () => {
     }
   }, []);
 
-  const handleStartGame = (startLevel: number = 0) => {
+  const handleStartGame = (specificLevel?: number) => {
+    // Determine start level:
+    // 1. If specificLevel is provided (e.g. from debug or "How to play"), use it.
+    // 2. If not provided, check if tutorial is done. If no, Level 0. If yes, Level 1.
+    let startLevel = 1;
+    if (specificLevel !== undefined) {
+      startLevel = specificLevel;
+    } else if (!hasPlayedTutorial) {
+      startLevel = 0;
+    }
+
     setStats({
       score: 0,
       level: startLevel,
@@ -78,6 +94,12 @@ const App: React.FC = () => {
   const handleLevelComplete = (levelScore: number) => {
     if (!currentLevelData) return;
     
+    // Mark tutorial as completed if we just finished level 0
+    if (currentLevelData.isTutorial) {
+      setHasPlayedTutorial(true);
+      localStorage.setItem('titivillus_tutorial_completed', 'true');
+    }
+
     setStats(prev => ({
       ...prev,
       score: prev.score + levelScore,
@@ -153,7 +175,8 @@ const App: React.FC = () => {
 
       {gameState === GameState.MENU && (
         <StartScreen 
-          onStart={() => handleStartGame(0)} 
+          onStart={() => handleStartGame()} // Default start (smart selection)
+          onTutorial={() => handleStartGame(0)} // Force tutorial
           onOpenLeaderboard={() => setShowLeaderboard(true)}
           rewardUnlocked={rewardUnlocked}
           gameMode={gameMode}

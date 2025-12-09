@@ -29,6 +29,8 @@ const GameScreen: React.FC<GameScreenProps> = ({
   const [foundErrors, setFoundErrors] = useState(0);
   const [mistakes, setMistakes] = useState(0);
   const [lastFeedback, setLastFeedback] = useState<{ id: string, type: 'good' | 'bad' } | null>(null);
+  
+  // Tutorial States
   const [seenCorrectMsg, setSeenCorrectMsg] = useState(false);
   const [seenWrongMsg, setSeenWrongMsg] = useState(false);
 
@@ -65,18 +67,13 @@ const GameScreen: React.FC<GameScreenProps> = ({
 
   // --- CORRECTOR MODE LOGIC ---
   useEffect(() => {
-    if (gameMode === 'corrector' && foundErrors === levelData.totalErrors) {
-      if (levelData.isTutorial) {
-        let msg = "¡Muy bien! Parece que ya puedes empezar a jugar.";
-        if (!seenWrongMsg) {
-          msg += "\n\n(Recuerda: Si te equivocas y pinchas algo correcto, perderás unos valiosos segundos).";
+    // Normal game completion logic
+    if (gameMode === 'corrector' && !levelData.isTutorial) {
+        if (foundErrors === levelData.totalErrors) {
+            finishLevel();
         }
-        setTutorialMessage(msg);
-        return; 
-      }
-      finishLevel();
     }
-  }, [foundErrors, levelData.totalErrors, gameMode]);
+  }, [foundErrors, levelData.totalErrors, gameMode, levelData.isTutorial]);
 
   const finishLevel = () => {
       const timeBonus = timeLeft * 10;
@@ -98,36 +95,67 @@ const GameScreen: React.FC<GameScreenProps> = ({
     if (token.userFixed || token.revealed || token.text.trim() === '') return;
 
     if (token.isError) {
+      // HANDLE CORRECT CLICK (Found an error)
       const newTokens = [...tokens];
       newTokens[tokenIndex] = { ...token, userFixed: true };
       setTokens(newTokens);
-      setFoundErrors(prev => prev + 1);
+      const newFoundCount = foundErrors + 1;
+      setFoundErrors(newFoundCount);
       setLastFeedback({ id, type: 'good' });
 
-      if (levelData.isTutorial && !seenCorrectMsg) {
-        setSeenCorrectMsg(true);
-        setTutorialMessage("Los errores corregidos aparecerán en rojo. Mira el contador de errores para saber cuántos te faltan por descubrir.");
+      // Tutorial Logic for Correct Clicks
+      if (levelData.isTutorial) {
+        if (newFoundCount === 1) {
+             setTutorialMessage("Los errores corregidos aparecerán en rojo. Mira el contador de errores para saber cuántos te faltan por descubrir.");
+        } else if (newFoundCount === 2) {
+             setTutorialMessage("¡Excelente! Has encontrado otro error. Sigue comparando ambos textos.");
+        } else if (newFoundCount === 3) {
+             setTutorialMessage("¡Ya casi está! Pero observa que el contador de errores indica que faltan más de los que ves...");
+        } else if (newFoundCount === 4) {
+             // 4th Real error found.
+             if (seenWrongMsg) {
+                 // Already learned penalty. Finish.
+                 setTutorialMessage("¡Muy bien! Parece que ya puedes empezar a jugar.");
+             } else {
+                 // Has not learned penalty yet.
+                 // Do not finish. Do not show message (let them be confused by the '1 remaining' in counter).
+                 // User will eventually click something wrong.
+             }
+        }
       }
+
     } else {
+      // HANDLE WRONG CLICK (Mistake)
       setMistakes(prev => prev + 1);
+      
+      // Only deduct time if NOT tutorial, or if we want to show the effect. 
+      // Tutorial usually has high time limit so it's fine.
       setTimeLeft(prev => Math.max(0, prev - 5)); 
+      
       setLastFeedback({ id, type: 'bad' });
       setTimeout(() => setLastFeedback(null), 500);
 
+      // Tutorial Logic for Mistakes
       if (levelData.isTutorial && !seenWrongMsg) {
         setSeenWrongMsg(true);
-        setTutorialMessage("Si te equivocas y pinchas algo correcto, perderás unos valiosos segundos.");
+        setTutorialMessage("Si pulsas sobre algo correcto, Titivillus te castigará restando tiempo. ¡Cuidado!");
       }
     }
   };
 
   const handleTutorialClose = () => {
+    // If closing the modal...
     setTutorialMessage(null);
-    if (levelData.isTutorial) {
-        if (gameMode === 'corrector' && foundErrors === levelData.totalErrors) {
-             onComplete(0);
+
+    if (levelData.isTutorial && gameMode === 'corrector') {
+        const realErrorsTotal = 4; // Tutorial has 4 real errors
+        // Check conditions to finish level: Must find all real errors AND learn the penalty
+        const hasFoundAllRealErrors = foundErrors >= realErrorsTotal;
+        const hasLearnedPenalty = seenWrongMsg;
+
+        if (hasFoundAllRealErrors && hasLearnedPenalty) {
+             finishLevel();
         }
-        // Scribe mode tutorial completion logic is handled in submit
     }
   };
 
@@ -140,9 +168,6 @@ const GameScreen: React.FC<GameScreenProps> = ({
         setIsScribeSubmitted(true);
         if (levelData.isTutorial) {
             setTutorialMessage("¡Perfecto! Has copiado el texto sin mácula. Estás listo para ser un Escriba Maestro.");
-            // on close will trigger onComplete via the check above? No, need specific handling.
-            // Actually, handleTutorialClose handles it if foundErrors match. But foundErrors is for corrector.
-            // Let's modify handleTutorialClose or just call onComplete here after a delay.
              setTimeout(() => onComplete(0), 2000); 
              return;
         }
@@ -162,9 +187,6 @@ const GameScreen: React.FC<GameScreenProps> = ({
         }
         
         setScribeErrorCount(errors);
-        
-        // Scribe penalty? Maybe just time keeps running.
-        // Let's deduct some time for a failed submission to prevent spamming
         setTimeLeft(prev => Math.max(0, prev - 10));
     }
   };
@@ -175,6 +197,12 @@ const GameScreen: React.FC<GameScreenProps> = ({
       setScribeText(levelData.originalText);
     }
   };
+
+  // Calculate remaining steps for Tutorial HUD
+  // If tutorial: Total (5) - FoundErrors (0-4) - (seenWrongMsg ? 1 : 0)
+  const remainingErrorsDisplay = levelData.isTutorial 
+    ? Math.max(0, levelData.totalErrors - foundErrors - (seenWrongMsg ? 1 : 0))
+    : levelData.totalErrors - foundErrors;
 
   return (
     <div className="flex flex-col items-center min-h-screen p-2 md:p-4 pt-4 md:pt-8 text-parchment-900 font-serif relative">
@@ -193,7 +221,7 @@ const GameScreen: React.FC<GameScreenProps> = ({
           {gameMode === 'corrector' ? (
               <div className="flex items-center gap-1 text-gold">
                 <AlertOctagon size={18} />
-                <span>{levelData.totalErrors - foundErrors} Restantes</span>
+                <span>{remainingErrorsDisplay} Restantes</span>
               </div>
           ) : (
              <div className="flex items-center gap-1 text-parchment-200 opacity-80">

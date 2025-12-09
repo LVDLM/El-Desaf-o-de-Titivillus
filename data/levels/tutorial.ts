@@ -5,18 +5,22 @@ export const TUTORIAL_LEVEL: LevelData = {
   difficultyLevel: 0,
   isTutorial: true,
   description: "Entrenamiento de Escriba",
-  totalErrors: 2,
-  timeLimit: 60, 
+  totalErrors: 5, // 4 Real errors + 1 "Penalty Lesson" = 5 Steps to complete
+  timeLimit: 120,
   originalText: "En casa del herrero, cuchillo de palo.",
   bookTitle: "Refranero Popular",
   bookAuthor: "Tradición Oral",
   tokens: [
     t("En"), s(),
-    t("ca"), t("za", "sa"), s(), // Error 1: caza -> decidera ( )
+    // Error 1: caza -> casa
+    t("ca"), t("za", "sa"), s(), 
     t("del"), s(),
-    t("e", "he"), t("rre"), t("ro"), t(","), s(), // Error 1: errero -> herrero (falta h)
-    t("cu"), t("chi", "chi"), t("yo", "llo"), s(), // Error 2: cuchiyo -> cuchillo (y -> ll)
+    // Error 2: errero -> herrero
+    t("e", "he"), t("rre"), t("ro"), t(","), s(), 
+    // Error 3: cuchiyo -> cuchillo
+    t("cu"), t("chi"), t("yo", "llo"), s(), 
     t("de"), s(),
+    // Error 4: , -> . (Ending punctuation)
     t("pa"), t("lo"), t(",", ".")
   ]
 };

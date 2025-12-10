@@ -1,17 +1,25 @@
 import React, { useState, useEffect } from 'react';
-import { RotateCcw, Award, Save, Check, Home } from 'lucide-react';
+import { RotateCcw, Award, Save, Check, Home, Zap } from 'lucide-react';
 import { PlayerStats } from '../types';
 import { submitScore } from '../services/supabaseClient';
 
 interface GameOverScreenProps {
   success: boolean;
+  isGrandVictory?: boolean;
   stats: PlayerStats;
   onNextLevel: () => void;
   onRetry: () => void;
   onMainMenu: () => void;
 }
 
-const GameOverScreen: React.FC<GameOverScreenProps> = ({ success, stats, onNextLevel, onRetry, onMainMenu }) => {
+const GameOverScreen: React.FC<GameOverScreenProps> = ({ 
+  success, 
+  isGrandVictory = false, 
+  stats, 
+  onNextLevel, 
+  onRetry, 
+  onMainMenu 
+}) => {
   const [username, setUsername] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -22,13 +30,18 @@ const GameOverScreen: React.FC<GameOverScreenProps> = ({ success, stats, onNextL
       const audio = new Audio("https://cdn.pixabay.com/download/audio/2022/03/15/audio_6b3f80310f.mp3?filename=evil-laugh-89423.mp3");
       audio.volume = 0.5;
       audio.play().catch(e => console.warn("Audio play blocked", e));
+    } else if (isGrandVictory) {
+      // Divine sound for grand victory
+      const audio = new Audio("https://cdn.pixabay.com/download/audio/2020/09/23/audio_7e52467d1d.mp3?filename=angelical-chorus-10651.mp3");
+      audio.volume = 0.7;
+      audio.play().catch(e => console.warn("Audio play blocked", e));
     } else {
-      // Play turn page sound on success
+      // Play turn page sound on normal success
       const audio = new Audio("https://cdn.pixabay.com/download/audio/2025/05/05/audio_ca4220361e.mp3?filename=turn-a-page-336933.mp3");
       audio.volume = 0.6;
       audio.play().catch(e => console.warn("Audio play blocked", e));
     }
-  }, [success]);
+  }, [success, isGrandVictory]);
 
   const handleSubmitScore = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -44,9 +57,25 @@ const GameOverScreen: React.FC<GameOverScreenProps> = ({ success, stats, onNextL
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen p-4 text-parchment-900 font-serif">
-      <div className="max-w-xl w-full bg-parchment-200 border-4 border-parchment-800 rounded shadow-2xl p-8 text-center animate-ink-blot">
+      <div className="max-w-xl w-full bg-parchment-200 border-4 border-parchment-800 rounded shadow-2xl p-8 text-center animate-ink-blot relative overflow-hidden">
         
-        {success ? (
+        {isGrandVictory && (
+           <div className="absolute top-0 left-0 w-full bg-gold/30 h-2"></div>
+        )}
+
+        {isGrandVictory ? (
+          <>
+            <div className="flex justify-center mb-4">
+               <Zap className="w-16 h-16 text-purple-800 animate-pulse" />
+            </div>
+            <h2 className="text-4xl md:text-5xl font-display font-bold text-purple-900 mb-2">¡Victoria Absoluta!</h2>
+            <p className="text-xl mb-6 font-bold">Has corregido todos los textos existentes.</p>
+            <p className="text-md mb-6 bg-purple-100 p-3 rounded border border-purple-300 text-purple-900">
+              Titivillus ha sido derrotado por completo. <br/>
+              <strong>Recompensa:</strong> Tu próxima partida iniciará en <span className="font-bold uppercase">God Mode</span>.
+            </p>
+          </>
+        ) : success ? (
           <>
             <h2 className="text-5xl font-display font-bold text-green-800 mb-2">¡Laus Deo!</h2>
             <p className="text-xl mb-6">Has purgado el texto de la influencia de Titivillus.</p>
@@ -78,7 +107,7 @@ const GameOverScreen: React.FC<GameOverScreenProps> = ({ success, stats, onNextL
         </div>
 
         {/* Score Submission Form */}
-        {!success && stats.score > 0 && !isSubmitted && (
+        {(!success || isGrandVictory) && stats.score > 0 && !isSubmitted && (
           <form onSubmit={handleSubmitScore} className="mb-8 bg-parchment-300/50 p-4 rounded border border-parchment-800/30">
             <h3 className="font-display font-bold text-lg mb-3 uppercase tracking-widest">Inmortaliza tu Nombre</h3>
             <div className="flex gap-2">
@@ -111,7 +140,14 @@ const GameOverScreen: React.FC<GameOverScreenProps> = ({ success, stats, onNextL
 
         <div className="flex flex-col items-center gap-4">
           <div className="flex gap-4 justify-center w-full">
-            {success ? (
+            {isGrandVictory ? (
+              <button
+                onClick={onMainMenu}
+                className="bg-purple-800 text-white px-6 py-3 rounded font-display font-bold text-lg hover:bg-purple-900 transition-colors flex items-center gap-2 shadow-lg transform hover:-translate-y-1"
+              >
+                 <Home size={20} /> Finalizar Viaje
+              </button>
+            ) : success ? (
               <button
                 onClick={onNextLevel}
                 className="bg-parchment-800 text-parchment-100 px-6 py-3 rounded font-display font-bold text-lg hover:bg-parchment-900 transition-colors flex items-center gap-2 shadow-lg transform hover:-translate-y-1"
@@ -128,12 +164,14 @@ const GameOverScreen: React.FC<GameOverScreenProps> = ({ success, stats, onNextL
             )}
           </div>
 
-          <button
-            onClick={onMainMenu}
-            className="text-parchment-900/60 hover:text-parchment-900 font-serif text-sm flex items-center gap-2 transition-colors hover:underline"
-          >
-            <Home size={16} /> Volver al Menú Principal
-          </button>
+          {!isGrandVictory && (
+            <button
+                onClick={onMainMenu}
+                className="text-parchment-900/60 hover:text-parchment-900 font-serif text-sm flex items-center gap-2 transition-colors hover:underline"
+            >
+                <Home size={16} /> Volver al Menú Principal
+            </button>
+          )}
         </div>
 
       </div>

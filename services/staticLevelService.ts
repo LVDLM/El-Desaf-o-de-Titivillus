@@ -15,38 +15,54 @@ const DIFFICULTY_POOLS: { [key: number]: LevelData[] } = {
   5: LEVEL_5_POOL
 };
 
-export const getStaticLevel = async (levelNumber: number): Promise<LevelData> => {
+// Returns null if no levels are available (Game Completed)
+export const getStaticLevel = async (levelNumber: number, playedTexts: string[] = []): Promise<LevelData | null> => {
   // Simulate network delay strictly for effect (300ms)
   await new Promise(resolve => setTimeout(resolve, 300));
 
   // Special case for Tutorial
   if (levelNumber === 0) {
-    // Return a fresh copy of the tutorial
     const level = JSON.parse(JSON.stringify(TUTORIAL_LEVEL));
-    // NOTE: We do NOT recalculate totalErrors for tutorial because we want it to be 4 
-    // (3 real errors + 1 lesson about penalties), even though there are only 3 error tokens.
     return level;
   }
   
-  // Determine difficulty based on level number.
-  // Level 1 -> Difficulty 1
-  // Level 2 -> Difficulty 2
-  // Level 3 -> Difficulty 3
-  // Level 4 -> Difficulty 4
-  // Level 5+ -> Difficulty 5
+  // Calculate difficulty. If levelNumber exceeds normal bounds, it stays at 5.
   const difficulty = Math.min(levelNumber, 5);
-
-  const pool = DIFFICULTY_POOLS[difficulty] || LEVEL_5_POOL;
   
-  // Select a random level from the pool
-  const randomIndex = Math.floor(Math.random() * pool.length);
-  const selectedTemplate = pool[randomIndex];
+  // Find a valid pool
+  let currentDiff = difficulty;
+  let selectedTemplate: LevelData | null = null;
+
+  // Try to find a text in the current difficulty or higher if current is exhausted
+  while (currentDiff <= 5 && !selectedTemplate) {
+    const pool = DIFFICULTY_POOLS[currentDiff] || LEVEL_5_POOL;
+    
+    // Filter out texts that have already been played in this session
+    const availableLevels = pool.filter(l => !playedTexts.includes(l.originalText));
+
+    if (availableLevels.length > 0) {
+      // Pick a random one from the available unique texts
+      const randomIndex = Math.floor(Math.random() * availableLevels.length);
+      selectedTemplate = availableLevels[randomIndex];
+    } else {
+      // If this difficulty tier is exhausted, try the next one
+      currentDiff++;
+    }
+  }
+
+  // If we ran out of texts even in difficulty 5
+  if (!selectedTemplate) {
+    return null;
+  }
 
   // Deep copy to avoid mutating the static definition between replays
   const level = JSON.parse(JSON.stringify(selectedTemplate));
   
   // Recalculate total errors dynamically to ensure accuracy matches the tokens provided
   level.totalErrors = level.tokens.filter((t: any) => t.isError).length;
+
+  // If we bumped difficulty due to exhaustion, ensure the returned level object reflects the actual difficulty of the text
+  level.difficultyLevel = currentDiff;
 
   return level;
 };

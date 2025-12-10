@@ -30,22 +30,42 @@ const App: React.FC = () => {
   // God Mode State
   const [isGodMode, setIsGodMode] = useState(false);
 
-  // Load unlock status and tutorial status on mount
+  // History tracking to avoid repeats
+  const [playedTexts, setPlayedTexts] = useState<string[]>([]);
+
+  // Load unlock status, tutorial status, and God Mode reward on mount
   useEffect(() => {
     const unlocked = localStorage.getItem('titivillus_scribe_mode_unlocked') === 'true';
     setRewardUnlocked(unlocked);
 
     const tutorialSeen = localStorage.getItem('titivillus_tutorial_completed') === 'true';
     setHasPlayedTutorial(tutorialSeen);
+
+    // Check for God Mode Reward from previous victory
+    const godModeReward = localStorage.getItem('titivillus_god_mode_reward') === 'true';
+    if (godModeReward) {
+      setIsGodMode(true);
+      // Optional: Clear it so it's not permanent? Or keep it? 
+      // The prompt says "Start the next game with God mode". 
+      // We will keep it enabled for this session.
+    }
   }, []);
 
-  const loadLevel = useCallback(async (levelNum: number) => {
+  const loadLevel = useCallback(async (levelNum: number, currentHistory: string[]) => {
     setGameState(GameState.LOADING);
     setErrorMsg(null);
     try {
-      const data = await getStaticLevel(levelNum);
-      setCurrentLevelData(data);
-      setGameState(GameState.PLAYING);
+      const data = await getStaticLevel(levelNum, currentHistory);
+      
+      if (data) {
+        setCurrentLevelData(data);
+        setGameState(GameState.PLAYING);
+      } else {
+        // No more levels available! Victory!
+        setGameState(GameState.VICTORY);
+        // Grant God Mode reward for next time
+        localStorage.setItem('titivillus_god_mode_reward', 'true');
+      }
     } catch (err: any) {
       console.error("Failed to generate level", err);
       setErrorMsg("Error al cargar el manuscrito.");
@@ -54,9 +74,11 @@ const App: React.FC = () => {
   }, []);
 
   const handleStartGame = (specificLevel?: number) => {
+    // Reset history for a new game session
+    const newHistory: string[] = [];
+    setPlayedTexts(newHistory);
+
     // Determine start level:
-    // 1. If specificLevel is provided (e.g. from debug or "How to play"), use it.
-    // 2. If not provided, check if tutorial is done. If no, Level 0. If yes, Level 1.
     let startLevel = 1;
     if (specificLevel !== undefined) {
       startLevel = specificLevel;
@@ -70,7 +92,8 @@ const App: React.FC = () => {
       errorsCaught: 0,
       mistakesMade: 0
     });
-    loadLevel(startLevel);
+    
+    loadLevel(startLevel, newHistory);
   };
 
   const handleEnableGodMode = () => {
@@ -100,6 +123,10 @@ const App: React.FC = () => {
       localStorage.setItem('titivillus_tutorial_completed', 'true');
     }
 
+    // Add current text to history to prevent repeats
+    const updatedHistory = [...playedTexts, currentLevelData.originalText];
+    setPlayedTexts(updatedHistory);
+
     setStats(prev => ({
       ...prev,
       score: prev.score + levelScore,
@@ -126,11 +153,18 @@ const App: React.FC = () => {
     // Increment level
     const nextLevel = stats.level + 1;
     setStats(prev => ({ ...prev, level: nextLevel }));
-    loadLevel(nextLevel);
+    loadLevel(nextLevel, playedTexts);
   };
 
   const handleRetry = () => {
-    loadLevel(stats.level);
+    // On retry, we keep the history so we don't immediately get a repeat of a previous level,
+    // but we might get the *same* level again if we just failed it. 
+    // However, getStaticLevel filters based on history.
+    // If we want to retry the SAME level, we should not have added it to history yet.
+    // (We only add to history in handleLevelComplete, so retry will likely give the same level or another from the pool)
+    // Actually, getStaticLevel picks random. To retry exact level, we'd need to store it.
+    // Standard behavior: Retry usually generates a new level or same difficulty. 
+    loadLevel(stats.level, playedTexts);
   };
 
   const handleMainMenu = () => {
@@ -236,6 +270,17 @@ const App: React.FC = () => {
           stats={stats}
           onNextLevel={handleNextLevel} 
           onRetry={handleRetry}
+          onMainMenu={handleMainMenu}
+        />
+      )}
+
+      {(gameState === GameState.VICTORY) && (
+        <GameOverScreen 
+          success={true}
+          isGrandVictory={true}
+          stats={stats}
+          onNextLevel={handleMainMenu} // Ends game
+          onRetry={handleStartGame}
           onMainMenu={handleMainMenu}
         />
       )}

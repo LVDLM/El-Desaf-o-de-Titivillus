@@ -4,6 +4,7 @@ export enum GameState {
   PLAYING = 'PLAYING',
   LEVEL_COMPLETE = 'LEVEL_COMPLETE',
   GAME_OVER = 'GAME_OVER',
+  VICTORY = 'VICTORY', // New state for beating the game (all texts played)
   ERROR = 'ERROR'
 }
 

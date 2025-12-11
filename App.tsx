@@ -45,9 +45,8 @@ const App: React.FC = () => {
     const godModeReward = localStorage.getItem('titivillus_god_mode_reward') === 'true';
     if (godModeReward) {
       setIsGodMode(true);
-      // Optional: Clear it so it's not permanent? Or keep it? 
-      // The prompt says "Start the next game with God mode". 
-      // We will keep it enabled for this session.
+      // Consume the reward so it's a one-time bonus for the next game only
+      localStorage.removeItem('titivillus_god_mode_reward');
     }
   }, []);
 
@@ -63,7 +62,7 @@ const App: React.FC = () => {
       } else {
         // No more levels available! Victory!
         setGameState(GameState.VICTORY);
-        // Grant God Mode reward for next time
+        // Grant God Mode reward for the NEXT game
         localStorage.setItem('titivillus_god_mode_reward', 'true');
       }
     } catch (err: any) {
@@ -75,6 +74,8 @@ const App: React.FC = () => {
 
   const handleStartGame = (specificLevel?: number) => {
     // Reset history for a new game session
+    // NOTE: If you want to prevent repeats across sessions, you'd load this from LS.
+    // For now, we clear it per session as requested ("misma partida").
     const newHistory: string[] = [];
     setPlayedTexts(newHistory);
 
@@ -157,13 +158,9 @@ const App: React.FC = () => {
   };
 
   const handleRetry = () => {
-    // On retry, we keep the history so we don't immediately get a repeat of a previous level,
-    // but we might get the *same* level again if we just failed it. 
-    // However, getStaticLevel filters based on history.
-    // If we want to retry the SAME level, we should not have added it to history yet.
-    // (We only add to history in handleLevelComplete, so retry will likely give the same level or another from the pool)
-    // Actually, getStaticLevel picks random. To retry exact level, we'd need to store it.
-    // Standard behavior: Retry usually generates a new level or same difficulty. 
+    // Retry allows playing the same difficulty again.
+    // We do NOT clear the history here, so they won't get the exact same text again immediately
+    // unless the pool is small.
     loadLevel(stats.level, playedTexts);
   };
 
@@ -217,35 +214,20 @@ const App: React.FC = () => {
           onToggleGameMode={(mode) => setGameMode(mode)}
           onEnableGodMode={handleEnableGodMode}
           isGodMode={isGodMode}
-          onSelectLevel={handleStartGame}
+          onSelectLevel={(level) => handleStartGame(level)}
         />
       )}
 
       {gameState === GameState.LOADING && (
-        <div className="flex flex-col items-center justify-center min-h-screen text-parchment-200">
-           <Loader2 className="w-16 h-16 animate-spin text-gold mb-4" />
-           <p className="font-serif text-xl italic animate-pulse">Los escribas están preparando la tinta...</p>
-        </div>
-      )}
-
-      {gameState === GameState.ERROR && (
-        <div className="flex flex-col items-center justify-center min-h-screen text-parchment-200">
-          <div className="bg-red-900/50 p-8 rounded border border-red-500 text-center max-w-md">
-            <h2 className="text-2xl font-bold mb-4">Error Funesto</h2>
-            <p>{errorMsg}</p>
-            <button 
-              onClick={() => setGameState(GameState.MENU)}
-              className="mt-6 px-4 py-2 bg-parchment-200 text-black rounded font-bold hover:bg-white"
-            >
-              Volver al Inicio
-            </button>
-          </div>
+        <div className="flex h-screen items-center justify-center text-parchment-200">
+           <Loader2 className="animate-spin w-12 h-12" />
+           <span className="ml-4 font-serif text-xl">Preparando manuscrito...</span>
         </div>
       )}
 
       {gameState === GameState.PLAYING && currentLevelData && (
         <GameScreen 
-          levelData={currentLevelData} 
+          levelData={currentLevelData}
           onComplete={handleLevelComplete}
           onGameOver={handleGameOver}
           onMainMenu={handleMainMenu}
@@ -253,37 +235,26 @@ const App: React.FC = () => {
           isGodMode={isGodMode}
         />
       )}
-
-      {(gameState === GameState.LEVEL_COMPLETE) && (
+      
+      {(gameState === GameState.LEVEL_COMPLETE || gameState === GameState.GAME_OVER || gameState === GameState.VICTORY) && (
         <GameOverScreen 
-          success={true}
-          stats={stats}
-          onNextLevel={handleNextLevel}
-          onRetry={handleStartGame} 
-          onMainMenu={handleMainMenu}
+           success={gameState === GameState.LEVEL_COMPLETE || gameState === GameState.VICTORY}
+           isGrandVictory={gameState === GameState.VICTORY}
+           stats={stats}
+           onNextLevel={handleNextLevel}
+           onRetry={handleRetry}
+           onMainMenu={handleMainMenu}
         />
       )}
 
-       {(gameState === GameState.GAME_OVER) && (
-        <GameOverScreen 
-          success={false}
-          stats={stats}
-          onNextLevel={handleNextLevel} 
-          onRetry={handleRetry}
-          onMainMenu={handleMainMenu}
-        />
+      {gameState === GameState.ERROR && (
+        <div className="flex flex-col h-screen items-center justify-center text-red-400 p-8 text-center">
+           <h2 className="text-3xl font-display font-bold mb-4">Error en el Scriptorium</h2>
+           <p className="font-serif mb-6">{errorMsg || "Ha ocurrido un error desconocido."}</p>
+           <button onClick={handleMainMenu} className="bg-parchment-800 text-parchment-100 px-6 py-2 rounded">Volver</button>
+        </div>
       )}
 
-      {(gameState === GameState.VICTORY) && (
-        <GameOverScreen 
-          success={true}
-          isGrandVictory={true}
-          stats={stats}
-          onNextLevel={handleMainMenu} // Ends game
-          onRetry={handleStartGame}
-          onMainMenu={handleMainMenu}
-        />
-      )}
     </div>
   );
 };

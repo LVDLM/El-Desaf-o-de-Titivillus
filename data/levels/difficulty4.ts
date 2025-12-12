@@ -416,5 +416,172 @@ export const LEVEL_4_POOL: LevelData[] = [
       t("que"), t("dé"), s(),
       t("a"), t("sí"), t(".")
     ]
+  },
+  {
+    difficultyLevel: 4,
+    description: "Vanka",
+    totalErrors: 5,
+    timeLimit: 95,
+    originalText: "Cuando los amos y los oficiales se fueron, cerca de las doce, a la iglesia para asistir a la misa del Gallo, cogió del armario un frasco de tinta y un portaplumas con una pluma enrobinada, y, colocando ante él una hoja muy arrugada de papel, se dispuso a escribir.",
+    bookTitle: "Vanka",
+    bookAuthor: "Antón Chéjov",
+    tokens: [
+      t("Cuan"), t("do"), s(),
+      t("los"), s(), t("a"), t("mos"), s(),
+      t("y"), s(), t("los"), s(),
+      t("o"), t("fi"), t("sia", "cia"), t("les"), s(), // Error 1: ofisiales -> oficiales
+      t("se"), s(), t("fue"), t("ron"), t(","), s(),
+      t("cer"), t("ca"), s(),
+      t("de"), s(), t("las"), s(),
+      t("do"), t("ze", "ce"), t(","), s(), // Error 2: doze -> doce
+      t("a"), s(), t("la"), s(),
+      t("i"), t("gle"), t("sia"), s(),
+      t("pa"), t("ra"), s(),
+      t("a"), t("sis"), t("tir"), s(),
+      t("a"), s(), t("la"), s(),
+      t("mi"), t("sa"), s(),
+      t("del"), s(), t("Ga"), t("llo"), t(","), s(),
+      t("co"), t("jió", "gió"), s(), // Error 3: cojió -> cogió
+      t("del"), s(),
+      t("ar"), t("ma"), t("rio"), s(),
+      t("un"), s(),
+      t("fras"), t("co"), s(),
+      t("de"), s(), t("tin"), t("ta"), s(),
+      t("y"), s(),
+      t("un"), s(),
+      t("por"), t("ta"), t("plu"), t("mas"), s(),
+      t("con"), s(),
+      t("u"), t("na"), s(),
+      t("plu"), t("ma"), s(),
+      t("en"), t("ro"), t("vi", "bi"), t("na"), t("da"), t(","), s(), // Error 4: enrovinada -> enrobinada
+      t("y"), t(","), s(),
+      t("co"), t("lo"), t("can"), t("do"), s(),
+      t("an"), t("te"), s(),
+      t("el", "él"), s(), // Error 5: el -> él (pronombre)
+      t("u"), t("na"), s(),
+      t("ho"), t("ja"), s(),
+      t("muy"), s(),
+      t("a"), t("rru"), t("ga"), t("da"), s(),
+      t("de"), s(), t("pa"), t("pel"), t(","), s(),
+      t("se"), s(),
+      t("dis"), t("pu"), t("zo", "so"), s(), // Error 6 (Extra subtle or alt 5): dispuzo -> dispuso
+      t("a"), s(),
+      t("es"), t("cri"), t("bir"), t(".")
+    ]
+  },
+  {
+    difficultyLevel: 4,
+    description: "La araña y el sapo",
+    totalErrors: 5,
+    timeLimit: 90,
+    originalText: "Un sapo andaba en desgracia. Ninguna mosca se le acercaba y empezaba a tener una de esas hambres que quitan la vergüenza al más honrado. Al levantar los ojos, vio que en la tela de la araña, su vecina, estaban presas tantas moscas de todos tamaños, que en dos o tres días no las iba a poder comer todas.",
+    bookTitle: "Fábulas argentinas",
+    bookAuthor: "Godofredo Daireaux",
+    tokens: [
+      t("Un"), s(), t("sa"), t("po"), s(),
+      t("an"), t("da"), t("ba"), s(),
+      t("en"), s(), t("des"), t("gra"), t("cia"), t("."), s(),
+      t("Nin"), t("gu"), t("na"), s(),
+      t("mos"), t("ca"), s(),
+      t("se"), s(), t("le"), s(),
+      t("a"), t("ser", "cer"), t("ca"), t("ba"), s(), // Error 1: asercaba -> acercaba
+      t("y"), s(),
+      t("em"), t("pe"), t("sa", "za"), t("ba"), s(), // Error 2: empesaba -> empezaba
+      t("a"), s(), t("te"), t("ner"), s(),
+      t("u"), t("na"), s(),
+      t("de"), s(), t("e"), t("sas"), s(),
+      t("ham"), t("bres"), s(),
+      t("que"), s(), t("qui"), t("tan"), s(),
+      t("la"), s(),
+      t("ver"), t("guen", "güen"), t("za"), s(), // Error 3: verguenza -> vergüenza
+      t("al"), s(),
+      t("mas", "más"), s(), // Error 4: mas -> más
+      t("on", "hon"), t("ra"), t("do"), t("."), s(), // Error 5: onrado -> honrado
+      t("Al"), s(),
+      t("le"), t("van"), t("tar"), s(),
+      t("los"), s(), t("o"), t("jos"), t(","), s(),
+      t("vio"), s(),
+      t("que"), s(), t("en"), s(),
+      t("la"), s(),
+      t("te"), t("la"), s(),
+      t("de"), s(),
+      t("la"), s(),
+      t("a"), t("ra"), t("ña"), t(","), s(),
+      t("su"), s(),
+      t("ve"), t("ci"), t("na"), t(","), s(),
+      t("es"), t("ta"), t("ban"), s(),
+      t("pre"), t("sas"), s(),
+      t("tan"), t("tas"), s(),
+      t("mos"), t("cas"), s(),
+      t("de"), s(),
+      t("to"), t("dos"), s(),
+      t("ta"), t("ma"), t("ños"), t(","), s(),
+      t("que"), s(), t("en"), s(),
+      t("dos"), s(), t("o"), s(), t("tres"), s(),
+      t("dí"), t("as"), s(),
+      t("no"), s(),
+      t("las"), s(),
+      t("hi", "i"), t("ba"), s(), // Error 6 (using as alt for consistency): hiba -> iba
+      t("a"), s(),
+      t("po"), t("der"), s(),
+      t("co"), t("mer"), s(),
+      t("to"), t("das"), t(".")
+    ]
+  },
+  {
+    difficultyLevel: 4,
+    description: "Manfredo",
+    totalErrors: 5,
+    timeLimit: 100,
+    originalText: "Mi lámpara va a apagarse; por más que quiera reanimar su luz moribunda; no podrá durar tanto tiempo como mi desvelo. Si parece que duermo, no es el sueño el que embarga mis sentidos y sí el descaecimiento que me causan una multitud de pensamientos que afligen mi alma y a los cuales no me es posible resistir.",
+    bookTitle: "Manfredo",
+    bookAuthor: "Lord Byron",
+    tokens: [
+      t("Mi"), s(), t("lám"), t("pa"), t("ra"), s(),
+      t("va"), s(), t("a"), s(),
+      t("a"), t("pa"), t("gar"), t("se"), t(";"), s(),
+      t("por"), s(), t("más"), s(),
+      t("que"), s(), t("quie"), t("ra"), s(),
+      t("re"), t("a"), t("ni"), t("mar"), s(),
+      t("su"), s(), t("luz"), s(),
+      t("mo"), t("ri"), t("vun", "bun"), t("da"), t(";"), s(), // Error 1: morivunda -> moribunda
+      t("no"), s(), t("po"), t("drá"), s(),
+      t("du"), t("rar"), s(),
+      t("tan"), t("to"), s(),
+      t("tien", "tiem"), t("po"), s(), // Error 2: tienpo -> tiempo
+      t("co"), t("mo"), s(),
+      t("mi"), s(),
+      t("des"), t("be", "ve"), t("lo"), t("."), s(), // Error 3: desbelo -> desvelo
+      t("Si"), s(),
+      t("pa"), t("re"), t("ce"), s(),
+      t("que"), s(),
+      t("duer"), t("mo"), t(","), s(),
+      t("no"), s(), t("es"), s(),
+      t("el"), s(), t("sue"), t("ño"), s(),
+      t("el"), s(), t("que"), s(),
+      t("en", "em"), t("bar"), t("ga"), s(), // Error 4: enbarga -> embarga
+      t("mis"), s(),
+      t("sen"), t("ti"), t("dos"), s(),
+      t("y"), s(), t("sí"), s(),
+      t("el"), s(),
+      t("des"), t("ca"), t("e"), t("ci"), t("mien"), t("to"), s(),
+      t("que"), s(), t("me"), s(),
+      t("cau"), t("san"), s(),
+      t("u"), t("na"), s(),
+      t("mul"), t("ti"), t("tud"), s(),
+      t("de"), s(),
+      t("pen"), t("sa"), t("mien"), t("tos"), s(),
+      t("que"), s(),
+      t("a"), t("fli", "fli"), t("jen", "gen"), s(), // Error 5: aflijen -> afligen
+      t("mi"), s(),
+      t("al"), t("ma"), s(),
+      t("y"), s(),
+      t("a"), s(), t("los"), s(),
+      t("cua"), t("les"), s(),
+      t("no"), s(), t("me"), s(),
+      t("es"), s(),
+      t("po"), t("si"), t("ble"), s(),
+      t("re"), t("sis"), t("tir"), t(".")
+    ]
   }
 ];

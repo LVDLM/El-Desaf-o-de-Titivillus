@@ -73,7 +73,7 @@ export const LEVEL_3_POOL: LevelData[] = [
       t("y"), s(),
       t("mi"), s(),
       t("pa"), t("dre"), s(),
-      t("ha", "ha"), t("ví", "bí"), t("a"), s(), // Error 4: havía -> había (v->b)
+      t("ha"), t("ví", "bí"), t("a"), s(), // Error 4: havía -> había (v->b)
       t("o"), t("cu"), t("pa"), t("do"), s(),
       t("con"), s(),
       t("ho"), t("nor"), s(),
@@ -127,7 +127,7 @@ export const LEVEL_3_POOL: LevelData[] = [
       t("pe"), t("ro"), s(),
       t("el"), s(),
       t("tren"), s(),
-      t("lle"), t("va", "va"), t("va", "ba"), s(), // Error 4: llevava -> llevaba (v -> b)
+      t("lle"), t("va"), t("va", "ba"), s(), // Error 4: llevava -> llevaba (v -> b)
       t("u"), t("na"), s(),
       t("ho"), t("ra"), s(),
       t("de"), s(),
@@ -410,7 +410,7 @@ export const LEVEL_3_POOL: LevelData[] = [
       t("u"), t("na"), s(),
       t("pol"), t("tro"), t("na"), s(),
       t("co"), t("ja"), s(),
-      t("ha", "ha"), t("ví", "bí"), t("a"), s(), // Error 1: havía -> había (v -> b)
+      t("ha"), t("ví", "bí"), t("a"), s(), // Error 1: havía -> había (v -> b)
       t("un"), s(),
       t("hom"), t("bre"), t("."), s(),
       t("E"), t("ra"), s(),
@@ -423,7 +423,7 @@ export const LEVEL_3_POOL: LevelData[] = [
       t("e"), t("nér"), t("gi"), t("cas"), s(),
       t("de"), s(),
       t("ex"), t("tra"), t("ña"), s(),
-      t("be"), t("lle", "lle"), t("sa", "za"), t("."), s(), // Error 2: bellesa -> belleza (s -> z)
+      t("be"), t("lle"), t("sa", "za"), t("."), s(), // Error 2: bellesa -> belleza (s -> z)
       t("So"), t("bre"), s(),
       t("los"), s(),
       t("om", "hom"), t("bros"), s(), // Error 3: ombros -> hombros (falta h)
@@ -460,7 +460,7 @@ export const LEVEL_3_POOL: LevelData[] = [
       t("muy"), s(),
       t("ne"), t("gros"), t(","), s(),
       t("que"), s(),
-      t("o"), t("bli"), t("ga", "ga"), t("van", "ban"), s(), // Error 4: obligavan -> obligaban (v -> b)
+      t("o"), t("bli"), t("ga"), t("van", "ban"), s(), // Error 4: obligavan -> obligaban (v -> b)
       t("a"), s(),
       t("ba"), t("jar"), s(),
       t("la"), s(),
@@ -516,7 +516,7 @@ export const LEVEL_3_POOL: LevelData[] = [
       t("Si"), s(),
       t("no"), s(),
       t("lo"), s(),
-      t("hu", "hu"), t("vie", "bie"), t("ra"), s(), // Error 3: huviera -> hubiera (v -> b)
+      t("hu"), t("vie", "bie"), t("ra"), s(), // Error 3: huviera -> hubiera (v -> b)
       t("he"), t("cho"), t(","), s(),
       t("mis"), s(),
       t("her"), t("ma"), t("nos"), s(),
@@ -549,7 +549,7 @@ export const LEVEL_3_POOL: LevelData[] = [
       t("her"), t("ma"), t("nos"), s(),
       t("me"), s(),
       t("pi"), t("den"), s(),
-      t("ven"), t("gan", "gan"), t("sa", "za"), t("!"), s(), // Error 4: vengansa -> venganza (s -> z)
+      t("ven"), t("gan"), t("sa", "za"), t("!"), s(), // Error 4: vengansa -> venganza (s -> z)
       t("¡"), t("La"), s(),
       t("ten"), t("drán"), t("!")
     ]

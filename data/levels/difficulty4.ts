@@ -87,7 +87,7 @@ export const LEVEL_4_POOL: LevelData[] = [
       t("en"), s(),
       t("los"), s(),
       t("Gri"), t("so"), t("nes"), t("."), s(),
-      t("A", "Ha"), t("cí", "cí"), t("a"), s(), // Error 4: Acía -> Hacía (falta H)
+      t("A", "Ha"), t("cí"), t("a"), s(), // Error 4: Acía -> Hacía (falta H)
       t("el"), s(),
       t("via"), t("je"), s(),
       t("pa"), t("ra"), s(),
@@ -160,7 +160,7 @@ export const LEVEL_4_POOL: LevelData[] = [
       t("que"), s(),
       t("ha"), s(),
       t("cre"), t("a"), t("do"), t(","), s(),
-      t("re"), t("cha", "cha"), t("sa", "za"), s(), // Error 2: rechasa -> rechaza (s -> z)
+      t("re"), t("cha"), t("sa", "za"), s(), // Error 2: rechasa -> rechaza (s -> z)
       t("con"), s(),
       t("es"), t("pan"), t("to"), s(),
       t("el"), s(),
@@ -169,7 +169,7 @@ export const LEVEL_4_POOL: LevelData[] = [
       t("su"), s(),
       t("ex"), t("pe"), t("ri"), t("men"), t("to"), s(),
       t("y"), s(),
-      t("hu", "hu"), t("lle", "ye"), s(), // Error 3: hulle -> huye (ll -> y)
+      t("hu"), t("lle", "ye"), s(), // Error 3: hulle -> huye (ll -> y)
       t("de"), s(),
       t("su"), s(),
       t("la"), t("bo"), t("ra"), t("to"), t("rio"), t("."), s(),
@@ -572,7 +572,7 @@ export const LEVEL_4_POOL: LevelData[] = [
       t("de"), s(),
       t("pen"), t("sa"), t("mien"), t("tos"), s(),
       t("que"), s(),
-      t("a"), t("fli", "fli"), t("jen", "gen"), s(), // Error 5: aflijen -> afligen
+      t("a"), t("fli"), t("jen", "gen"), s(), // Error 5: aflijen -> afligen
       t("mi"), s(),
       t("al"), t("ma"), s(),
       t("y"), s(),

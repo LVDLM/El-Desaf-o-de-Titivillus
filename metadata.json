@@ -1,5 +1,6 @@
 {
   "name": "El Desafío de Titivillus",
   "description": "Un juego de corrección de textos ambientado en un scriptorium medieval. Encuentra los errores introducidos por el demonio Titivillus en manuscritos antiguos antes de que se acabe el tiempo.",
-  "requestFramePermissions": []
+  "requestFramePermissions": [],
+  "majorCapabilities": []
 }

@@ -7,7 +7,7 @@ export const generateId = () => Math.random().toString(36).substr(2, 9);
 export const t = (text: string, correction?: string): TextToken => ({
   id: generateId(),
   text,
-  isError: !!correction,
+  isError: !!correction && correction !== text,
   correction: correction || text,
   userFixed: false,
   revealed: false

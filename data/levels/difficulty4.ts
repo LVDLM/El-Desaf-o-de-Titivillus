@@ -6,23 +6,44 @@ export const LEVEL_4_POOL: LevelData[] = [
     difficultyLevel: 4,
     description: "Don Quijote de la Mancha (Frag.)",
     totalErrors: 5,
-    timeLimit: 60,
-    originalText: "En un lugar de la Mancha, de cuyo nombre no quiero acordarme...",
+    timeLimit: 120,
+    originalText: "En un lugar de la Mancha, de cuyo nombre no quiero acordarme, no ha mucho tiempo que vivía un hidalgo de los de lanza en astillero, adarga antigua, rocín flaco y galgo corredor.",
     bookTitle: "Don Quijote de la Mancha",
     bookAuthor: "Miguel de Cervantes",
     tokens: [
-      t("Hen", "En"), s(), // Error 1: Hen -> En (h innecesaria)
-      t("un"), s(), 
-      t("lu"), t("gar"), s(), 
-      t("de"), s(), 
-      t("la"), s(), 
-      t("Man"), t("xa", "cha"), t(","), s(), // Error 2: Manxa -> Mancha (x -> ch)
-      t("de"), s(), 
-      t("cu"), t("yo"), s(), 
-      t("non", "nom"), t("bre"), s(), // Error 3: nonbre -> nombre (n -> m antes de b)
-      t("no"), s(), 
-      t("kie", "quie"), t("ro"), s(), // Error 4: kiero -> quiero (k -> qu)
-      t("a"), t("cor"), t("dar"), t("me"), t("..", "...") // Error 5: .. -> ... (puntos suspensivos incompletos)
+      t("En"), s(),
+      t("un"), s(),
+      t("lu"), t("gar"), s(),
+      t("de"), s(),
+      t("la"), s(),
+      t("man", "Man"), t("cha"), t(","), s(), // Error 1: mancha -> Mancha
+      t("de"), s(),
+      t("cu"), t("llo", "yo"), s(), // Error 2: cullo -> cuyo
+      t("nom"), t("bre"), s(),
+      t("no"), s(),
+      t("quie"), t("ro"), s(),
+      t("a"), t("cor"), t("dar"), t("me"), t(","), s(),
+      t("no"), s(),
+      t("a", "ha"), s(), // Error 3: a -> ha
+      t("mu"), t("cho"), s(),
+      t("tiem"), t("po"), s(),
+      t("que"), s(),
+      t("vi"), t("ví"), t("a"), s(),
+      t("un"), s(),
+      t("i", "hi"), t("dal"), t("go"), s(), // Error 4: idalgo -> hidalgo
+      t("de"), s(),
+      t("los"), s(),
+      t("de"), s(),
+      t("lan"), t("za"), s(),
+      t("en"), s(),
+      t("as"), t("ti"), t("lle"), t("ro"), t(","), s(),
+      t("a"), t("dar"), t("ga"), s(),
+      t("an"), t("ti"), t("gua"), t(","), s(),
+      t("ro"), t("zín", "cín"), s(), // Error 5: rozín -> rocín
+      t("fla"), t("co"), s(),
+      t("y"), s(),
+      t("gal"), t("go"), s(),
+      t("cor"), t("re"), t("dor"), t(".")
     ]
   },
   {

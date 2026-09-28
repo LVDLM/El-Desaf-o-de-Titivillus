@@ -10,6 +10,7 @@ interface GameOverScreenProps {
   onNextLevel: () => void;
   onRetry: () => void;
   onMainMenu: () => void;
+  isUntimedMode?: boolean;
 }
 
 const GameOverScreen: React.FC<GameOverScreenProps> = ({ 
@@ -18,7 +19,8 @@ const GameOverScreen: React.FC<GameOverScreenProps> = ({
   stats, 
   onNextLevel, 
   onRetry, 
-  onMainMenu 
+  onMainMenu,
+  isUntimedMode = false
 }) => {
   const [username, setUsername] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -45,11 +47,11 @@ const GameOverScreen: React.FC<GameOverScreenProps> = ({
 
   const handleSubmitScore = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!username.trim()) return;
+    if (!username.trim() || isUntimedMode) return;
 
     setIsSubmitting(true);
-    const success = await submitScore(username, stats.score);
-    if (success) {
+    const result = await submitScore(username, stats.score);
+    if (result) {
       setIsSubmitted(true);
     }
     setIsSubmitting(false);
@@ -96,8 +98,8 @@ const GameOverScreen: React.FC<GameOverScreenProps> = ({
             <span className="uppercase tracking-widest text-sm opacity-70">Errores Cazados</span>
             <span className="font-bold text-xl">{stats.errorsCaught}</span>
           </div>
-           <div className="flex justify-between items-center border-b border-parchment-300 pb-2 mb-2">
-            <span className="uppercase tracking-widest text-sm opacity-70">Penitencias</span>
+          <div className="flex justify-between items-center border-b border-parchment-300 pb-2 mb-2">
+            <span className="uppercase tracking-widest text-sm opacity-70">Penitencias (Falsas Alarmas)</span>
             <span className="font-bold text-xl text-red-700">{stats.mistakesMade}</span>
           </div>
           <div className="flex justify-between items-center mt-4">
@@ -106,8 +108,12 @@ const GameOverScreen: React.FC<GameOverScreenProps> = ({
           </div>
         </div>
 
-        {/* Score Submission Form */}
-        {(!success || isGrandVictory) && stats.score > 0 && !isSubmitted && (
+        {/* Score Submission Notice or Form */}
+        {isUntimedMode ? (
+          <div className="mb-8 p-3 bg-amber-100/70 border border-amber-300 text-amber-900 rounded text-sm italic">
+            Modo Práctica sin tiempo: la puntuación no se registra en los anales.
+          </div>
+        ) : (!success || isGrandVictory) && stats.score > 0 && !isSubmitted ? (
           <form onSubmit={handleSubmitScore} className="mb-8 bg-parchment-300/50 p-4 rounded border border-parchment-800/30">
             <h3 className="font-display font-bold text-lg mb-3 uppercase tracking-widest">Inmortaliza tu Nombre</h3>
             <div className="flex gap-2">
@@ -130,9 +136,9 @@ const GameOverScreen: React.FC<GameOverScreenProps> = ({
               </button>
             </div>
           </form>
-        )}
+        ) : null}
 
-        {isSubmitted && (
+        {isSubmitted && !isUntimedMode && (
           <div className="mb-8 p-3 bg-green-100/50 text-green-900 border border-green-800/20 rounded flex items-center justify-center gap-2">
             <Check size={20} /> Tu nombre ha sido registrado en los anales.
           </div>
@@ -159,19 +165,17 @@ const GameOverScreen: React.FC<GameOverScreenProps> = ({
                 onClick={onRetry}
                 className="bg-blood text-white px-6 py-3 rounded font-display font-bold text-lg hover:bg-red-900 transition-colors flex items-center gap-2 shadow-lg transform hover:-translate-y-1"
               >
-                <RotateCcw /> Intentar de Nuevo
+                <RotateCcw /> Reintentar
               </button>
             )}
-          </div>
 
-          {!isGrandVictory && (
             <button
-                onClick={onMainMenu}
-                className="text-parchment-900/60 hover:text-parchment-900 font-serif text-sm flex items-center gap-2 transition-colors hover:underline"
+              onClick={onMainMenu}
+              className="border border-parchment-800 text-parchment-900 px-4 py-3 rounded hover:bg-parchment-300 font-display transition-colors"
             >
-                <Home size={16} /> Volver al Menú Principal
+              Menú Principal
             </button>
-          )}
+          </div>
         </div>
 
       </div>

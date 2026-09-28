@@ -1,9 +1,11 @@
 import React, { useState, useCallback, useEffect } from 'react';
-import { GameState, LevelData, PlayerStats } from './types';
+import { GameState, LevelData, PlayerStats, TextToken } from './types';
 import { getStaticLevel } from './services/staticLevelService';
+import { recordNotebookReview } from './services/notebookService';
 import StartScreen from './components/StartScreen';
 import GameScreen from './components/GameScreen';
 import GameOverScreen from './components/GameOverScreen';
+import LevelReviewScreen from './components/LevelReviewScreen';
 import Leaderboard from './components/Leaderboard';
 import { Loader2, Scroll } from 'lucide-react';
 
@@ -19,10 +21,18 @@ const App: React.FC = () => {
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const [showLeaderboard, setShowLeaderboard] = useState(false);
 
-  // New features for Scribe Mode
+  // Features for Scribe Mode
   const [rewardUnlocked, setRewardUnlocked] = useState(false);
   const [showRewardNotification, setShowRewardNotification] = useState(false);
   const [gameMode, setGameMode] = useState<'corrector' | 'scribe'>('corrector');
+
+  // Untimed (Practice) Mode State
+  const [isUntimedMode, setIsUntimedMode] = useState(false);
+
+  // Review Screen State
+  const [reviewTokens, setReviewTokens] = useState<TextToken[]>([]);
+  const [reviewSuccess, setReviewSuccess] = useState(false);
+  const [pendingScore, setPendingScore] = useState(0);
 
   // Tutorial Persistence
   const [hasPlayedTutorial, setHasPlayedTutorial] = useState(false);
@@ -45,7 +55,6 @@ const App: React.FC = () => {
     const godModeReward = localStorage.getItem('titivillus_god_mode_reward') === 'true';
     if (godModeReward) {
       setIsGodMode(true);
-      // Consume the reward so it's a one-time bonus for the next game only
       localStorage.removeItem('titivillus_god_mode_reward');
     }
   }, []);
@@ -73,13 +82,9 @@ const App: React.FC = () => {
   }, []);
 
   const handleStartGame = (specificLevel?: number) => {
-    // Reset history for a new game session
-    // NOTE: If you want to prevent repeats across sessions, you'd load this from LS.
-    // For now, we clear it per session as requested ("misma partida").
     const newHistory: string[] = [];
     setPlayedTexts(newHistory);
 
-    // Determine start level:
     let startLevel = 1;
     if (specificLevel !== undefined) {
       startLevel = specificLevel;
@@ -99,8 +104,7 @@ const App: React.FC = () => {
 
   const handleEnableGodMode = () => {
     setIsGodMode(true);
-    setRewardUnlocked(true); // God mode automatically unlocks rewards
-    // Play a divine sound
+    setRewardUnlocked(true);
     const audio = new Audio("https://cdn.pixabay.com/download/audio/2025/05/05/audio_ca4220361e.mp3?filename=turn-a-page-336933.mp3");
     audio.volume = 1.0;
     audio.play().catch(() => {});
@@ -112,6 +116,28 @@ const App: React.FC = () => {
       setRewardUnlocked(true);
       setShowRewardNotification(true);
       localStorage.setItem('titivillus_scribe_mode_unlocked', 'true');
+    }
+  };
+
+  // Called when Corrector mode finishes (whether found all errors or time expired)
+  const handleLevelFinish = (success: boolean, score: number, finalTokens: TextToken[]) => {
+    // Save to Titivillus Notebook (reinforcement)
+    recordNotebookReview(finalTokens);
+
+    setReviewTokens(finalTokens);
+    setReviewSuccess(success);
+    setPendingScore(score);
+
+    // Transition to Review Screen
+    setGameState(GameState.REVIEW);
+  };
+
+  // Player clicks "Continuar" on Review Screen
+  const handleReviewContinue = () => {
+    if (reviewSuccess) {
+      handleLevelComplete(pendingScore);
+    } else {
+      handleGameOver();
     }
   };
 
@@ -136,31 +162,26 @@ const App: React.FC = () => {
 
     // Check unlock on success
     if (stats.level >= 5) {
-       checkUnlockCondition(stats.level);
+      checkUnlockCondition(stats.level);
     }
     
     setGameState(GameState.LEVEL_COMPLETE);
   };
 
   const handleGameOver = () => {
-    // Check unlock on failure if level was high enough
     if (stats.level >= 5) {
-       checkUnlockCondition(stats.level);
+      checkUnlockCondition(stats.level);
     }
     setGameState(GameState.GAME_OVER);
   };
 
   const handleNextLevel = () => {
-    // Increment level
     const nextLevel = stats.level + 1;
     setStats(prev => ({ ...prev, level: nextLevel }));
     loadLevel(nextLevel, playedTexts);
   };
 
   const handleRetry = () => {
-    // Retry allows playing the same difficulty again.
-    // We do NOT clear the history here, so they won't get the exact same text again immediately
-    // unless the pool is small.
     loadLevel(stats.level, playedTexts);
   };
 
@@ -172,14 +193,13 @@ const App: React.FC = () => {
     setShowRewardNotification(false);
   };
 
-  // Render logic
   return (
     <div className="min-h-screen bg-[#2b2b2b] selection:bg-gold selection:text-black">
       
       {/* Global Leaderboard Modal */}
       <Leaderboard isOpen={showLeaderboard} onClose={() => setShowLeaderboard(false)} />
 
-      {/* Reward Notification Modal */}
+      {/* Reward Notification Modal (Scribe Mode Unlock) */}
       {showRewardNotification && (
         <div className="fixed inset-0 z-[60] flex items-center justify-center bg-black/90 backdrop-blur-sm p-4">
           <div className="bg-parchment-200 border-4 border-gold rounded shadow-2xl p-8 max-w-lg w-full text-center relative animate-ink-blot">
@@ -204,10 +224,11 @@ const App: React.FC = () => {
         </div>
       )}
 
+      {/* Start Screen */}
       {gameState === GameState.MENU && (
         <StartScreen 
-          onStart={() => handleStartGame()} // Default start (smart selection)
-          onTutorial={() => handleStartGame(0)} // Force tutorial
+          onStart={() => handleStartGame()}
+          onTutorial={() => handleStartGame(0)}
           onOpenLeaderboard={() => setShowLeaderboard(true)}
           rewardUnlocked={rewardUnlocked}
           gameMode={gameMode}
@@ -215,9 +236,12 @@ const App: React.FC = () => {
           onEnableGodMode={handleEnableGodMode}
           isGodMode={isGodMode}
           onSelectLevel={(level) => handleStartGame(level)}
+          isUntimedMode={isUntimedMode}
+          onToggleUntimedMode={(untimed) => setIsUntimedMode(untimed)}
         />
       )}
 
+      {/* Loading Screen */}
       {gameState === GameState.LOADING && (
         <div className="flex h-screen items-center justify-center text-parchment-200">
            <Loader2 className="animate-spin w-12 h-12" />
@@ -225,6 +249,7 @@ const App: React.FC = () => {
         </div>
       )}
 
+      {/* Playing Screen */}
       {gameState === GameState.PLAYING && currentLevelData && (
         <GameScreen 
           levelData={currentLevelData}
@@ -233,9 +258,22 @@ const App: React.FC = () => {
           onMainMenu={handleMainMenu}
           gameMode={gameMode}
           isGodMode={isGodMode}
+          isUntimedMode={isUntimedMode}
+          onLevelFinish={handleLevelFinish}
+        />
+      )}
+
+      {/* Level Review Screen (Refuerzo de la forma correcta) */}
+      {gameState === GameState.REVIEW && currentLevelData && (
+        <LevelReviewScreen 
+          levelData={currentLevelData}
+          tokens={reviewTokens}
+          success={reviewSuccess}
+          onContinue={handleReviewContinue}
         />
       )}
       
+      {/* Game Over / Victory Screen */}
       {(gameState === GameState.LEVEL_COMPLETE || gameState === GameState.GAME_OVER || gameState === GameState.VICTORY) && (
         <GameOverScreen 
            success={gameState === GameState.LEVEL_COMPLETE || gameState === GameState.VICTORY}
@@ -244,9 +282,11 @@ const App: React.FC = () => {
            onNextLevel={handleNextLevel}
            onRetry={handleRetry}
            onMainMenu={handleMainMenu}
+           isUntimedMode={isUntimedMode}
         />
       )}
 
+      {/* Error Screen */}
       {gameState === GameState.ERROR && (
         <div className="flex flex-col h-screen items-center justify-center text-red-400 p-8 text-center">
            <h2 className="text-3xl font-display font-bold mb-4">Error en el Scriptorium</h2>

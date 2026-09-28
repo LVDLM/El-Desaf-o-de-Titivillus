@@ -4,65 +4,98 @@ import { LEVEL_2_POOL } from "../data/levels/difficulty2";
 import { LEVEL_3_POOL } from "../data/levels/difficulty3";
 import { LEVEL_4_POOL } from "../data/levels/difficulty4";
 import { LEVEL_5_POOL } from "../data/levels/difficulty5";
+import { LEVEL_6_POOL } from "../data/levels/difficulty6";
 import { TUTORIAL_LEVEL } from "../data/levels/tutorial";
+import { prioritizeLevelsByNotebook } from "./notebookService";
+import { calculateLevelTimeLimit } from "../utils/levelHelpers";
+import { runLevelsValidation } from "../utils/levelValidator";
 
-// Map difficulty levels to their respective data pools
-const DIFFICULTY_POOLS: { [key: number]: LevelData[] } = {
-  1: LEVEL_1_POOL,
-  2: LEVEL_2_POOL,
-  3: LEVEL_3_POOL,
-  4: LEVEL_4_POOL,
-  5: LEVEL_5_POOL
+// Única fuente canónica de niveles: difficulty1.ts a difficulty6.ts
+export const ALL_LEVELS: LevelData[] = [
+  ...LEVEL_1_POOL,
+  ...LEVEL_2_POOL,
+  ...LEVEL_3_POOL,
+  ...LEVEL_4_POOL,
+  ...LEVEL_5_POOL,
+  ...LEVEL_6_POOL
+];
+
+// Validación de auditoría de niveles (activa únicamente en modo de desarrollo)
+runLevelsValidation(ALL_LEVELS);
+
+/**
+ * Mapeo de perfiles de dificultad por nivel:
+ * - Niveles 1-2: LEVEL_1_POOL y LEVEL_2_POOL (Perfil 1: visibles, 3-4 errores)
+ * - Niveles 3-4: LEVEL_3_POOL y LEVEL_4_POOL (Perfil 2: homófonos y puntuación simple, 4-5 errores)
+ * - Niveles 5-9: LEVEL_5_POOL (Perfil 3: espacios, omisiones y adiciones, 6 errores)
+ * - Niveles 10+: LEVEL_6_POOL (Perfil 4: mezcla completa con distractores léxicos, 8-10 errores)
+ */
+const getPoolForLevel = (levelNumber: number): LevelData[] => {
+  if (levelNumber <= 2) {
+    return levelNumber === 1 ? LEVEL_1_POOL : LEVEL_2_POOL;
+  } else if (levelNumber <= 4) {
+    return levelNumber === 3 ? LEVEL_3_POOL : LEVEL_4_POOL;
+  } else if (levelNumber <= 9) {
+    return LEVEL_5_POOL;
+  } else {
+    return LEVEL_6_POOL;
+  }
 };
 
-// Returns null if no levels are available (Game Completed)
+/**
+ * Obtiene el manuscrito para el nivel actual.
+ * Devuelve null si se han agotado todos los textos disponibles (lo que activa el estado de Victoria Absoluta).
+ */
 export const getStaticLevel = async (levelNumber: number, playedTexts: string[] = []): Promise<LevelData | null> => {
-  // Simulate network delay strictly for effect (300ms)
+  // Simulación de pausa sutil de carga (300 ms)
   await new Promise(resolve => setTimeout(resolve, 300));
 
-  // Special case for Tutorial
+  // Caso especial: Nivel 0 (Tutorial)
   if (levelNumber === 0) {
     const level = JSON.parse(JSON.stringify(TUTORIAL_LEVEL));
+    level.totalErrors = level.tokens.filter((t: any) => t.isError).length;
     return level;
   }
-  
-  // Calculate difficulty. If levelNumber exceeds normal bounds, it stays at 5.
-  const difficulty = Math.min(levelNumber, 5);
-  
-  // Find a valid pool
-  let currentDiff = difficulty;
+
+  let currentLevelTarget = levelNumber;
   let selectedTemplate: LevelData | null = null;
 
-  // Try to find a text in the current difficulty or higher if current is exhausted
-  while (currentDiff <= 5 && !selectedTemplate) {
-    const pool = DIFFICULTY_POOLS[currentDiff] || LEVEL_5_POOL;
+  // Búsqueda progresiva desde el nivel actual hacia los superiores
+  while (currentLevelTarget <= 10 && !selectedTemplate) {
+    const pool = getPoolForLevel(currentLevelTarget);
     
-    // Filter out texts that have already been played in this session
+    // Filtro estricto: descarta cualquier texto jugado previamente en esta sesión
     const availableLevels = pool.filter(l => !playedTexts.includes(l.originalText));
 
     if (availableLevels.length > 0) {
-      // Pick a random one from the available unique texts
-      const randomIndex = Math.floor(Math.random() * availableLevels.length);
-      selectedTemplate = availableLevels[randomIndex];
+      // Prioriza manuscritos con formas erróneas anotadas en el Cuaderno de Titivillus
+      const prioritized = prioritizeLevelsByNotebook(availableLevels);
+      
+      // Selección aleatoria entre los mejores candidatos priorizados
+      const topCount = Math.min(3, prioritized.length);
+      const randomIndex = Math.floor(Math.random() * topCount);
+      selectedTemplate = prioritized[randomIndex];
     } else {
-      // If this difficulty tier is exhausted, try the next one
-      currentDiff++;
+      // Si la reserva de este nivel se agota, pasa a la siguiente dificultad
+      currentLevelTarget++;
     }
   }
 
-  // If we ran out of texts even in difficulty 5
+  // Si no queda ningún texto por jugar en todo el banco: Victoria Absoluta
   if (!selectedTemplate) {
     return null;
   }
 
-  // Deep copy to avoid mutating the static definition between replays
-  const level = JSON.parse(JSON.stringify(selectedTemplate));
+  // Copia profunda para no mutar las definiciones estáticas
+  const level: LevelData = JSON.parse(JSON.stringify(selectedTemplate));
   
-  // Recalculate total errors dynamically to ensure accuracy matches the tokens provided
+  // Garantiza correspondencia matemática 100% exacta del total de errores
   level.totalErrors = level.tokens.filter((t: any) => t.isError).length;
 
-  // If we bumped difficulty due to exhaustion, ensure the returned level object reflects the actual difficulty of the text
-  level.difficultyLevel = currentDiff;
+  // Cálculo proporcional de tiempo según longitud y errores
+  level.timeLimit = calculateLevelTimeLimit(level.originalText, level.totalErrors, levelNumber);
+
+  level.difficultyLevel = currentLevelTarget;
 
   return level;
 };

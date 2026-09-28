@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { Scroll, Feather, Trophy, PenTool, Edit3, Zap, HelpCircle } from 'lucide-react';
+import { Scroll, Feather, Trophy, PenTool, Edit3, Zap, HelpCircle, Clock, BookMarked } from 'lucide-react';
 import { isSupabaseConfigured } from '../services/supabaseClient';
+import TitivillusNotebookModal from './TitivillusNotebookModal';
 
 interface StartScreenProps {
   onStart: () => void;
@@ -12,6 +13,8 @@ interface StartScreenProps {
   onEnableGodMode: () => void;
   isGodMode: boolean;
   onSelectLevel: (level: number) => void;
+  isUntimedMode: boolean;
+  onToggleUntimedMode: (untimed: boolean) => void;
 }
 
 const KONAMI_CODE = [
@@ -31,9 +34,12 @@ const StartScreen: React.FC<StartScreenProps> = ({
   onToggleGameMode,
   onEnableGodMode,
   isGodMode,
-  onSelectLevel
+  onSelectLevel,
+  isUntimedMode,
+  onToggleUntimedMode
 }) => {
   const [konamiIndex, setKonamiIndex] = useState(0);
+  const [showNotebook, setShowNotebook] = useState(false);
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -57,7 +63,6 @@ const StartScreen: React.FC<StartScreenProps> = ({
   }, [konamiIndex, isGodMode, onEnableGodMode]);
   
   const handleStartClick = () => {
-    // Play writing sound
     const audio = new Audio("https://cdn.pixabay.com/download/audio/2022/03/15/audio_744997de40.mp3?filename=fast-and-slow-marker-strokes-82047.mp3");
     audio.volume = 0.6;
     audio.play().catch(e => console.warn("Audio play blocked", e));
@@ -67,6 +72,13 @@ const StartScreen: React.FC<StartScreenProps> = ({
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen p-4 text-parchment-900 relative">
+      
+      {/* Titivillus Notebook Modal */}
+      <TitivillusNotebookModal 
+        isOpen={showNotebook} 
+        onClose={() => setShowNotebook(false)} 
+      />
+
       <div className="max-w-2xl w-full bg-parchment-200 border-8 border-parchment-800 rounded-lg shadow-2xl p-8 relative overflow-hidden transition-all duration-500">
         {/* Decorative Corners */}
         <div className="absolute top-0 left-0 w-16 h-16 border-t-4 border-l-4 border-gold m-2"></div>
@@ -92,31 +104,31 @@ const StartScreen: React.FC<StartScreenProps> = ({
           <h1 className="text-5xl md:text-6xl font-display font-bold text-parchment-900 mb-2 tracking-tighter">
             El Desafío de
           </h1>
-          <h2 className="text-4xl md:text-5xl font-display font-bold text-blood mb-8 tracking-widest uppercase">
+          <h2 className="text-4xl md:text-5xl font-display font-bold text-blood mb-6 tracking-widest uppercase">
             Titivillus
           </h2>
 
-          <div className="prose prose-lg text-parchment-900 mx-auto font-serif mb-8 leading-relaxed">
+          <div className="prose prose-lg text-parchment-900 mx-auto font-serif mb-6 leading-relaxed">
             {gameMode === 'scribe' ? (
-               <p className="bg-parchment-300/50 p-4 rounded border border-parchment-800/20">
-                 <strong className="text-parchment-900 block mb-2 font-display text-xl">Modo Escriba</strong>
-                 Demuestra tu memoria y precisión. Reescribe los textos sagrados sin cometer ni un solo error de copia. Titivillus estará vigilando cada tecla.
-               </p>
+              <p className="bg-parchment-300/50 p-4 rounded border border-parchment-800/20">
+                <strong className="text-parchment-900 block mb-2 font-display text-xl">Modo Escriba</strong>
+                Demuestra tu memoria y precisión. Reescribe los textos sagrados sin cometer ni un solo error de copia. Titivillus estará vigilando cada tecla.
+              </p>
             ) : (
               <>
-                <p className="mb-4">
-                  <span className="text-6xl float-left font-display font-bold mr-2 text-blood">E</span>n la quietud del scriptorium, el demonio Titivillus acecha. Su misión es corromper los textos sagrados introduciendo errores.
+                <p className="mb-3">
+                  <span className="text-6xl float-left font-display font-bold mr-2 text-blood">E</span>n la quietud del scriptorium, el demonio Titivillus acecha. Su misión es corromper los textos sagrados introduciendo erratas y deslices.
                 </p>
                 <p>
-                  Como copista mayor, tu deber es comparar la copia corrupta con el original. <strong>Pincha sobre las sílabas o signos incorrectos</strong> para purgarlos.
+                  Como copista mayor, tu deber es cotejar la copia con el original. <strong>Pincha sobre las palabras, signos o huecos incorrectos</strong> para purgarlos.
                 </p>
               </>
             )}
           </div>
 
-          {/* Mode Toggle */}
+          {/* Mode Toggle (Corrector vs Escriba) */}
           {rewardUnlocked && (
-            <div className="flex justify-center mb-8">
+            <div className="flex justify-center mb-6">
               <div className="bg-parchment-800 p-1 rounded-full flex gap-1 shadow-inner">
                 <button
                   onClick={() => onToggleGameMode('corrector')}
@@ -133,6 +145,21 @@ const StartScreen: React.FC<StartScreenProps> = ({
               </div>
             </div>
           )}
+
+          {/* Practice / Untimed Mode Option */}
+          <div className="flex justify-center mb-6">
+            <button
+              onClick={() => onToggleUntimedMode(!isUntimedMode)}
+              className={`inline-flex items-center gap-2 px-4 py-2 rounded-full border text-xs font-display font-bold transition-all shadow-xs ${
+                isUntimedMode
+                  ? 'bg-amber-100 text-amber-900 border-amber-400 ring-2 ring-amber-300/50'
+                  : 'bg-parchment-300/60 text-parchment-800/80 border-parchment-800/20 hover:bg-parchment-300'
+              }`}
+            >
+              <Clock size={15} className={isUntimedMode ? 'text-amber-700' : 'text-parchment-700'} />
+              <span>{isUntimedMode ? 'Modo sin tiempo (Práctica activada)' : 'Modo con cronómetro (Estándar)'}</span>
+            </button>
+          </div>
 
           <div className="flex flex-col gap-4 items-center">
             
@@ -158,12 +185,21 @@ const StartScreen: React.FC<StartScreenProps> = ({
               </button>
             </div>
 
-            <button
-                onClick={onTutorial}
-                className="group relative inline-flex items-center justify-center px-4 py-2 font-serif text-sm font-bold text-parchment-900/70 transition-all duration-200 hover:text-parchment-900 hover:underline"
+            <div className="flex items-center gap-6 mt-2">
+              <button
+                onClick={() => setShowNotebook(true)}
+                className="inline-flex items-center gap-1.5 text-sm font-serif font-bold text-parchment-800 hover:text-parchment-950 hover:underline"
               >
-                <HelpCircle className="w-4 h-4 mr-2" /> ¿Cómo jugar?
-            </button>
+                <BookMarked size={16} className="text-blood" /> Cuaderno de Titivillus
+              </button>
+
+              <button
+                onClick={onTutorial}
+                className="inline-flex items-center gap-1.5 text-sm font-serif font-bold text-parchment-800/80 hover:text-parchment-950 hover:underline"
+              >
+                <HelpCircle size={16} /> ¿Cómo jugar?
+              </button>
+            </div>
 
           </div>
 

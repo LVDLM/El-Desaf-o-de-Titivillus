@@ -44,22 +44,30 @@ export const getLeaderboard = async (): Promise<LeaderboardEntry[]> => {
   return data as LeaderboardEntry[];
 };
 
+// Límite razonable calculado a partir del banco de niveles (máximo teórico absoluto: 57 niveles, máx. 70.125 puntos)
+export const MAX_REASONABLE_SCORE = 72000;
+
 export const submitScore = async (username: string, score: number): Promise<boolean> => {
+  const cleanUser = username.trim().slice(0, 30);
+  if (!cleanUser) return false;
+
+  // Validación de rango de puntuación
+  if (score <= 0 || score > MAX_REASONABLE_SCORE || !Number.isFinite(score)) {
+    console.warn(`[Ranking] Puntuación ${score} rechazada por exceder el máximo admisible (${MAX_REASONABLE_SCORE}).`);
+    return false;
+  }
+
   if (!supabase) {
-    console.warn(`[Mock Mode] Score for ${username} (${score}) was NOT saved to DB because keys are missing.`);
-    // We return true here so the UI doesn't break during testing, 
-    // but in production this means data is lost if keys aren't set.
+    console.warn(`[Mock Mode] Score for ${cleanUser} (${score}) was NOT saved to DB because keys are missing.`);
     return true;
   }
 
   const { error } = await supabase
     .from('leaderboard')
-    .insert([{ username, score }]);
+    .insert([{ username: cleanUser, score: Math.round(score) }]);
 
   if (error) {
-    // CRITICAL for debugging: Log the exact error from Supabase (e.g., RLS policy violation)
     console.error('Error submitting score to Supabase:', error);
-    console.error('Details:', error.message, error.details, error.hint);
     return false;
   }
 

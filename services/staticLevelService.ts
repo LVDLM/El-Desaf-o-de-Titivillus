@@ -57,27 +57,59 @@ export const getStaticLevel = async (levelNumber: number, playedTexts: string[] 
     return level;
   }
 
-  let currentLevelTarget = levelNumber;
   let selectedTemplate: LevelData | null = null;
+  let targetDifficulty = levelNumber;
 
-  // Búsqueda progresiva desde el nivel actual hacia los superiores
-  while (currentLevelTarget <= 10 && !selectedTemplate) {
-    const pool = getPoolForLevel(currentLevelTarget);
-    
-    // Filtro estricto: descarta cualquier texto jugado previamente en esta sesión
-    const availableLevels = pool.filter(l => !playedTexts.includes(l.originalText));
+  if (levelNumber < 10) {
+    // Para niveles 1 a 9: buscar progresivamente desde el pool del nivel hacia arriba hasta el pool 6
+    let currentPoolIndex = levelNumber;
+    while (currentPoolIndex <= 10 && !selectedTemplate) {
+      const pool = getPoolForLevel(currentPoolIndex);
+      const availableLevels = pool.filter(l => !playedTexts.includes(l.originalText));
 
-    if (availableLevels.length > 0) {
-      // Prioriza manuscritos con formas erróneas anotadas en el Cuaderno de Titivillus
-      const prioritized = prioritizeLevelsByNotebook(availableLevels);
-      
-      // Selección aleatoria entre los mejores candidatos priorizados
+      if (availableLevels.length > 0) {
+        const prioritized = prioritizeLevelsByNotebook(availableLevels);
+        const topCount = Math.min(3, prioritized.length);
+        const randomIndex = Math.floor(Math.random() * topCount);
+        selectedTemplate = prioritized[randomIndex];
+        targetDifficulty = currentPoolIndex;
+      } else {
+        currentPoolIndex++;
+      }
+    }
+  }
+
+  // Si levelNumber >= 10, o si se agotaron los pools hacia arriba en la búsqueda normal:
+  if (!selectedTemplate) {
+    // 1. Los niveles 10+ deben tomar textos de LEVEL_6_POOL
+    const pool6Available = LEVEL_6_POOL.filter(l => !playedTexts.includes(l.originalText));
+    if (pool6Available.length > 0) {
+      const prioritized = prioritizeLevelsByNotebook(pool6Available);
       const topCount = Math.min(3, prioritized.length);
       const randomIndex = Math.floor(Math.random() * topCount);
       selectedTemplate = prioritized[randomIndex];
+      targetDifficulty = Math.max(10, levelNumber);
     } else {
-      // Si la reserva de este nivel se agota, pasa a la siguiente dificultad
-      currentLevelTarget++;
+      // 2. Al agotarse LEVEL_6_POOL, seguir con los restantes de pools inferiores aún no jugados
+      const lowerPools = [
+        LEVEL_5_POOL,
+        LEVEL_4_POOL,
+        LEVEL_3_POOL,
+        LEVEL_2_POOL,
+        LEVEL_1_POOL
+      ];
+
+      for (const pool of lowerPools) {
+        const available = pool.filter(l => !playedTexts.includes(l.originalText));
+        if (available.length > 0) {
+          const prioritized = prioritizeLevelsByNotebook(available);
+          const topCount = Math.min(3, prioritized.length);
+          const randomIndex = Math.floor(Math.random() * topCount);
+          selectedTemplate = prioritized[randomIndex];
+          targetDifficulty = Math.max(10, levelNumber);
+          break;
+        }
+      }
     }
   }
 
@@ -93,9 +125,9 @@ export const getStaticLevel = async (levelNumber: number, playedTexts: string[] 
   level.totalErrors = level.tokens.filter((t: any) => t.isError).length;
 
   // Cálculo proporcional de tiempo según longitud y errores
-  level.timeLimit = calculateLevelTimeLimit(level.originalText, level.totalErrors, levelNumber);
+  level.timeLimit = calculateLevelTimeLimit(level.originalText, level.totalErrors, targetDifficulty);
 
-  level.difficultyLevel = currentLevelTarget;
+  level.difficultyLevel = targetDifficulty;
 
   return level;
 };

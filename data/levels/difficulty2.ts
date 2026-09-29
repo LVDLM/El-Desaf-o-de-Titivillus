@@ -1,111 +1,182 @@
 /**
- * BANCO DE TEXTOS - NIVEL DE DIFICULTAD 2 (PERFIL 1 / PERFIL 2)
- * 
- * Fuentes bibliográficas y situación de derechos:
- * 1. Julio Verne: «Veinte mil leguas de viaje submarino» («Vingt mille lieues sous les mers», 1870):
- *    - Traducción clásica de dominio público (siglo XIX, Vicente Guimerá / Gaspar y Roig).
- *    - Autor fallecido en 1905 (dominio público internacional).
- * 2. Robert Louis Stevenson: «La isla del tesoro» («Treasure Island», 1883):
- *    - Traducción histórica castellana de dominio público.
- *    - Autor fallecido en 1894 (dominio público pleno).
- * 3. Lewis Carroll: «Alicia en el país de las maravillas» («Alice's Adventures in Wonderland», 1865):
- *    - Traducción histórica de dominio público (primera mitad del siglo XX).
- *    - Autor fallecido en 1898 (dominio público pleno).
- * 4. Jack London: «El llamado de la selva» («The Call of the Wild», 1903):
- *    - Traducción clásica castellana de dominio público.
- *    - Autor fallecido en 1916 (dominio público internacional).
+ * BANCO DE TEXTOS - NIVEL DE DIFICULTAD 2 (PERFIL 1)
+ * Perfil 1: 50-80 palabras, 3-4 errores. Densidad: 1 error cada 15-25 palabras.
  */
 
 import { LevelData } from "../../types";
 import { w, p, s } from "../../utils/levelHelpers";
 
 export const LEVEL_2_POOL: LevelData[] = [
+  // Autor: Julio Verne (1828-1905)
+  // Obra: Veinte mil leguas de viaje submarino (1870)
+  // Edición o traducción: Traducción histórica castellana de Vicente Guimerá (Madrid, 1870)
+  // Situación de derechos: Dominio público internacional (autor fallecido en 1905)
   {
     difficultyLevel: 2,
     profile: "perfil_1",
     description: "Veinte mil leguas de viaje submarino (Frag.)",
     totalErrors: 3,
-    timeLimit: 55,
-    originalText: "El año 1866 fue marcado por un extraño acontecimiento. Un fenómeno inexplicable que nadie ha olvidado. Los hombres de mar estaban particularmente emocionados.",
+    timeLimit: 58,
+    originalText: "El año 1866 quedó marcado por un acontecimiento extraño, un fenómeno inexplicable que nadie ha podido olvidar ciertamente. Los hombres de mar estaban particularmente conmovidos por los rumores. Los armadores de los puertos europeos y americanos, los oficiales de marina de todos los países y los gobiernos de los dos continentes se mostraron sumamente preocupados por aquel misterioso monstruo marino.",
     bookTitle: "Veinte mil leguas de viaje submarino",
     bookAuthor: "Julio Verne",
     tokens: [
       w("El"), s(),
       w("año"), s(),
       w("1866"), s(),
-      w("fue"), s(),
+      w("quedó"), s(),
       w("marcado"), s(),
       w("por"), s(),
       w("un"), s(),
-      w("estraño", "extraño", "homophone"), s(), // Error 1: estraño -> extraño (s -> x)
-      w("acontecimiento"), p("."), s(),
-      w("Un"), s(),
-      w("fenomeno", "fenómeno", "accent"), s(), // Error 2: fenomeno -> fenómeno (falta tilde esdrújula)
+      w("acontecimiento"), s(),
+      w("estraño", "extraño", "homophone"), p(","), s(), // Error 1: estraño -> extraño
+      w("un"), s(),
+      w("fenómeno"), s(),
       w("inexplicable"), s(),
       w("que"), s(),
       w("nadie"), s(),
       w("ha"), s(),
-      w("olbidado", "olvidado", "homophone"), p("."), s(), // Error 3: olbidado -> olvidado (b -> v)
+      w("podido"), s(),
+      w("olbidar", "olvidar", "homophone"), s(), // Error 2: olbidar -> olvidar
+      w("ciertamente"), p("."), s(),
       w("Los"), s(),
       w("hombres"), s(),
       w("de"), s(),
       w("mar"), s(),
       w("estaban"), s(),
       w("particularmente"), s(),
-      w("emocionados"), p(".")
+      w("conmovidos"), s(),
+      w("por"), s(),
+      w("los"), s(),
+      w("rumores"), p("."), s(),
+      w("Los"), s(),
+      w("armadores"), s(),
+      w("de"), s(),
+      w("los"), s(),
+      w("puertos"), s(),
+      w("europeos"), s(),
+      w("y"), s(),
+      w("americanos"), p(","), s(),
+      w("los"), s(),
+      w("oficiales"), s(),
+      w("de"), s(),
+      w("marina"), s(),
+      w("de"), s(),
+      w("todos"), s(),
+      w("los"), s(),
+      w("países"), s(),
+      w("y"), s(),
+      w("los"), s(),
+      w("gobiernos"), s(),
+      w("de"), s(),
+      w("los"), s(),
+      w("dos"), s(),
+      w("continentes"), s(),
+      w("se"), s(),
+      w("mostraron"), s(),
+      w("sumamente"), s(),
+      w("preocupados"), s(),
+      w("por"), s(),
+      w("aquel"), s(),
+      w("misterioso"), s(),
+      w("monstruo"), s(),
+      w("maríno", "marino", "accent"), p(".") // Error 3: maríno -> marino
     ]
   },
+
+  // Autor: Robert Louis Stevenson (1850-1894)
+  // Obra: La isla del tesoro (1883)
+  // Edición o traducción: Traducción clásica castellana de dominio público
+  // Situación de derechos: Dominio público internacional (autor fallecido en 1894)
   {
     difficultyLevel: 2,
     profile: "perfil_1",
     description: "La isla del tesoro (Frag.)",
     totalErrors: 3,
-    timeLimit: 55,
-    originalText: "Debo contar todo, desde el principio hasta el final, sin omitir nada excepto la posición de la isla, y esto solamente porque todavía hay tesoro en ella.",
+    timeLimit: 60,
+    originalText: "El caballero Trelawney, el doctor Livesey y los demás caballeros me han pedido que ponga por escrito todos los pormenores referentes a la Isla del Tesoro, de principio a fin, sin omitir más que la posición geográfica del lugar, y esto únicamente porque todavía quedan caudales allí enterrados. Tomo la pluma en este año de gracia y comienzo el relato.",
     bookTitle: "La isla del tesoro",
     bookAuthor: "Robert Louis Stevenson",
     tokens: [
-      w("Debo"), s(),
-      w("contar"), s(),
-      w("todo"), p(","), s(),
-      w("desde"), s(),
+      w("El"), s(),
+      w("caballero"), s(),
+      w("Trelawney"), p(","), s(),
       w("el"), s(),
-      w("prinsipio", "principio", "homophone"), s(), // Error 1: prinsipio -> principio (s -> c)
-      w("hasta"), s(),
-      w("el"), s(),
-      w("final"), p(","), s(),
+      w("doctor"), s(),
+      w("Livesey"), s(),
+      w("y"), s(),
+      w("los"), s(),
+      w("demás"), s(),
+      w("caballeros"), s(),
+      w("me"), s(),
+      w("han"), s(),
+      w("pedido"), s(),
+      w("que"), s(),
+      w("ponga"), s(),
+      w("por"), s(),
+      w("escrito"), s(),
+      w("todos"), s(),
+      w("los"), s(),
+      w("pormenores"), s(),
+      w("referentes"), s(),
+      w("a"), s(),
+      w("la"), s(),
+      w("Isla"), s(),
+      w("del"), s(),
+      w("Tesoro"), p(","), s(),
+      w("de"), s(),
+      w("prinsipio", "principio", "homophone"), s(), // Error 1: prinsipio -> principio
+      w("a"), s(),
+      w("fin"), p(","), s(),
       w("sin"), s(),
       w("omitir"), s(),
-      w("nada"), s(),
-      w("escepto", "excepto", "homophone"), s(), // Error 2: escepto -> excepto (s -> x)
+      w("más"), s(),
+      w("que"), s(),
       w("la"), s(),
       w("posición"), s(),
-      w("de"), s(),
-      w("la"), s(),
-      w("isla"), p(","), s(),
+      w("geografica", "geográfica", "accent"), s(), // Error 2: geografica -> geográfica
+      w("del"), s(),
+      w("lugar"), p(","), s(),
       w("y"), s(),
       w("esto"), s(),
-      w("solamente"), s(),
+      w("únicamente"), s(),
       w("porque"), s(),
-      w("todavia", "todavía", "accent"), s(), // Error 3: todavia -> todavía (falta tilde hiato)
-      w("hay"), s(),
-      w("tesoro"), s(),
+      w("todabia", "todavía", "homophone"), s(), // Error 3: todabia -> todavía
+      w("quedan"), s(),
+      w("caudales"), s(),
+      w("allí"), s(),
+      w("enterrados"), p("."), s(),
+      w("Tomo"), s(),
+      w("la"), s(),
+      w("pluma"), s(),
       w("en"), s(),
-      w("ella"), p(".")
+      w("este"), s(),
+      w("año"), s(),
+      w("de"), s(),
+      w("gracia"), s(),
+      w("y"), s(),
+      w("comienzo"), s(),
+      w("el"), s(),
+      w("relato"), p(".")
     ]
   },
+
+  // Autor: Lewis Carroll (1832-1898)
+  // Obra: Alicia en el país de las maravillas (1865)
+  // Edición o traducción: Traducción histórica castellana de dominio público
+  // Situación de derechos: Dominio público internacional (autor fallecido en 1898)
   {
     difficultyLevel: 2,
     profile: "perfil_1",
     description: "Alicia en el país de las maravillas (Frag.)",
     totalErrors: 3,
     timeLimit: 60,
-    originalText: "Alicia empezaba a cansarse de estar sentada con su hermana a la orilla del río, sin tener nada que hacer. ¿Y de qué sirve un libro sin dibujos ni diálogos?, pensó Alicia.",
+    originalText: "Alicia empezaba a cansarse de estar sentada con su hermana a la orilla del río, sin tener nada que hacer. Había echado un par de miradas al libro que su hermana leía, pero no tenía dibujos ni conversaciones. «¿Y de qué sirve un libro —pensó Alicia— sin dibujos ni diálogos?». La modorra del día caluroso la adormecía por completo.",
     bookTitle: "Alicia en el país de las maravillas",
     bookAuthor: "Lewis Carroll",
     tokens: [
       w("Alicia"), s(),
-      w("empesaba", "empezaba", "homophone"), s(), // Error 1: empesaba -> empezaba (s -> z)
+      w("empesaba", "empezaba", "homophone"), s(), // Error 1: empesaba -> empezaba
       w("a"), s(),
       w("cansarse"), s(),
       w("de"), s(),
@@ -123,28 +194,60 @@ export const LEVEL_2_POOL: LevelData[] = [
       w("tener"), s(),
       w("nada"), s(),
       w("que"), s(),
-      w("acer", "hacer", "homophone"), p("."), s(), // Error 2: acer -> hacer (falta h)
-      p("¿"), w("Y"), s(),
+      w("hacer"), p("."), s(),
+      w("Había"), s(),
+      w("echado"), s(),
+      w("un"), s(),
+      w("par"), s(),
+      w("de"), s(),
+      w("miradas"), s(),
+      w("al"), s(),
+      w("libro"), s(),
+      w("que"), s(),
+      w("su"), s(),
+      w("hermana"), s(),
+      w("leía"), p(","), s(),
+      w("pero"), s(),
+      w("no"), s(),
+      w("tenía"), s(),
+      w("dibujos"), s(),
+      w("ni"), s(),
+      w("conversaciones"), p("."), s(),
+      p("«"), p("¿"), w("Y"), s(),
       w("de"), s(),
       w("qué"), s(),
       w("sirve"), s(),
       w("un"), s(),
       w("libro"), s(),
+      p("—"), w("pensó"), s(),
+      w("Alicia"), p("—"), s(),
       w("sin"), s(),
       w("dibujos"), s(),
       w("ni"), s(),
-      w("dialogos", "diálogos", "accent"), p("?"), p(","), s(), // Error 3: dialogos -> diálogos (falta tilde esdrújula)
-      w("pensó"), s(),
-      w("Alicia"), p(".")
+      w("dialogos", "diálogos", "accent"), p("?"), p("»"), p("."), s(), // Error 2: dialogos -> diálogos
+      w("La"), s(),
+      w("modorra"), s(),
+      w("del"), s(),
+      w("día"), s(),
+      w("caluroso"), s(),
+      w("la"), s(),
+      w("adormecía"), s(),
+      w("por"), s(),
+      w("conpleto", "completo", "letter"), p(".") // Error 3: conpleto -> completo
     ]
   },
+
+  // Autor: Jack London (1876-1916)
+  // Obra: El llamado de la selva (1903)
+  // Edición o traducción: Traducción clásica castellana de dominio público
+  // Situación de derechos: Dominio público internacional (autor fallecido en 1916)
   {
     difficultyLevel: 2,
     profile: "perfil_1",
     description: "El llamado de la selva (Frag.)",
     totalErrors: 3,
-    timeLimit: 55,
-    originalText: "Buck no leía los periódicos, o habría sabido que se avecinaban problemas. No solo para él, sino para todos los perros de músculos fuertes y pelo cálido.",
+    timeLimit: 58,
+    originalText: "Buck no leía los periódicos; de haberlo hecho, habría sabido que se avecinaban grandes problemas para él y para todos los perros de pelo largo y músculos fuertes desde Puget Sound hasta San Diego. Porque unos hombres, buscando a tientas en la penumbra ártica, habían hallado un metal amarillo que despertaba la codicia de miles de aventureros intrépidos.",
     bookTitle: "El llamado de la selva",
     bookAuthor: "Jack London",
     tokens: [
@@ -152,29 +255,60 @@ export const LEVEL_2_POOL: LevelData[] = [
       w("no"), s(),
       w("leía"), s(),
       w("los"), s(),
-      w("periódicos"), p(","), s(),
-      w("o"), s(),
-      w("abría", "habría", "homophone"), s(), // Error 1: abría -> habría (falta h)
+      w("periódicos"), p(";"), s(),
+      w("de"), s(),
+      w("haberlo"), s(),
+      w("hecho"), p(","), s(),
+      w("abría", "habría", "homophone"), s(), // Error 1: abría -> habría
       w("sabido"), s(),
       w("que"), s(),
       w("se"), s(),
       w("avecinaban"), s(),
-      w("problemas"), p("."), s(),
-      w("No"), s(),
-      w("solo"), s(),
+      w("grandes"), s(),
+      w("problemas"), s(),
       w("para"), s(),
-      w("él"), p(","), s(),
-      w("sino"), s(),
+      w("él"), s(),
+      w("y"), s(),
       w("para"), s(),
       w("todos"), s(),
       w("los"), s(),
       w("perros"), s(),
       w("de"), s(),
-      w("musculos", "músculos", "accent"), s(), // Error 2: musculos -> músculos (falta tilde esdrújula)
-      w("fuertes"), s(),
-      w("y"), s(),
       w("pelo"), s(),
-      w("calido", "cálido", "accent"), p(".") // Error 3: calido -> cálido (falta tilde esdrújula)
+      w("largo"), s(),
+      w("y"), s(),
+      w("musculos", "músculos", "accent"), s(), // Error 2: musculos -> músculos
+      w("fuertes"), s(),
+      w("desde"), s(),
+      w("Puget"), s(),
+      w("Sound"), s(),
+      w("hasta"), s(),
+      w("San"), s(),
+      w("Diego"), p("."), s(),
+      w("Porque"), s(),
+      w("unos"), s(),
+      w("hombres"), p(","), s(),
+      w("buscando"), s(),
+      w("a"), s(),
+      w("tientas"), s(),
+      w("en"), s(),
+      w("la"), s(),
+      w("penumbra"), s(),
+      w("ártica"), p(","), s(),
+      w("habían"), s(),
+      w("hallado"), s(),
+      w("un"), s(),
+      w("metal"), s(),
+      w("amarillo"), s(),
+      w("que"), s(),
+      w("despertaba"), s(),
+      w("la"), s(),
+      w("codicia"), s(),
+      w("de"), s(),
+      w("miles"), s(),
+      w("de"), s(),
+      w("aventureros"), s(),
+      w("intrepidos", "intrépidos", "accent"), p(".") // Error 3: intrepidos -> intrépidos
     ]
   }
 ];

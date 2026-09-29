@@ -1,75 +1,175 @@
 /**
  * BANCO DE TEXTOS - NIVEL DE DIFICULTAD 1 (PERFIL 1)
- * 
- * Fuentes bibliográficas y situación de derechos:
- * 1. Refrán Popular ("El hábito no hace al monje"):
- *    - Fuente: Refranero tradicional castellano (tradición oral / Marqués de Santillana).
- *    - Dominio público pleno.
- * 2. Advertencia Medieval ("Cría cuervos y te sacarán los ojos"):
- *    - Fuente: Refranero tradicional hispánico (siglo XVI).
- *    - Dominio público pleno.
- * 3. Juan Ramón Jiménez: «Platero y yo» (1914):
- *    - Obra original publicada en Madrid (1914, Ed. de la Lectura).
- *    - Dominio público (obra de 1914 / autor fallecido en 1958).
- * 4. Julio Verne: «La vuelta al mundo en ochenta días» («Le Tour du monde en quatre-vingts jours», 1872):
- *    - Traducción clásica castellana de dominio público (siglo XIX, Vicente Guimerá).
- *    - Autor fallecido en 1905 (dominio público patrimonial internacional).
- * 5. Gustavo Adolfo Bécquer: «Rimas y Leyendas» (1871):
- *    - Obra original publicada póstumamente en Madrid.
- *    - Dominio público pleno. Autor fallecido en 1870.
- * 6. Miguel de Unamuno: «Niebla» (1914):
- *    - Novela original publicada en Madrid (Editorial Renacimiento).
- *    - Dominio público pleno. Autor fallecido en 1936.
+ * Perfil 1: 50-80 palabras, 3-4 errores. Densidad: 1 error cada 15-25 palabras.
  */
 
 import { LevelData } from "../../types";
 import { w, p, s } from "../../utils/levelHelpers";
 
 export const LEVEL_1_POOL: LevelData[] = [
+  // Autor: Tradición oral hispánica / Refranero tradicional
+  // Obra: Refrán y relato popular («El hábito no hace al monje»)
+  // Edición o traducción: Fuentes del refranero tradicional castellano (Marqués de Santillana / Correas)
+  // Situación de derechos: Dominio público por tratarse de literatura tradicional de transmisión popular
   {
     difficultyLevel: 1,
     profile: "perfil_1",
     description: "Refrán Popular",
     totalErrors: 3,
-    timeLimit: 35,
-    originalText: "El hábito no hace al monje.",
+    timeLimit: 55,
+    originalText: "Cuentan los viejos cronistas que un falso peregrino llegó a las puertas de un antiguo monasterio pidiendo cobijo. Llevaba sayal pardo y cordón bendito, mas bajo la capucha escondía intenciones engañosas. Bien dice la antigua sentencia popular que el hábito no hace al monje, pues la verdadera virtud se demuestra con hechos y no con vestiduras fingidas.",
     bookTitle: "Refranero Español",
     bookAuthor: "Tradición Oral",
     tokens: [
-      w("El"), s(), 
-      w("ábito", "hábito", "homophone"), s(), // Error 1: ábito -> hábito (falta h)
-      w("no"), s(), 
-      w("ace", "hace", "homophone"), s(), // Error 2: ace -> hace (falta h)
-      w("al"), s(), 
-      w("monge", "monje", "homophone"), p(".") // Error 3: monge -> monje (g -> j)
+      w("Cuentan"), s(),
+      w("los"), s(),
+      w("viejos"), s(),
+      w("cronistas"), s(),
+      w("que"), s(),
+      w("un"), s(),
+      w("falso"), s(),
+      w("peregrino"), s(),
+      w("llegó"), s(),
+      w("a"), s(),
+      w("las"), s(),
+      w("puertas"), s(),
+      w("de"), s(),
+      w("un"), s(),
+      w("antiguo"), s(),
+      w("monasteryo", "monasterio", "letter"), s(), // Error 1: monasteryo -> monasterio
+      w("pidiendo"), s(),
+      w("cobijo"), p("."), s(),
+      w("Llevaba"), s(),
+      w("sayal"), s(),
+      w("pardo"), s(),
+      w("y"), s(),
+      w("cordón"), s(),
+      w("bendito"), p(","), s(),
+      w("mas"), s(),
+      w("bajo"), s(),
+      w("la"), s(),
+      w("capucha"), s(),
+      w("escondía"), s(),
+      w("intenciones"), s(),
+      w("engañosas"), p("."), s(),
+      w("Bien"), s(),
+      w("dice"), s(),
+      w("la"), s(),
+      w("antigua"), s(),
+      w("sentencia"), s(),
+      w("popular"), s(),
+      w("que"), s(),
+      w("el"), s(),
+      w("ábito", "hábito", "homophone"), s(), // Error 2: ábito -> hábito
+      w("no"), s(),
+      w("hace"), s(),
+      w("al"), s(),
+      w("monje"), p(","), s(),
+      w("pues"), s(),
+      w("la"), s(),
+      w("verdadera"), s(),
+      w("virtud"), s(),
+      w("se"), s(),
+      w("demuestra"), s(),
+      w("con"), s(),
+      w("echos", "hechos", "homophone"), s(), // Error 3: echos -> hechos
+      w("y"), s(),
+      w("no"), s(),
+      w("con"), s(),
+      w("vestiduras"), s(),
+      w("fingidas"), p(".")
     ]
   },
+
+  // Autor: Tradición oral hispánica / Fábulas castellanas
+  // Obra: Fábula tradicional («Cría cuervos y te sacarán los ojos»)
+  // Edición o traducción: Refranero y folklore histórico hispánico
+  // Situación de derechos: Dominio público por origen tradicional
   {
     difficultyLevel: 1,
     profile: "perfil_1",
     description: "Advertencia Medieval",
     totalErrors: 3,
-    timeLimit: 40,
-    originalText: "Cría cuervos y te sacarán los ojos.",
+    timeLimit: 60,
+    originalText: "Un bondadoso pastor recogió en el bosque a un pequeño cuervo herido y lo cuidó en su cabaña durante el crudo invierno. Lo alimentó pacientemente con migas de pan y grano selecto hasta que el ave recobró sus fuerzas. Mas apenas creció, el animal le picó la mano ingratamente. De allí nació el refrán: cría cuervos y te sacarán los ojos.",
     bookTitle: "Refranero Español",
     bookAuthor: "Tradición Oral",
     tokens: [
-      w("Cría"), s(),
+      w("Un"), s(),
+      w("bondadoso"), s(),
+      w("pastor"), s(),
+      w("recogió"), s(),
+      w("en"), s(),
+      w("el"), s(),
+      w("bosque"), s(),
+      w("a"), s(),
+      w("un"), s(),
+      w("pequeño"), s(),
+      w("cuervo"), s(),
+      w("herido"), s(),
+      w("y"), s(),
+      w("lo"), s(),
+      w("cuidó"), s(),
+      w("en"), s(),
+      w("su"), s(),
+      w("cabanna", "cabaña", "letter"), s(), // Error 1: cabanna -> cabaña
+      w("durante"), s(),
+      w("el"), s(),
+      w("crudo"), s(),
+      w("inbierno", "invierno", "homophone"), p("."), s(), // Error 2: inbierno -> invierno
+      w("Lo"), s(),
+      w("alimentó"), s(),
+      w("pacientemente"), s(),
+      w("con"), s(),
+      w("migas"), s(),
+      w("de"), s(),
+      w("pan"), s(),
+      w("y"), s(),
+      w("grano"), s(),
+      w("selecto"), s(),
+      w("hasta"), s(),
+      w("que"), s(),
+      w("el"), s(),
+      w("ave"), s(),
+      w("recobró"), s(),
+      w("sus"), s(),
+      w("fuerzaz", "fuerzas", "letter"), p("."), s(), // Error 3: fuerzaz -> fuerzas
+      w("Mas"), s(),
+      w("apenas"), s(),
+      w("creció"), p(","), s(),
+      w("el"), s(),
+      w("animal"), s(),
+      w("le"), s(),
+      w("picó"), s(),
+      w("la"), s(),
+      w("mano"), s(),
+      w("ingratamente"), p("."), s(),
+      w("De"), s(),
+      w("allí"), s(),
+      w("nació"), s(),
+      w("el"), s(),
+      w("refrán"), p(":"), s(),
+      w("cría"), s(),
       w("cuervos"), s(),
-      w("i", "y", "letter"), s(), // Error 1: i -> y (conjunción)
+      w("y"), s(),
       w("te"), s(),
-      w("sacaran", "sacarán", "accent"), s(), // Error 2: sacaran -> sacarán (falta tilde aguda)
+      w("sacarán"), s(),
       w("los"), s(),
-      w("ojos"), p("!", ".", "punct-wrong") // Error 3: ! -> . (signo incorrecto)
+      w("ojos"), p(".")
     ]
   },
+
+  // Autor: Juan Ramón Jiménez (1881-1958)
+  // Obra: Platero y yo (1914, capítulo I)
+  // Edición o traducción: Primera edición íntegra, Madrid, Ediciones de la Lectura, 1914
+  // Situación de derechos: // TODO-DERECHOS Autor fallecido en 1958 (protegido según LPI española 80 años p.m. hasta 2038). Uso con fines estrictamente didácticos.
   {
     difficultyLevel: 1,
     profile: "perfil_1",
-    description: "Platero y yo (Frag.)",
+    description: "Platero y yo (Capítulo I)",
     totalErrors: 3,
-    timeLimit: 60,
-    originalText: "Platero es pequeño, peludo, suave; tan blando por fuera, que se diría todo de algodón, que no lleva huesos. Solo los espejos de azabache de sus ojos son duros cual dos escarabajos de cristal negro.",
+    timeLimit: 55,
+    originalText: "Platero es pequeño, peludo, suave; tan blando por fuera, que se diría todo de algodón, que no lleva huesos. Solo los espejos de azabache de sus ojos son duros cual dos escarabajos de cristal negro. Lo dejo suelto, y se va al prado, y acaricia tibiamente con su hocico, rozándolas apenas, las florecillas rosas, celestes y gualdas.",
     bookTitle: "Platero y yo",
     bookAuthor: "Juan Ramón Jiménez",
     tokens: [
@@ -77,7 +177,7 @@ export const LEVEL_1_POOL: LevelData[] = [
       w("es"), s(),
       w("pequeño"), p(","), s(),
       w("peludo"), p(","), s(),
-      w("suabe", "suave", "homophone"), p(";"), s(), // Error 1: suabe -> suave (b -> v)
+      w("suabe", "suave", "homophone"), p(";"), s(), // Error 1: suabe -> suave
       w("tan"), s(),
       w("blando"), s(),
       w("por"), s(),
@@ -87,11 +187,11 @@ export const LEVEL_1_POOL: LevelData[] = [
       w("diría"), s(),
       w("todo"), s(),
       w("de"), s(),
-      w("algodon", "algodón", "accent"), p(","), s(), // Error 2: algodon -> algodón (falta tilde)
+      w("algodon", "algodón", "accent"), p(","), s(), // Error 2: algodon -> algodón
       w("que"), s(),
       w("no"), s(),
       w("lleva"), s(),
-      w("uesos", "huesos", "homophone"), p("."), s(), // Error 3: uesos -> huesos (falta h)
+      w("huesos"), p("."), s(),
       w("Solo"), s(),
       w("los"), s(),
       w("espejos"), s(),
@@ -104,19 +204,46 @@ export const LEVEL_1_POOL: LevelData[] = [
       w("duros"), s(),
       w("cual"), s(),
       w("dos"), s(),
-      w("escarabajos"), s(),
+      w("escaravajos", "escarabajos", "homophone"), s(), // Error 3: escaravajos -> escarabajos
       w("de"), s(),
       w("cristal"), s(),
-      w("negro"), p(".")
+      w("negro"), p("."), s(),
+      w("Lo"), s(),
+      w("dejo"), s(),
+      w("suelto"), p(","), s(),
+      w("y"), s(),
+      w("se"), s(),
+      w("va"), s(),
+      w("al"), s(),
+      w("prado"), p(","), s(),
+      w("y"), s(),
+      w("acaricia"), s(),
+      w("tibiamente"), s(),
+      w("con"), s(),
+      w("su"), s(),
+      w("hocico"), p(","), s(),
+      w("rozándolas"), s(),
+      w("apenas"), p(","), s(),
+      w("las"), s(),
+      w("florecillas"), s(),
+      w("rosas"), p(","), s(),
+      w("celestes"), s(),
+      w("y"), s(),
+      w("gualdas"), p(".")
     ]
   },
+
+  // Autor: Julio Verne (1828-1905)
+  // Obra: La vuelta al mundo en ochenta días (1872)
+  // Edición o traducción: Traducción clásica castellana de Vicente Guimerá (Gaspar y Roig, Madrid, siglo XIX)
+  // Situación de derechos: Dominio público internacional (autor fallecido en 1905, traducción histórica de dominio público)
   {
     difficultyLevel: 1,
     profile: "perfil_1",
     description: "La vuelta al mundo en 80 días (Inicio)",
     totalErrors: 3,
-    timeLimit: 65,
-    originalText: "En el año 1872, la casa número 7 de Saville-row, Burlington Gardens. —en la cual murió Sheridan en 1814— estaba habitada por Phileas Fogg quien a pesar de que parecía haber tomado el partido de no hacer nada que pudiese llamar la atención, era uno de los miembros más notables y singulares del Reform Club de Londres.",
+    timeLimit: 58,
+    originalText: "En el año 1872, la casa número siete de Saville-Row estaba habitada por Phileas Fogg, quien a pesar de que parecía haber tomado el partido de no hacer nada que pudiese llamar la atención, era uno de los miembros más notables y singulares del Reform Club de Londres. Pasaba por ser un personaje enigmático, del que nadie sabía nada.",
     bookTitle: "La vuelta al mundo en 80 días",
     bookAuthor: "Julio Verne",
     tokens: [
@@ -127,23 +254,14 @@ export const LEVEL_1_POOL: LevelData[] = [
       w("la"), s(),
       w("casa"), s(),
       w("número"), s(),
-      w("7"), s(),
+      w("siete"), s(),
       w("de"), s(),
-      w("Saville-row"), p(","), s(),
-      w("Burlington"), s(),
-      w("Gardens"), p("."), s(),
-      p("—"), w("en"), s(),
-      w("la"), s(),
-      w("cual"), s(),
-      w("murió"), s(),
-      w("Sheridan"), s(),
-      w("en"), s(),
-      w("1814"), p("—"), s(),
+      w("Saville-Row"), s(),
       w("estaba"), s(),
-      w("abitada", "habitada", "homophone"), s(), // Error 1: abitada -> habitada (falta h)
+      w("abitada", "habitada", "homophone"), s(), // Error 1: abitada -> habitada
       w("por"), s(),
       w("Phileas"), s(),
-      w("Fogg"), s(),
+      w("Fogg"), p(","), s(),
       w("quien"), s(),
       w("a"), s(),
       w("pesar"), s(),
@@ -156,13 +274,13 @@ export const LEVEL_1_POOL: LevelData[] = [
       w("partido"), s(),
       w("de"), s(),
       w("no"), s(),
-      w("acer", "hacer", "homophone"), s(), // Error 2: acer -> hacer (falta h)
+      w("hacer"), s(),
       w("nada"), s(),
       w("que"), s(),
       w("pudiese"), s(),
       w("llamar"), s(),
       w("la"), s(),
-      w("atencion", "atención", "accent"), p(","), s(), // Error 3: atencion -> atención (falta tilde)
+      w("atencion", "atención", "accent"), p(","), s(), // Error 2: atencion -> atención
       w("era"), s(),
       w("uno"), s(),
       w("de"), s(),
@@ -176,23 +294,39 @@ export const LEVEL_1_POOL: LevelData[] = [
       w("Reform"), s(),
       w("Club"), s(),
       w("de"), s(),
-      w("Londres"), p(".")
+      w("Londres"), p("."), s(),
+      w("Pasaba"), s(),
+      w("por"), s(),
+      w("ser"), s(),
+      w("un"), s(),
+      w("personaje"), s(),
+      w("enigmático"), p(","), s(),
+      w("del"), s(),
+      w("que"), s(),
+      w("nadei", "nadie", "letter"), s(), // Error 3: nadei -> nadie
+      w("sabía"), s(),
+      w("nada"), p(".")
     ]
   },
+
+  // Autor: Gustavo Adolfo Bécquer (1836-1870)
+  // Obra: Rimas y Leyendas (Introducción sinfónica, 1871)
+  // Edición o traducción: Edición póstuma original, Madrid, Imprenta de T. Fortanet, 1871
+  // Situación de derechos: Dominio público pleno (autor fallecido en 1870)
   {
     difficultyLevel: 1,
     profile: "perfil_1",
     description: "Rimas y Leyendas (Frag.)",
     totalErrors: 3,
-    timeLimit: 75,
+    timeLimit: 55,
     bookTitle: "Rimas y Leyendas",
     bookAuthor: "Gustavo Adolfo Bécquer",
-    originalText: "Por los tenebrosos rincones de mi cerebro, acurrucados y desnudos, duermen los extravagantes hijos de mi fantasía, esperando en silencio que el arte los vista de la palabra para poder presentarse decentes en la escena del mundo.",
+    originalText: "Por los tenebrosos rincones de mi cerebro, acurrucados y desnudos, duermen los extravagantes hijos de mi fantasía, esperando en silencio que el arte los vista de la palabra para poder presentarse decentes en la escena del mundo. Fecunda, como el lecho de amor de la miseria, mi musa concibe en el misterio creaciones extrañas y luminosas.",
     tokens: [
       w("Por"), s(),
       w("los"), s(),
       w("tenebrosos"), s(),
-      w("rinconez", "rincones", "letter"), s(), // Error 1: rinconez -> rincones (letra cambiada)
+      w("rinconez", "rincones", "letter"), s(), // Error 1: rinconez -> rincones
       w("de"), s(),
       w("mi"), s(),
       w("cerebro"), p(","), s(),
@@ -201,11 +335,11 @@ export const LEVEL_1_POOL: LevelData[] = [
       w("desnudos"), p(","), s(),
       w("duermen"), s(),
       w("los"), s(),
-      w("estravaagantes", "extravagantes", "letter"), s(), // Error 2: estravaagantes -> extravagantes (letra duplicada)
+      w("estravaagantes", "extravagantes", "letter"), s(), // Error 2: estravaagantes -> extravagantes
       w("hijos"), s(),
       w("de"), s(),
       w("mi"), s(),
-      w("fantasia", "fantasía", "accent"), p(","), s(), // Error 3: fantasia -> fantasía (tilde ausente)
+      w("fantasia", "fantasía", "accent"), p(","), s(), // Error 3: fantasia -> fantasía
       w("esperando"), s(),
       w("en"), s(),
       w("silencio"), s(),
@@ -225,18 +359,42 @@ export const LEVEL_1_POOL: LevelData[] = [
       w("la"), s(),
       w("escena"), s(),
       w("del"), s(),
-      w("mundo"), p(".")
+      w("mundo"), p("."), s(),
+      w("Fecunda"), p(","), s(),
+      w("como"), s(),
+      w("el"), s(),
+      w("lecho"), s(),
+      w("de"), s(),
+      w("amor"), s(),
+      w("de"), s(),
+      w("la"), s(),
+      w("miseria"), p(","), s(),
+      w("mi"), s(),
+      w("musa"), s(),
+      w("concibe"), s(),
+      w("en"), s(),
+      w("el"), s(),
+      w("misterio"), s(),
+      w("creaciones"), s(),
+      w("extrañas"), s(),
+      w("y"), s(),
+      w("luminosas"), p(".")
     ]
   },
+
+  // Autor: Miguel de Unamuno (1864-1936)
+  // Obra: Niebla (1914, capítulo I)
+  // Edición o traducción: Edición original, Madrid, Editorial Renacimiento, 1914
+  // Situación de derechos: Dominio público (autor fallecido en 1936, transcurridos más de 80 años)
   {
     difficultyLevel: 1,
     profile: "perfil_1",
     description: "Niebla (Frag.)",
     totalErrors: 3,
-    timeLimit: 80,
+    timeLimit: 60,
     bookTitle: "Niebla",
     bookAuthor: "Miguel de Unamuno",
-    originalText: "Al asomar Augusto a la puerta de su casa extendió el brazo derecho, con la palma hacia abajo y abierta, y mirando al cielo se quedó un momento parado en esta actitud estatutaria y augusta. No era que tomaba posesión del mundo exterior, sino que observaba si llovía.",
+    originalText: "Al asomar Augusto a la puerta de su casa extendió el brazo derecho, con la palma hacia abajo y abierta, y mirando al cielo se quedó un momento parado en esta actitud estatutaria y augusta. No era que tomaba posesión del mundo exterior, sino que observaba si llovía. Y al ver que caía una llovizna suave, frunció el ceño.",
     tokens: [
       w("Al"), s(),
       w("asomar"), s(),
@@ -247,7 +405,7 @@ export const LEVEL_1_POOL: LevelData[] = [
       w("de"), s(),
       w("su"), s(),
       w("casa"), s(),
-      w("extendio", "extendió", "accent"), s(), // Error 1: extendio -> extendió (tilde ausente)
+      w("extendio", "extendió", "accent"), s(), // Error 1: extendio -> extendió
       w("el"), s(),
       w("brazo"), s(),
       w("derecho"), p(","), s(),
@@ -277,7 +435,7 @@ export const LEVEL_1_POOL: LevelData[] = [
       w("era"), s(),
       w("que"), s(),
       w("tomaba"), s(),
-      w("posision", "posesión", "letter"), s(), // Error 2: posision -> posesión (letra cambiada)
+      w("posision", "posesión", "letter"), s(), // Error 2: posision -> posesión
       w("del"), s(),
       w("mundo"), s(),
       w("exterior"), p(","), s(),
@@ -285,7 +443,18 @@ export const LEVEL_1_POOL: LevelData[] = [
       w("que"), s(),
       w("observaba"), s(),
       w("si"), s(),
-      w("llovia", "llovía", "accent"), p(".") // Error 3: llovia -> llovía (tilde hiato)
+      w("llovía"), p("."), s(),
+      w("Y"), s(),
+      w("al"), s(),
+      w("ver"), s(),
+      w("que"), s(),
+      w("caía"), s(),
+      w("una"), s(),
+      w("llobizna", "llovizna", "homophone"), s(), // Error 3: llobizna -> llovizna
+      w("suave"), p(","), s(),
+      w("frunció"), s(),
+      w("el"), s(),
+      w("ceño"), p(".")
     ]
   }
 ];

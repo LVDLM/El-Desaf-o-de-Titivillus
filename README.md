@@ -13,7 +13,7 @@ El juego está diseñado con una premisa pedagógica clara y rigurosa: **el apre
 - **Sin teoría abstracta ni normas memorísticas**: No se presentan explicaciones gramaticales, definiciones de reglas normativas de acentuación ni tecnicismos lingüísticos.
 - **Fijación por memoria visual**: Al cotejar directamente el modelo impecable con la copia errónea, el cerebro del jugador fija los patrones grafémicos correctos, la distribución de espacios y la colocación exacta de los signos auxiliares del español actual.
 - **Aprendizaje por repetición e imitación**: Tras superar o fallar cada pergamino, el jugador repasa en el *Cuaderno de Titivillus* las formas correctas contextualizadas, reforzando la huella visual.
-- **Textos clásicos del dominio público**: Todos los pasajes proceden de grandes obras de la literatura hispánica e internacional en dominio público pleno (Cervantes, Verne, Bécquer, Unamuno, Salgari, Pardo Bazán, Baroja, Darío, entre otros).
+- **Textos clásicos y citas literarias**: Los pasajes proceden de obras históricas y universales de la literatura hispánica e internacional, en su gran mayoría en dominio público o seleccionadas en breves extractos con fines exclusivamente didácticos e instructivos de cotejo ortográfico (art. 32 LPI), indicando la autoría y fuente bibliográfica en cada manuscrito.
 
 ---
 

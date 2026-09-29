@@ -169,6 +169,9 @@ const App: React.FC = () => {
   };
 
   const handleGameOver = () => {
+    if (currentLevelData && !playedTexts.includes(currentLevelData.originalText)) {
+      setPlayedTexts(prev => [...prev, currentLevelData.originalText]);
+    }
     if (stats.level >= 5) {
       checkUnlockCondition(stats.level);
     }
@@ -182,7 +185,17 @@ const App: React.FC = () => {
   };
 
   const handleRetry = () => {
-    loadLevel(stats.level, playedTexts);
+    // Garantiza que el texto fallado forme parte del historial jugado para no repetirlo
+    const currentText = currentLevelData?.originalText;
+    const historyWithFailed = currentText && !playedTexts.includes(currentText)
+      ? [...playedTexts, currentText]
+      : playedTexts;
+
+    if (currentText && !playedTexts.includes(currentText)) {
+      setPlayedTexts(historyWithFailed);
+    }
+
+    loadLevel(stats.level, historyWithFailed);
   };
 
   const handleMainMenu = () => {

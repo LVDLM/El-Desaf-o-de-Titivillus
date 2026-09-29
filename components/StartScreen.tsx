@@ -97,7 +97,11 @@ const StartScreen: React.FC<StartScreenProps> = ({
             {gameMode === 'scribe' ? (
               <PenTool size={64} className="text-parchment-800 animate-pulse" />
             ) : (
-              <Feather size={64} className="text-blood animate-bounce" />
+              <img 
+                src="https://i.ibb.co/1GfX995m/Titivillus.png" 
+                alt="Titivillus" 
+                className="w-20 h-20 md:w-24 md:h-24 object-contain animate-bounce drop-shadow-md select-none pointer-events-none" 
+              />
             )}
           </div>
           

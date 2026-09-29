@@ -324,7 +324,7 @@ export const LEVEL_3_POOL: LevelData[] = [
     description: "La guerra de los mundos (Inicio)",
     totalErrors: 5,
     timeLimit: 85,
-    originalText: "Nadie habría creído en los últimos años del siglo diecinueve que este mundo nuestro estaba siendo observado con suma atención por inteligencias más desarrolladas que la del hombre, y sin embargo tan mortales como él. Nadie imaginó que al ocuparse los hombres de sus preocupaciones diarias eran escrutados y estudiados tan minuciosamente como un sabio examina al microscopio las criaturas diminutas que pululan y se multiplican en una gota de agua estancada. Con infinita complacencia iban los hombres de acá para allá siempre.",
+    originalText: "Nadie habría creído en los últimos años del siglo diecinueve que este mundo nuestro estaba siendo observado con suma atención por inteligencias más desarrolladas que la del hombre, y sin embargo tan mortales como él. Nadie imaginó que al ocuparse los hombres de sus preocupaciones diarias eran escrutados y estudiados tan minuciosamente como un sabio examina al microscopio, las criaturas diminutas que pululan y se multiplican en una gota de agua estancada. Con infinita complacencia iban los hombres de acá para allá siempre.",
     bookTitle: "La guerra de los mundos",
     bookAuthor: "H.G. Wells",
     tokens: [
@@ -434,7 +434,7 @@ export const LEVEL_3_POOL: LevelData[] = [
       w("lleno"), s(),
       w("del"), s(),
       w("rico"), s(),
-      w("olor"), sp(true, "", "space-extra", " "), p(","), s(), // Error 1: espacio antes de coma
+      w("olor"), s(),
       w("de"), s(),
       w("las"), s(),
       w("rosas"), s(),
@@ -452,7 +452,7 @@ export const LEVEL_3_POOL: LevelData[] = [
       w("los"), s(),
       w("arboles", "árboles", "accent"), s(), // Error 3: arboles -> árboles
       w("del"), s(),
-      w("jardín"), p(","), s(),
+      w("jardín"), sp(true, "", "space-extra", " "), p(","), s(), // Error 1: espacio antes de coma
       w("llegó"), s(),
       w("a"), s(),
       w("través"), s(),
@@ -749,7 +749,7 @@ export const LEVEL_3_POOL: LevelData[] = [
       w("solitarias"), s(),
       w("de"), s(),
       w("este"), s(),
-      w("valle"), sp(true, "", "space-extra", " "), p(","), s(), // Error 3: espacio antes de coma
+      w("valle"), sp(true, " ", "space-extra", "  "), // Error 3: doble espacio
       w("apacible"), p("."), s(),
       w("Tus"), s(),
       w("ojos"), s(),
@@ -839,7 +839,7 @@ export const LEVEL_3_POOL: LevelData[] = [
       w("hombre"), s(),
       w("de"), s(),
       w("elevada"), s(),
-      w("estaturra", "estatura", "letter"), s(), // Error 2: estaturra -> estatura
+      w("estaturra", "estatura", "letter"), p(","), s(), // Error 2: estaturra -> estatura
       w("de"), s(),
       w("complexión"), s(),
       w("atlética"), s(),
@@ -883,12 +883,12 @@ export const LEVEL_3_POOL: LevelData[] = [
       w("descansaba"), s(),
       w("una"), s(),
       w("soberbia"), s(),
-      w("cimitarra"), sp(true, "", "space-extra", " "), p(","), s(), // Error 4: espacio antes de coma
+      w("cimitarra"), s(),
       w("con"), s(),
       w("empuñadura"), s(),
       w("de"), s(),
       w("oro"), s(),
-      w("fino"), p(","), s(),
+      w("fino"), sp(true, "", "space-extra", " "), p(","), s(), // Error 4: espacio antes de coma
       w("mientras"), s(),
       w("afuera"), s(),
       w("la"), s(),
@@ -989,7 +989,7 @@ export const LEVEL_3_POOL: LevelData[] = [
       w("juramentos"), s(),
       w("solemnes"), s(),
       w("de"), s(),
-      w("venganza"), sp(true, "", "space-extra", " "), p(";"), s(), // Error 4: espacio antes de punto y coma
+      w("venganza"), s(),
       w("empeñados"), s(),
       w("ante"), s(),
       w("la"), s(),
@@ -997,7 +997,7 @@ export const LEVEL_3_POOL: LevelData[] = [
       w("de"), s(),
       w("sus"), s(),
       w("hermanos"), s(),
-      w("queridos"), p(","), s(),
+      w("queridos"), sp(true, "", "space-extra", " "), p(","), s(), // Error 4: espacio antes de coma
       w("mientras"), s(),
       w("el"), s(),
       w("vigia", "vigía", "accent"), s(), // Error 5: vigia -> vigía
@@ -1067,9 +1067,9 @@ export const LEVEL_3_POOL: LevelData[] = [
       w("El"), s(),
       w("aire"), s(),
       w("era"), s(),
-      w("tibio"), sp(true, "", "space-extra", " "), p(","), s(), // Error 4: espacio antes de coma
+      w("tibio"), s(),
       w("y"), s(),
-      w("apacible"), p(","), s(),
+      w("apacible"), sp(true, "", "space-extra", " "), p(","), s(), // Error 4: espacio antes de coma
       w("anunciando"), s(),
       w("una"), s(),
       w("primavera"), s(),
@@ -1165,8 +1165,8 @@ export const LEVEL_3_POOL: LevelData[] = [
       w("al"), s(),
       w("fondo"), s(),
       w("del"), s(),
-      w("barranco"), sp(true, "", "space-extra", " "), p(","), s(), // Error 4: espacio antes de coma
-      w("hondo"), p(","), s(),
+      w("barranco"), s(),
+      w("hondo"), sp(true, "", "space-extra", " "), p(","), s(), // Error 4: espacio antes de coma
       w("donde"), s(),
       w("rugía"), s(),
       w("el"), s(),

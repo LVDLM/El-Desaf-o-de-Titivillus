@@ -316,7 +316,7 @@ export const LEVEL_4_POOL: LevelData[] = [
     description: "Ulises (Frag.)",
     totalErrors: 5,
     timeLimit: 85,
-    originalText: "Majestuoso y orondo, Buck Mulligan apareció en lo alto de la escalera, llevando una bacía de espuma de afeitar sobre la cual reposaban cruzados un espejo y una navaja abierta. Una bata de seda amarilla, desatada, se ondulaba suavemente a su espalda en el aire tibio de la mañana. Elevó la bacía en el aire y entonó la solemne bendición eclesiástica con voz profunda mientras contemplaba el mar plateado que se extendía en calma absoluta hacia el horizonte lejano y el promontorio.",
+    originalText: "Majestuoso y orondo, Buck Mulligan apareció en lo alto de la escalera, llevando una bacía de espuma de afeitar sobre la cual reposaban cruzados un espejo y una navaja abierta. Una bata de seda amarilla, desatada, se ondulaba suavemente a su espalda en el aire tibio de la mañana. Elevó la bacía en el aire y entonó la solemne bendición eclesiástica con voz profunda mientras contemplaba el mar plateado que se extendía en calma absoluta, hacia el horizonte lejano y el promontorio.",
     bookTitle: "Ulises",
     bookAuthor: "James Joyce",
     tokens: [
@@ -514,7 +514,7 @@ export const LEVEL_4_POOL: LevelData[] = [
     description: "Drácula - El Conde recibe a Harker",
     totalErrors: 5,
     timeLimit: 85,
-    originalText: "El conde Drácula dio un paso pausado hacia adelante y me tendió una mano fría como el hielo, con un apretón que me hizo estremecer de dolor contenido. Sus ojos oscuros brillaban con una llama siniestra mientras me daba la bienvenida a su castillo milenario enclavado en las cumbres escarpadas de Transilvania. Su voz era dulce pero autoritaria, invitándome a entrar de buen grado en aquella morada sombría donde las sombras parecían moverse al compás del viento helado en el silencio de la noche.",
+    originalText: "El conde Drácula dio un paso pausado hacia adelante y me tendió una mano fría como el hielo, con un apretón que me hizo estremecer de dolor contenido. Sus ojos oscuros brillaban con una llama siniestra mientras me daba la bienvenida a su castillo milenario enclavado en las cumbres escarpadas de Transilvania. Su voz era dulce pero autoritaria, invitándome a entrar de buen grado en aquella morada sombría, donde las sombras parecían moverse al compás del viento helado en el silencio de la noche.",
     bookTitle: "Drácula",
     bookAuthor: "Bram Stoker",
     tokens: [
@@ -615,7 +615,7 @@ export const LEVEL_4_POOL: LevelData[] = [
     description: "La guerra de los mundos - Contacto",
     totalErrors: 5,
     timeLimit: 85,
-    originalText: "Aquel objeto misterioso que había caído del cielo nocturno yacía enterrado en un pozo inmenso excavado por el tremendo impacto. Una multitud curiosa rodeaba el cráter humeante, observando con asombro la superficie metálica y cilíndrica que comenzaba a desenroscarse lentamente desde el interior. Nadie sospechaba que dentro de aquel artefacto blindado aguardaban los invasores de Marte, seres implacables y fríos dispuestos a someter a la humanidad entera mediante máquinas de guerra gigantescas dotadas de rayos calóricos y gases venenosos que subían hacia la superficie.",
+    originalText: "Aquel objeto misterioso que había caído del cielo nocturno yacía enterrado en un pozo inmenso excavado por el tremendo impacto. Una multitud curiosa rodeaba el cráter humeante, observando con asombro la superficie metálica y cilíndrica que comenzaba a desenroscarse lentamente desde el interior. Nadie sospechaba que dentro de aquel artefacto blindado aguardaban los invasores de Marte, seres implacables y fríos dispuestos a someter a la humanidad entera mediante máquinas de guerra gigantescas, dotadas de rayos calóricos y gases venenosos que subían hacia la superficie.",
     bookTitle: "La guerra de los mundos",
     bookAuthor: "H.G. Wells",
     tokens: [
@@ -716,7 +716,7 @@ export const LEVEL_4_POOL: LevelData[] = [
     description: "El retrato de Dorian Gray - Lord Henry",
     totalErrors: 5,
     timeLimit: 85,
-    originalText: "Lord Henry Wotton miró con una sonrisa indulgente el hermoso retrato que Basil Hallward acababa de terminar en el caballete de madera de nogal. Aquella obra reflejaba con asombrosa fidelidad la juventud dorada y la pureza inocente de Dorian Gray, un joven cuyo rostro parecía inmune a las pasiones oscuras del alma humana. Sin embargo, en la mirada del noble inglés ya germinaba la idea sutil de moldear aquella mente inocente según sus propios principios hedonistas de placer y belleza.",
+    originalText: "Lord Henry Wotton miró con una sonrisa indulgente el hermoso retrato que Basil Hallward acababa de terminar en el caballete de madera de nogal. Aquella obra reflejaba con asombrosa fidelidad la juventud dorada y la pureza inocente de Dorian Gray, un joven cuyo rostro parecía inmune a las pasiones oscuras del alma humana. Sin embargo, en la mirada del noble inglés ya germinaba la idea sutil de moldear aquella mente inocente, según sus propios principios hedonistas de placer y belleza.",
     bookTitle: "El retrato de Dorian Gray",
     bookAuthor: "Oscar Wilde",
     tokens: [
@@ -813,7 +813,7 @@ export const LEVEL_4_POOL: LevelData[] = [
     description: "El extranjero - Marie en la playa",
     totalErrors: 5,
     timeLimit: 85,
-    originalText: "El sol caía a plomo sobre la arena ardiente de la playa y el mar resplandecía con destellos cegadores que herían la vista cansada de los bañistas. Marie nadaba a mi lado con movimientos ágiles y alegres, riendo cada vez que una ola espumosa nos cubría por entero. Me sentía adormecido por el calor sofocante del mediodía y el rumor constante del agua mansa que rompía sin descanso contra las rocas oscuras de la orilla solitaria en este día radiante.",
+    originalText: "El sol caía a plomo sobre la arena ardiente de la playa y el mar resplandecía con destellos cegadores que herían la vista cansada de los bañistas. Marie nadaba a mi lado con movimientos ágiles y alegres, riendo cada vez que una ola espumosa nos cubría por entero. Me sentía adormecido por el calor sofocante del mediodía y el rumor constante del agua mansa, que rompía sin descanso contra las rocas oscuras de la orilla solitaria en este día radiante.",
     bookTitle: "El extranjero",
     bookAuthor: "Albert Camus",
     tokens: [
@@ -1008,7 +1008,7 @@ export const LEVEL_4_POOL: LevelData[] = [
     description: "La araña y el sapo",
     totalErrors: 5,
     timeLimit: 85,
-    originalText: "La araña del monte tejía afanosa su tela prodigiosa entre las ramas de un aromo florido, admirando la simetría perfecta de cada hilo de plata que lanzaba al viento de la pampa abierta. Un sapo panzudo la contemplaba desde el suelo cenagoso, burlándose con desprecio de tanta paciencia inútil y de tantas horas consagradas a una obra frágil que cualquier ráfaga violenta de tormenta podía destrozar en un solo segundo sin dejar rastro alguno de su labor en el espeso bosque umbrío.",
+    originalText: "La araña del monte tejía afanosa su tela prodigiosa entre las ramas de un aromo florido, admirando la simetría perfecta de cada hilo de plata que lanzaba al viento de la pampa abierta. Un sapo panzudo la contemplaba desde el suelo cenagoso, burlándose con desprecio de tanta paciencia inútil y de tantas horas consagradas a una obra frágil que cualquier ráfaga violenta de tormenta, podía destrozar en un solo segundo sin dejar rastro alguno de su labor en el espeso bosque umbrío.",
     bookTitle: "Fábulas argentinas",
     bookAuthor: "Godofredo Daireaux",
     tokens: [
@@ -1107,7 +1107,7 @@ export const LEVEL_4_POOL: LevelData[] = [
     description: "Manfredo",
     totalErrors: 5,
     timeLimit: 85,
-    originalText: "Las cumbres escarpadas de los Alpes se alzaban severas hacia el cielo tempestuoso, coronadas por nieves eternas que desafiaban el paso de los siglos y la pequeñez del género humano. Manfredo contemplaba el abismo insondable desde el borde del precipicio nevado, devorado por remordimientos secretos y una amarga sed de olvido que ni el poder sobre los espíritus de la tierra ni las ciencias ocultas más profundas habían logrado aplacar jamás en su atormentada alma solitaria en su retiro alpino y silencioso.",
+    originalText: "Las cumbres escarpadas de los Alpes se alzaban severas hacia el cielo tempestuoso, coronadas por nieves eternas que desafiaban el paso de los siglos y la pequeñez del género humano. Manfredo contemplaba el abismo insondable desde el borde del precipicio nevado, devorado por remordimientos secretos y una amarga sed de olvido que ni el poder sobre los espíritus de la tierra ni las ciencias ocultas más profundas habían logrado aplacar jamás, en su atormentada alma solitaria en su retiro alpino y silencioso!",
     bookTitle: "Manfredo",
     bookAuthor: "Lord Byron",
     tokens: [

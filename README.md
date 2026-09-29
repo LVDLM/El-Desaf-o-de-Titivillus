@@ -46,6 +46,55 @@ La progresión de dificultad no se rige por un valor arbitrario, sino por **perf
 
 ---
 
+## 🏆 Configuración del Ranking Persistente (Supabase)
+
+El juego incluye soporte opcional para una tabla de clasificación global conectada a **Supabase**. Si no se proporcionan credenciales en variables de entorno (`VITE_SUPABASE_URL` y `VITE_SUPABASE_ANON_KEY`), el juego opera automáticamente en modo *mock* local sin interrupciones.
+
+En el cliente, `services/supabaseClient.ts` valida y restringe estrictamente que las puntuaciones enviadas se encuentren dentro del rango admisible (`0 < score <= 72000`).
+
+Para configurar la base de datos en Supabase con máxima seguridad en el backend, ejecuta el siguiente script SQL en el **SQL Editor** del panel de control de Supabase:
+
+```sql
+-- 1. Creación de la tabla de clasificación
+CREATE TABLE IF NOT EXISTS public.leaderboard (
+  id BIGSERIAL PRIMARY KEY,
+  username TEXT NOT NULL CHECK (char_length(trim(username)) > 0 AND char_length(username) <= 30),
+  score INTEGER NOT NULL CHECK (score > 0 AND score <= 72000),
+  created_at TIMESTAMPTZ DEFAULT timezone('utc'::text, now()) NOT NULL
+);
+
+-- 2. Habilitar Seguridad a Nivel de Fila (Row Level Security - RLS)
+ALTER TABLE public.leaderboard ENABLE ROW LEVEL SECURITY;
+
+-- 3. Política de lectura pública (cualquier visitante puede consultar el ranking)
+CREATE POLICY "Permitir lectura publica del ranking"
+  ON public.leaderboard
+  FOR SELECT
+  TO anon, authenticated
+  USING (true);
+
+-- 4. Política de solo inserción (cualquier visitante puede registrar su puntuación)
+--    Enfuerza la validación estricta del rango de puntuación en el servidor
+CREATE POLICY "Permitir solo insercion publica"
+  ON public.leaderboard
+  FOR INSERT
+  TO anon, authenticated
+  WITH CHECK (
+    score > 0 AND score <= 72000 AND
+    char_length(trim(username)) > 0 AND char_length(username) <= 30
+  );
+
+-- NOTA DE SEGURIDAD:
+-- Al no crear ninguna política para UPDATE ni DELETE, Supabase bloquea por defecto
+-- toda modificación o eliminación de puntuaciones por parte de clientes anónimos o autenticados.
+
+-- 5. Índice optimizado para la consulta del Top 10
+CREATE INDEX IF NOT EXISTS idx_leaderboard_score_desc
+  ON public.leaderboard (score DESC, created_at ASC);
+```
+
+---
+
 ## 🛠️ Cómo Añadir Nuevos Niveles
 
 Todos los manuscritos del juego residen en el directorio `data/levels/`:

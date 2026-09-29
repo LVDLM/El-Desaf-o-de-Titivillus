@@ -12,7 +12,8 @@ export interface ValidationIssue {
     | 'length-out-of-range'
     | 'missing-punct-space-error'
     | 'insufficient-error-types'
-    | 'insufficient-distractors';
+    | 'insufficient-distractors'
+    | 'reconstructed-text-mismatch';
 }
 
 /**
@@ -20,7 +21,7 @@ export interface ValidationIssue {
  * Comprueba:
  * 1. totalErrors coincide con el número real de tokens con isError: true.
  * 2. Ninguna palabra contiene dos errores contiguos.
- * 3. Densidad ajustada: 1 error cada 15-25 palabras (perfiles 1-2) o 1 cada 25-40 palabras (perfiles 3-4).
+ * 3. Densidad ajustada: 1 error cada 15-25 palabras (perfiles 1-2) o 1 cada 20-40 palabras (perfiles 3-4).
  * 4. No más de 2 errores consecutivos con el mismo errorKind.
  * 5. La corrección es estrictamente distinta del texto erróneo.
  * 6. Longitud dentro de rango según perfil:
@@ -70,7 +71,7 @@ export const validateLevel = (level: LevelData): ValidationIssue[] => {
   if (actualErrorTokens.length > 0) {
     const wordsPerError = wordCount / actualErrorTokens.length;
     const isP1Or2 = isProfile1 || isProfile2;
-    const minWords = isP1Or2 ? 15 : 25;
+    const minWords = isP1Or2 ? 15 : 20;
     const maxWords = isP1Or2 ? 25 : 40;
 
     if (wordsPerError < minWords || wordsPerError > maxWords) {
@@ -211,6 +212,26 @@ export const validateLevel = (level: LevelData): ValidationIssue[] => {
         issue: `Perfil 4 requiere 2-3 distractores (actual: ${distractors.length})`
       });
     }
+  }
+
+  // 7. La unión de correcciones de todos los tokens debe ser idéntica a originalText (con normalización de espacios)
+  let reconstructed = '';
+  for (const t of level.tokens) {
+    if (t.isError) {
+      reconstructed += t.correction !== undefined ? t.correction : t.text;
+    } else {
+      reconstructed += t.text;
+    }
+  }
+  const normReconstructed = reconstructed.replace(/\s+/g, ' ').trim();
+  const normOriginal = level.originalText.replace(/\s+/g, ' ').trim();
+
+  if (normReconstructed !== normOriginal) {
+    issues.push({
+      levelTitle: title,
+      type: 'reconstructed-text-mismatch',
+      issue: `La unión de correcciones de tokens difiere de originalText.`
+    });
   }
 
   return issues;

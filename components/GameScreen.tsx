@@ -472,7 +472,12 @@ const GameScreen: React.FC<GameScreenProps> = ({
                   let baseClasses = "inline transition-all duration-200 select-none rounded-sm cursor-pointer";
                   
                   if (isPunct) {
-                    baseClasses += " px-0.5 hover:bg-parchment-300 hover:text-black";
+                    if (!token.text) {
+                      // Signo omitido (ej. ¿ o ¡ ausente) - área táctil interactiva visible
+                      baseClasses = "inline-flex items-center justify-center min-w-[18px] min-h-[36px] -my-1 mx-0.5 rounded-xs cursor-pointer transition-all select-none touch-manipulation align-middle border border-dashed border-amber-900/30 hover:bg-gold/30 hover:border-gold/70 active:bg-gold/60";
+                    } else {
+                      baseClasses += " px-0.5 hover:bg-parchment-300 hover:text-black";
+                    }
                   } else {
                     baseClasses += " hover:bg-parchment-300 hover:text-black hover:shadow-sm";
                   }

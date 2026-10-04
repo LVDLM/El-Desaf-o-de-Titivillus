@@ -93,6 +93,41 @@ export const recordNotebookReview = (tokens: TextToken[]): void => {
   }
 };
 
+export const recordScribeErrorsToNotebook = (discrepancies: { incorrect: string; correct: string }[]): void => {
+  if (!discrepancies || discrepancies.length === 0) return;
+  const notebook = getNotebook();
+  let updated = false;
+
+  discrepancies.forEach(disc => {
+    const correctNorm = disc.correct?.trim() || '';
+    const incorrectNorm = disc.incorrect?.trim() || '(omisión)';
+    if (!correctNorm || correctNorm.length <= 1) return;
+    if (correctNorm === '(palabra sobrante)' || correctNorm === '(palabra omitida)') return;
+
+    const existingIndex = notebook.findIndex(
+      entry => entry.correct.toLowerCase() === correctNorm.toLowerCase() &&
+               entry.incorrect.toLowerCase() === incorrectNorm.toLowerCase()
+    );
+
+    if (existingIndex >= 0) {
+      notebook[existingIndex].failCount += 1;
+      notebook[existingIndex].lastFailedAt = Date.now();
+    } else {
+      notebook.push({
+        incorrect: incorrectNorm,
+        correct: correctNorm,
+        failCount: 1,
+        lastFailedAt: Date.now()
+      });
+    }
+    updated = true;
+  });
+
+  if (updated) {
+    saveNotebook(notebook);
+  }
+};
+
 export const clearNotebook = (): void => {
   try {
     if (typeof window === 'undefined' || !window.localStorage) return;

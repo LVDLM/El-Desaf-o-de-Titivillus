@@ -1,11 +1,59 @@
 import React, { useEffect, useState } from 'react';
-import { LevelData, TextToken } from '../types';
+import { LevelData, TextToken, ScribeDiscrepancy } from '../types';
 import { Hourglass, AlertOctagon, BookOpen, Feather, LogOut, AlertTriangle, PenTool, CheckCircle, Zap, Type } from 'lucide-react';
+
+export const computeScribeDiscrepancies = (original: string, user: string): ScribeDiscrepancy[] => {
+  const originalWords = original.trim().replace(/\s+/g, ' ').split(' ').filter(Boolean);
+  const userWords = user.trim().replace(/\s+/g, ' ').split(' ').filter(Boolean);
+  
+  const m = originalWords.length;
+  const n = userWords.length;
+  const dp: number[][] = Array.from({ length: m + 1 }, () => new Array(n + 1).fill(0));
+  for (let i = 0; i <= m; i++) dp[i][0] = i;
+  for (let j = 0; j <= n; j++) dp[0][j] = j;
+
+  for (let i = 1; i <= m; i++) {
+    for (let j = 1; j <= n; j++) {
+      if (originalWords[i - 1] === userWords[j - 1]) {
+        dp[i][j] = dp[i - 1][j - 1];
+      } else {
+        dp[i][j] = 1 + Math.min(
+          dp[i - 1][j],
+          dp[i][j - 1],
+          dp[i - 1][j - 1]
+        );
+      }
+    }
+  }
+
+  let i = m;
+  let j = n;
+  const diffs: ScribeDiscrepancy[] = [];
+
+  while (i > 0 || j > 0) {
+    if (i > 0 && j > 0 && originalWords[i - 1] === userWords[j - 1]) {
+      i--;
+      j--;
+    } else if (i > 0 && j > 0 && dp[i][j] === dp[i - 1][j - 1] + 1) {
+      diffs.push({ incorrect: userWords[j - 1], correct: originalWords[i - 1] });
+      i--;
+      j--;
+    } else if (i > 0 && dp[i][j] === dp[i - 1][j] + 1) {
+      diffs.push({ incorrect: '(omisión)', correct: originalWords[i - 1] });
+      i--;
+    } else {
+      diffs.push({ incorrect: userWords[j - 1], correct: '(palabra sobrante)' });
+      j--;
+    }
+  }
+
+  return diffs.reverse();
+};
 
 interface GameScreenProps {
   levelData: LevelData;
-  onComplete: (score: number) => void;
-  onGameOver: () => void;
+  onComplete: (score: number, scribeDiscrepancies?: ScribeDiscrepancy[]) => void;
+  onGameOver: (scribeDiscrepancies?: ScribeDiscrepancy[]) => void;
   onMainMenu: () => void;
   gameMode?: 'corrector' | 'scribe';
   isGodMode?: boolean;
@@ -50,6 +98,7 @@ const GameScreen: React.FC<GameScreenProps> = ({
   // Scribe Mode State
   const [scribeText, setScribeText] = useState('');
   const [scribeErrorCount, setScribeErrorCount] = useState<number | null>(null);
+  const [scribeDiscrepancies, setScribeDiscrepancies] = useState<ScribeDiscrepancy[]>([]);
   const [isScribeSubmitted, setIsScribeSubmitted] = useState(false);
 
   const handleFontSizeChange = (size: 'sm' | 'md' | 'lg') => {
@@ -67,6 +116,7 @@ const GameScreen: React.FC<GameScreenProps> = ({
     setTimeLeft(levelData.timeLimit);
     setScribeText('');
     setScribeErrorCount(null);
+    setScribeDiscrepancies([]);
     setIsScribeSubmitted(false);
   }, [levelData]);
 
@@ -84,10 +134,25 @@ const GameScreen: React.FC<GameScreenProps> = ({
   const finishLevel = (isSuccess: boolean = true) => {
     // Scoring formula: prioritize precision over speed
     const baseScore = isSuccess ? 300 : 0;
-    const aciertoScore = foundErrors * 150;
+    const aciertoScore = gameMode === 'scribe'
+      ? (isSuccess ? levelData.totalErrors * 150 : 0)
+      : foundErrors * 150;
     const penalty = Math.round(mistakes * 75);
     const timeBonus = isUntimedMode ? 0 : Math.min(timeLeft * 2, levelData.totalErrors * 25);
     const finalScore = Math.max(0, baseScore + aciertoScore + timeBonus - penalty);
+
+    if (gameMode === 'scribe') {
+      // En modo escriba, la transcripción del original es completa y directa;
+      // no debe pasar por LevelReviewScreen (pantalla exclusiva para cotejar tokens del modo corrector)
+      setTimeout(() => {
+        if (isSuccess) {
+          onComplete(finalScore, scribeDiscrepancies);
+        } else {
+          onGameOver(scribeDiscrepancies);
+        }
+      }, 1000);
+      return;
+    }
 
     if (onLevelFinish) {
       setTimeout(() => {
@@ -111,6 +176,9 @@ const GameScreen: React.FC<GameScreenProps> = ({
     if (timeLeft <= 0) {
       if (gameMode === 'corrector' && onLevelFinish) {
         finishLevel(false);
+      } else if (gameMode === 'scribe') {
+        const diffs = computeScribeDiscrepancies(levelData.originalText, scribeText);
+        onGameOver(diffs);
       } else {
         onGameOver();
       }
@@ -204,31 +272,27 @@ const GameScreen: React.FC<GameScreenProps> = ({
     }
   };
 
-  // --- SCRIBE MODE LOGIC (Preserved without modifications) ---
+  // --- SCRIBE MODE LOGIC ---
   const handleScribeSubmit = () => {
-    const original = levelData.originalText.trim();
-    const user = scribeText.trim();
+    // Normalizar espacios continuos para que dobles espacios accidentales no causen error
+    const original = levelData.originalText.trim().replace(/\s+/g, ' ');
+    const user = scribeText.trim().replace(/\s+/g, ' ');
     
     if (original === user) {
       setIsScribeSubmitted(true);
+      setScribeDiscrepancies([]);
+      setScribeErrorCount(0);
       if (levelData.isTutorial) {
         setTutorialMessage("¡Perfecto! Has copiado el texto sin mácula. Estás listo para ser un Escriba Maestro.");
-        setTimeout(() => onComplete(0), 2000); 
+        setTimeout(() => onComplete(0, []), 2000); 
         return;
       }
       finishLevel(true);
     } else {
-      const originalWords = original.split(/\s+/);
-      const userWords = user.split(/\s+/);
-      let errors = 0;
+      const diffs = computeScribeDiscrepancies(levelData.originalText, scribeText);
+      const errors = Math.max(1, diffs.length);
       
-      errors += Math.abs(originalWords.length - userWords.length);
-      const limit = Math.min(originalWords.length, userWords.length);
-      
-      for(let i = 0; i < limit; i++) {
-        if (originalWords[i] !== userWords[i]) errors++;
-      }
-      
+      setScribeDiscrepancies(diffs);
       setScribeErrorCount(errors);
       if (!isUntimedMode) {
         setTimeLeft(prev => Math.max(0, prev - 10));
@@ -381,8 +445,8 @@ const GameScreen: React.FC<GameScreenProps> = ({
                 />
                 
                 {scribeErrorCount !== null && !isScribeSubmitted && (
-                  <div className="mt-4 p-3 bg-red-100/80 border border-red-300 rounded text-blood flex items-center gap-2 animate-shake">
-                    <AlertTriangle size={20} />
+                  <div className="mt-4 p-3 bg-red-100/90 border border-red-300 rounded text-blood flex items-center gap-2 animate-shake">
+                    <AlertTriangle size={20} className="shrink-0" />
                     <span className="font-bold text-sm">
                       Titivillus ha conseguido que cometas {scribeErrorCount} {scribeErrorCount === 1 ? 'error' : 'errores'}.
                     </span>

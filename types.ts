@@ -69,3 +69,8 @@ export interface TitivillusNotebookEntry {
   failCount: number;
   lastFailedAt: number;
 }
+
+export interface ScribeDiscrepancy {
+  incorrect: string;
+  correct: string;
+}

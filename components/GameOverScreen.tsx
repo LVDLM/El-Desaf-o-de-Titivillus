@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { RotateCcw, Award, Save, Check, Home, Zap } from 'lucide-react';
-import { PlayerStats } from '../types';
+import { RotateCcw, Award, Save, Check, Home, Zap, ChevronDown, ChevronUp, BookMarked, AlertTriangle } from 'lucide-react';
+import { PlayerStats, ScribeDiscrepancy } from '../types';
 import { submitScore } from '../services/supabaseClient';
 
 interface GameOverScreenProps {
@@ -11,6 +11,8 @@ interface GameOverScreenProps {
   onRetry: () => void;
   onMainMenu: () => void;
   isUntimedMode?: boolean;
+  gameMode?: 'corrector' | 'scribe';
+  scribeDiscrepancies?: ScribeDiscrepancy[];
 }
 
 const GameOverScreen: React.FC<GameOverScreenProps> = ({ 
@@ -20,11 +22,14 @@ const GameOverScreen: React.FC<GameOverScreenProps> = ({
   onNextLevel, 
   onRetry, 
   onMainMenu,
-  isUntimedMode = false
+  isUntimedMode = false,
+  gameMode = 'corrector',
+  scribeDiscrepancies = []
 }) => {
   const [username, setUsername] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [showDiscrepancies, setShowDiscrepancies] = useState(false);
 
   useEffect(() => {
     if (!success) {
@@ -80,28 +85,94 @@ const GameOverScreen: React.FC<GameOverScreenProps> = ({
         ) : success ? (
           <>
             <h2 className="text-5xl font-display font-bold text-green-800 mb-2">¡Laus Deo!</h2>
-            <p className="text-xl mb-6">Has purgado el texto de la influencia de Titivillus.</p>
+            <p className="text-xl mb-6">
+              {gameMode === 'scribe'
+                ? 'Has copiado el pergamino con fidelidad y pulcritud absoluta.'
+                : 'Has purgado el texto de la influencia de Titivillus.'}
+            </p>
           </>
         ) : (
           <>
             <h2 className="text-5xl font-display font-bold text-blood mb-2">¡Maldición!</h2>
-            <p className="text-xl mb-6">Titivillus ha ganado. El manuscrito está arruinado.</p>
+            <p className="text-xl mb-6">
+              {gameMode === 'scribe'
+                ? 'El tiempo ha expirado antes de completar la copia del pergamino.'
+                : 'Titivillus ha ganado. El manuscrito está arruinado.'}
+            </p>
           </>
         )}
 
         <div className="bg-parchment-100 p-6 rounded border border-parchment-300 mb-6 w-full shadow-inner">
           <div className="flex justify-between items-center mb-2 border-b border-parchment-300 pb-2">
-            <span className="uppercase tracking-widest text-sm opacity-70">Nivel Alcanzado</span>
+            <span className="uppercase tracking-widest text-sm opacity-70">
+              {gameMode === 'scribe' ? 'Manuscritos Transcritos' : 'Nivel Alcanzado'}
+            </span>
             <span className="font-bold text-xl">{stats.level}</span>
           </div>
-          <div className="flex justify-between items-center mb-2 border-b border-parchment-300 pb-2">
-            <span className="uppercase tracking-widest text-sm opacity-70">Errores Cazados</span>
-            <span className="font-bold text-xl">{stats.errorsCaught}</span>
-          </div>
-          <div className="flex justify-between items-center border-b border-parchment-300 pb-2 mb-2">
-            <span className="uppercase tracking-widest text-sm opacity-70">Penitencias (Falsas Alarmas)</span>
-            <span className="font-bold text-xl text-red-700">{stats.mistakesMade}</span>
-          </div>
+          {gameMode !== 'scribe' ? (
+            <>
+              <div className="flex justify-between items-center mb-2 border-b border-parchment-300 pb-2">
+                <span className="uppercase tracking-widest text-sm opacity-70">Errores Cazados</span>
+                <span className="font-bold text-xl">{stats.errorsCaught}</span>
+              </div>
+              <div className="flex justify-between items-center border-b border-parchment-300 pb-2 mb-2">
+                <span className="uppercase tracking-widest text-sm opacity-70">Penitencias (Falsas Alarmas)</span>
+                <span className="font-bold text-xl text-red-700">{stats.mistakesMade}</span>
+              </div>
+            </>
+          ) : (
+            <div className="border-b border-parchment-300 pb-2 mb-2 text-left">
+              <div className="flex justify-between items-center">
+                <span className="uppercase tracking-widest text-sm opacity-70">
+                  Calidad de la copia
+                </span>
+
+                {scribeDiscrepancies && scribeDiscrepancies.length > 0 ? (
+                  <button
+                    type="button"
+                    onClick={() => setShowDiscrepancies(!showDiscrepancies)}
+                    className="flex items-center gap-1.5 font-bold text-xl text-blood hover:text-red-900 transition-colors cursor-pointer group"
+                    title="Pincha para ver las palabras detectadas"
+                  >
+                    <span className="underline decoration-dotted group-hover:decoration-solid">
+                      {scribeDiscrepancies.length} {scribeDiscrepancies.length === 1 ? 'error' : 'errores'}
+                    </span>
+                    {showDiscrepancies ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
+                  </button>
+                ) : (
+                  <span className="font-bold text-xl text-green-800">
+                    0 errores (100% sin mácula)
+                  </span>
+                )}
+              </div>
+
+              {showDiscrepancies && scribeDiscrepancies && scribeDiscrepancies.length > 0 && (
+                <div className="mt-3 bg-parchment-200/90 border border-parchment-400/80 rounded p-3 text-left animate-ink-blot">
+                  <div className="flex items-center justify-between gap-2 mb-2 pb-1.5 border-b border-parchment-300">
+                    <span className="text-xs font-bold uppercase tracking-wider text-parchment-900 flex items-center gap-1">
+                      <BookMarked size={14} className="text-blood" /> Discrepancias Detectadas
+                    </span>
+                    <span className="text-[10px] font-sans font-semibold text-blood bg-red-100/90 px-2 py-0.5 rounded border border-red-300">
+                      Añadidas al Cuaderno
+                    </span>
+                  </div>
+                  <div className="space-y-1.5 max-h-48 overflow-y-auto pr-1 custom-scrollbar">
+                    {scribeDiscrepancies.map((d, idx) => (
+                      <div key={idx} className="flex items-center justify-between text-sm bg-parchment-100/90 px-2.5 py-1.5 rounded border border-parchment-300 font-serif">
+                        <span className="line-through text-blood font-semibold">
+                          {d.incorrect || '(omisión)'}
+                        </span>
+                        <span className="text-parchment-600 text-xs px-2">→</span>
+                        <span className="text-green-800 font-bold bg-green-100/70 px-2 py-0.5 rounded border border-green-300">
+                          {d.correct}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+          )}
           <div className="flex justify-between items-center mt-4">
             <span className="uppercase tracking-widest text-sm font-bold text-gold-600">Puntuación Total</span>
             <span className="font-display font-bold text-3xl text-gold">{stats.score}</span>

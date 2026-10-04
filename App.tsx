@@ -1,7 +1,7 @@
 import React, { useState, useCallback, useEffect } from 'react';
-import { GameState, LevelData, PlayerStats, TextToken } from './types';
+import { GameState, LevelData, PlayerStats, TextToken, ScribeDiscrepancy } from './types';
 import { getStaticLevel } from './services/staticLevelService';
-import { recordNotebookReview } from './services/notebookService';
+import { recordNotebookReview, recordScribeErrorsToNotebook } from './services/notebookService';
 import StartScreen from './components/StartScreen';
 import GameScreen from './components/GameScreen';
 import GameOverScreen from './components/GameOverScreen';
@@ -33,6 +33,7 @@ const App: React.FC = () => {
   const [reviewTokens, setReviewTokens] = useState<TextToken[]>([]);
   const [reviewSuccess, setReviewSuccess] = useState(false);
   const [pendingScore, setPendingScore] = useState(0);
+  const [lastScribeDiscrepancies, setLastScribeDiscrepancies] = useState<ScribeDiscrepancy[]>([]);
 
   // Tutorial Persistence
   const [hasPlayedTutorial, setHasPlayedTutorial] = useState(false);
@@ -141,7 +142,7 @@ const App: React.FC = () => {
     }
   };
 
-  const handleLevelComplete = (levelScore: number) => {
+  const handleLevelComplete = (levelScore: number, scribeDiscrepancies?: ScribeDiscrepancy[]) => {
     if (!currentLevelData) return;
     
     // Mark tutorial as completed if we just finished level 0
@@ -157,8 +158,16 @@ const App: React.FC = () => {
     setStats(prev => ({
       ...prev,
       score: prev.score + levelScore,
-      errorsCaught: prev.errorsCaught + currentLevelData.totalErrors, 
+      errorsCaught: prev.errorsCaught + (gameMode === 'scribe' ? 0 : currentLevelData.totalErrors), 
     }));
+
+    if (gameMode === 'scribe') {
+      const discs = scribeDiscrepancies || [];
+      setLastScribeDiscrepancies(discs);
+      if (discs.length > 0) {
+        recordScribeErrorsToNotebook(discs);
+      }
+    }
 
     // Check unlock on success
     if (stats.level >= 5) {
@@ -168,9 +177,16 @@ const App: React.FC = () => {
     setGameState(GameState.LEVEL_COMPLETE);
   };
 
-  const handleGameOver = () => {
+  const handleGameOver = (scribeDiscrepancies?: ScribeDiscrepancy[]) => {
     if (currentLevelData && !playedTexts.includes(currentLevelData.originalText)) {
       setPlayedTexts(prev => [...prev, currentLevelData.originalText]);
+    }
+    if (gameMode === 'scribe') {
+      const discs = scribeDiscrepancies || [];
+      setLastScribeDiscrepancies(discs);
+      if (discs.length > 0) {
+        recordScribeErrorsToNotebook(discs);
+      }
     }
     if (stats.level >= 5) {
       checkUnlockCondition(stats.level);
@@ -296,6 +312,8 @@ const App: React.FC = () => {
            onRetry={handleRetry}
            onMainMenu={handleMainMenu}
            isUntimedMode={isUntimedMode}
+           gameMode={gameMode}
+           scribeDiscrepancies={lastScribeDiscrepancies}
         />
       )}
 

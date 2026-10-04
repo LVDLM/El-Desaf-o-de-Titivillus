@@ -109,20 +109,20 @@ const StartScreen: React.FC<StartScreenProps> = ({
           </h2>
 
           <div className="prose prose-lg text-parchment-900 mx-auto font-serif mb-6 leading-relaxed">
+            <p className="mb-4">
+              <span className="text-6xl float-left font-display font-bold mr-2 text-blood">E</span>n la quietud del scriptorium, el demonio Titivillus acecha. Su misión es corromper los textos sagrados introduciendo erratas y deslices.
+            </p>
+
             {gameMode === 'scribe' ? (
-              <p className="bg-parchment-300/50 p-4 rounded border border-parchment-800/20">
+              <div className="bg-parchment-300/50 p-4 rounded border border-parchment-800/20">
                 <strong className="text-parchment-900 block mb-2 font-display text-xl">Modo Escriba</strong>
                 Demuestra tu memoria y precisión. Reescribe los textos sin cometer ni un solo error de copia. Titivillus estará vigilando cada tecla.
-              </p>
+              </div>
             ) : (
-              <>
-                <p className="mb-3">
-                  <span className="text-6xl float-left font-display font-bold mr-2 text-blood">E</span>n la quietud del scriptorium, el demonio Titivillus acecha. Su misión es corromper los textos sagrados introduciendo erratas y deslices.
-                </p>
-                <p>
-                  Como copista mayor, tu deber es cotejar la copia con el original. <strong>Pincha sobre las palabras, signos o huecos incorrectos</strong> para purgarlos.
-                </p>
-              </>
+              <div className="bg-parchment-300/50 p-4 rounded border border-parchment-800/20">
+                <strong className="text-parchment-900 block mb-2 font-display text-xl">Modo Corrector</strong>
+                Como copista mayor, tu deber es cotejar la copia con el original. <strong>Pincha sobre las palabras, signos o huecos incorrectos</strong> para purgarlos.
+              </div>
             )}
           </div>
 
@@ -138,7 +138,7 @@ const StartScreen: React.FC<StartScreenProps> = ({
                 </button>
                 <button
                   onClick={() => onToggleGameMode('scribe')}
-                  className={`px-4 py-2 rounded-full font-bold text-sm transition-all ${gameMode === 'scribe' ? 'bg-gold text-parchment-900 shadow-md' : 'text-parchment-300 hover:text-white'}`}
+                  className={`px-4 py-2 rounded-full font-bold text-sm transition-all ${gameMode === 'scribe' ? 'bg-parchment-100 text-parchment-900 shadow-md' : 'text-parchment-300 hover:text-white'}`}
                 >
                   <Edit3 size={16} className="inline mr-1" /> Escriba
                 </button>
@@ -166,7 +166,7 @@ const StartScreen: React.FC<StartScreenProps> = ({
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center w-full">
               <button
                 onClick={handleStartClick}
-                className={`group relative inline-flex items-center justify-center px-8 py-4 font-display font-bold text-white transition-all duration-200 font-lg rounded-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-parchment-900 shadow-lg hover:-translate-y-1 ${gameMode === 'scribe' ? 'bg-parchment-900 hover:bg-black' : 'bg-parchment-800 hover:bg-parchment-900'}`}
+                className="group relative inline-flex items-center justify-center px-8 py-4 font-display font-bold text-white transition-all duration-200 font-lg rounded-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-parchment-900 shadow-lg hover:-translate-y-1 bg-parchment-800 hover:bg-parchment-900"
               >
                 <span className="absolute inset-0 w-full h-full -mt-1 rounded-lg opacity-30 bg-gradient-to-b from-transparent via-transparent to-black"></span>
                 <span className="relative flex items-center gap-2 text-xl">

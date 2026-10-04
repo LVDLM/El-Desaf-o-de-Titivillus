@@ -94,15 +94,11 @@ const StartScreen: React.FC<StartScreenProps> = ({
 
         <div className="text-center relative z-10">
           <div className="flex justify-center mb-6">
-            {gameMode === 'scribe' ? (
-              <PenTool size={64} className="text-parchment-800 animate-pulse" />
-            ) : (
-              <img 
-                src="https://i.ibb.co/1GfX995m/Titivillus.png" 
-                alt="Titivillus" 
-                className="w-20 h-20 md:w-24 md:h-24 object-contain animate-bounce drop-shadow-md select-none pointer-events-none" 
-              />
-            )}
+            <img 
+              src="https://i.ibb.co/1GfX995m/Titivillus.png" 
+              alt="Titivillus" 
+              className="w-20 h-20 md:w-24 md:h-24 object-contain animate-bounce drop-shadow-md select-none pointer-events-none" 
+            />
           </div>
           
           <h1 className="text-5xl md:text-6xl font-display font-bold text-parchment-900 mb-2 tracking-tighter">
@@ -116,7 +112,7 @@ const StartScreen: React.FC<StartScreenProps> = ({
             {gameMode === 'scribe' ? (
               <p className="bg-parchment-300/50 p-4 rounded border border-parchment-800/20">
                 <strong className="text-parchment-900 block mb-2 font-display text-xl">Modo Escriba</strong>
-                Demuestra tu memoria y precisión. Reescribe los textos sagrados sin cometer ni un solo error de copia. Titivillus estará vigilando cada tecla.
+                Demuestra tu memoria y precisión. Reescribe los textos sin cometer ni un solo error de copia. Titivillus estará vigilando cada tecla.
               </p>
             ) : (
               <>

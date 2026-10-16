@@ -191,3 +191,30 @@ s()
    ```
 
 *Nota: La aplicación es 100% autónoma y estática; no requiere configurar ninguna clave de API ni servicios externos para la experiencia de juego principal.*
+
+---
+
+## 📱 Compilación para Android y Google Play
+
+El proyecto está configurado como PWA y como proyecto nativo de Android con **Capacitor** y flujo automatizado en **GitHub Actions**:
+
+### 1. Compilación Automática en la Nube (GitHub Actions)
+El archivo de flujo de compilación está preparado en `ci/build-android.yml`.
+Para activarlo en GitHub:
+- En la interfaz web de tu repositorio de GitHub, añade un nuevo archivo en `.github/workflows/build-android.yml` pegando el contenido de `ci/build-android.yml` (o muévelo directamente desde tu terminal / VS Code).
+- Cada vez que hagas `push` o pulses «Run workflow» en la pestaña **Actions**, GitHub compilará automáticamente:
+  1. **`titivillus-android-apk`**: Archivo `.apk` para instalar y probar en tu móvil al instante.
+  2. **`titivillus-google-play-aab`**: Archivo `.aab` (Android App Bundle) optimizado para subir a Google Play Store.
+
+### 2. Cómo instalar el APK en tu móvil Android
+1. Desde el navegador de tu móvil, entra en tu repositorio en GitHub.
+2. Ve a la pestaña **Actions** -> pulsa en la última ejecución de compilación.
+3. En la sección **Artifacts** al pie de página, toca sobre **`titivillus-android-apk`**.
+4. Al completarse la descarga, abre el archivo e instálalo (permite «Instalar desde esta fuente» si Android te lo solicita).
+
+### 3. Publicación en Google Play Store
+1. Crea tu cuenta en [Google Play Console](https://play.google.com/console/) (pago único de 25 USD).
+2. Crea una nueva aplicación llamada **El Desafío de Titivillus**.
+3. En la sección de versiones, sube el archivo descargado de **`titivillus-google-play-aab`**.
+4. Completa la ficha de la tienda con el icono (512x512 px disponible en `public/pwa-512x512.png`), capturas de pantalla y la clasificación de contenido.
+

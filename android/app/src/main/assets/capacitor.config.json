@@ -1,0 +1,9 @@
+{
+	"appId": "com.titivillus.desafio",
+	"appName": "El Desafío de Titivillus",
+	"webDir": "dist",
+	"backgroundColor": "#f4e4bc",
+	"server": {
+		"androidScheme": "https"
+	}
+}

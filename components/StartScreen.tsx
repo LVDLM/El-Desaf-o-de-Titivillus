@@ -71,7 +71,7 @@ const StartScreen: React.FC<StartScreenProps> = ({
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen p-4 text-parchment-900 relative">
+    <div className="flex flex-col items-center justify-center min-h-screen p-2 sm:p-4 text-parchment-900 relative">
       
       {/* Titivillus Notebook Modal */}
       <TitivillusNotebookModal 
@@ -79,12 +79,12 @@ const StartScreen: React.FC<StartScreenProps> = ({
         onClose={() => setShowNotebook(false)} 
       />
 
-      <div className="max-w-2xl w-full bg-parchment-200 border-8 border-parchment-800 rounded-lg shadow-2xl p-8 relative overflow-hidden transition-all duration-500">
+      <div className="max-w-2xl w-full bg-parchment-200 border-4 sm:border-8 border-parchment-800 rounded-lg shadow-2xl p-4 sm:p-6 md:p-8 relative overflow-hidden transition-all duration-500">
         {/* Decorative Corners */}
-        <div className="absolute top-0 left-0 w-16 h-16 border-t-4 border-l-4 border-gold m-2"></div>
-        <div className="absolute top-0 right-0 w-16 h-16 border-t-4 border-r-4 border-gold m-2"></div>
-        <div className="absolute bottom-0 left-0 w-16 h-16 border-b-4 border-l-4 border-gold m-2"></div>
-        <div className="absolute bottom-0 right-0 w-16 h-16 border-b-4 border-r-4 border-gold m-2"></div>
+        <div className="absolute top-0 left-0 w-12 h-12 sm:w-16 sm:h-16 border-t-4 border-l-4 border-gold m-2"></div>
+        <div className="absolute top-0 right-0 w-12 h-12 sm:w-16 sm:h-16 border-t-4 border-r-4 border-gold m-2"></div>
+        <div className="absolute bottom-0 left-0 w-12 h-12 sm:w-16 sm:h-16 border-b-4 border-l-4 border-gold m-2"></div>
+        <div className="absolute bottom-0 right-0 w-12 h-12 sm:w-16 sm:h-16 border-b-4 border-r-4 border-gold m-2"></div>
 
         {isGodMode && (
           <div className="absolute top-2 right-2 bg-purple-900 text-white text-xs px-2 py-1 rounded font-mono animate-pulse shadow-lg z-20 flex items-center gap-1">
@@ -97,30 +97,30 @@ const StartScreen: React.FC<StartScreenProps> = ({
             <img 
               src="https://i.ibb.co/1GfX995m/Titivillus.png" 
               alt="Titivillus" 
-              className="w-20 h-20 md:w-24 md:h-24 object-contain animate-bounce drop-shadow-md select-none pointer-events-none" 
+              className="w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 object-contain animate-bounce drop-shadow-md select-none pointer-events-none" 
             />
           </div>
           
-          <h1 className="text-5xl md:text-6xl font-display font-bold text-parchment-900 mb-2 tracking-tighter">
+          <h1 className="text-3xl sm:text-5xl md:text-6xl font-display font-bold text-parchment-900 mb-2 tracking-tight sm:tracking-tighter">
             El Desafío de
           </h1>
-          <h2 className="text-4xl md:text-5xl font-display font-bold text-blood mb-6 tracking-widest uppercase">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-display font-bold text-blood mb-4 sm:mb-6 tracking-wide sm:tracking-widest uppercase">
             Titivillus
           </h2>
 
-          <div className="prose prose-lg text-parchment-900 mx-auto font-serif mb-6 leading-relaxed">
+          <div className="prose prose-lg text-sm sm:text-base text-parchment-900 mx-auto font-serif mb-6 leading-relaxed">
             <p className="mb-4">
-              <span className="text-6xl float-left font-display font-bold mr-2 text-blood">E</span>n la quietud del scriptorium, el demonio Titivillus acecha. Su misión es corromper los textos sagrados introduciendo erratas y deslices.
+              <span className="text-5xl sm:text-6xl float-left font-display font-bold mr-2 text-blood">E</span>n la quietud del scriptorium, el demonio Titivillus acecha. Su misión es corromper los textos sagrados introduciendo erratas y deslices.
             </p>
 
             {gameMode === 'scribe' ? (
-              <div className="bg-parchment-300/50 p-4 rounded border border-parchment-800/20">
-                <strong className="text-parchment-900 block mb-2 font-display text-xl">Modo Escriba</strong>
+              <div className="bg-parchment-300/50 p-3 sm:p-4 rounded border border-parchment-800/20">
+                <strong className="text-parchment-900 block mb-2 font-display text-lg sm:text-xl">Modo Escriba</strong>
                 Demuestra tu memoria y precisión. Reescribe los textos sin cometer ni un solo error de copia. Titivillus estará vigilando cada tecla.
               </div>
             ) : (
-              <div className="bg-parchment-300/50 p-4 rounded border border-parchment-800/20">
-                <strong className="text-parchment-900 block mb-2 font-display text-xl">Modo Corrector</strong>
+              <div className="bg-parchment-300/50 p-3 sm:p-4 rounded border border-parchment-800/20">
+                <strong className="text-parchment-900 block mb-2 font-display text-lg sm:text-xl">Modo Corrector</strong>
                 Como copista mayor, tu deber es cotejar la copia con el original. <strong>Pincha sobre las palabras, signos o huecos incorrectos</strong> para purgarlos.
               </div>
             )}
@@ -129,16 +129,16 @@ const StartScreen: React.FC<StartScreenProps> = ({
           {/* Mode Toggle (Corrector vs Escriba) */}
           {rewardUnlocked && (
             <div className="flex justify-center mb-6">
-              <div className="bg-parchment-800 p-1 rounded-full flex gap-1 shadow-inner">
+              <div className="max-w-full bg-parchment-800 p-1 rounded-full flex gap-1 shadow-inner">
                 <button
                   onClick={() => onToggleGameMode('corrector')}
-                  className={`px-4 py-2 rounded-full font-bold text-sm transition-all ${gameMode === 'corrector' ? 'bg-parchment-100 text-parchment-900 shadow-md' : 'text-parchment-300 hover:text-white'}`}
+                  className={`px-3 sm:px-4 py-2 rounded-full font-bold text-xs sm:text-sm transition-all ${gameMode === 'corrector' ? 'bg-parchment-100 text-parchment-900 shadow-md' : 'text-parchment-300 hover:text-white'}`}
                 >
                   <Feather size={16} className="inline mr-1" /> Corrector
                 </button>
                 <button
                   onClick={() => onToggleGameMode('scribe')}
-                  className={`px-4 py-2 rounded-full font-bold text-sm transition-all ${gameMode === 'scribe' ? 'bg-parchment-100 text-parchment-900 shadow-md' : 'text-parchment-300 hover:text-white'}`}
+                  className={`px-3 sm:px-4 py-2 rounded-full font-bold text-xs sm:text-sm transition-all ${gameMode === 'scribe' ? 'bg-parchment-100 text-parchment-900 shadow-md' : 'text-parchment-300 hover:text-white'}`}
                 >
                   <Edit3 size={16} className="inline mr-1" /> Escriba
                 </button>
@@ -150,7 +150,7 @@ const StartScreen: React.FC<StartScreenProps> = ({
           <div className="flex justify-center mb-6">
             <button
               onClick={() => onToggleUntimedMode(!isUntimedMode)}
-              className={`inline-flex items-center gap-2 px-4 py-2 rounded-full border text-xs font-display font-bold transition-all shadow-xs ${
+              className={`inline-flex max-w-full items-center justify-center gap-2 px-3 sm:px-4 py-2 rounded-full border text-xs text-center font-display font-bold transition-all shadow-xs ${
                 isUntimedMode
                   ? 'bg-amber-100 text-amber-900 border-amber-400 ring-2 ring-amber-300/50'
                   : 'bg-parchment-300/60 text-parchment-800/80 border-parchment-800/20 hover:bg-parchment-300'
@@ -166,10 +166,10 @@ const StartScreen: React.FC<StartScreenProps> = ({
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center w-full">
               <button
                 onClick={handleStartClick}
-                className="group relative inline-flex items-center justify-center px-8 py-4 font-display font-bold text-white transition-all duration-200 font-lg rounded-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-parchment-900 shadow-lg hover:-translate-y-1 bg-parchment-800 hover:bg-parchment-900"
+                className="group relative inline-flex w-full sm:w-auto items-center justify-center px-4 sm:px-8 py-3 sm:py-4 font-display font-bold text-white transition-all duration-200 font-lg rounded-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-parchment-900 shadow-lg hover:-translate-y-1 bg-parchment-800 hover:bg-parchment-900"
               >
                 <span className="absolute inset-0 w-full h-full -mt-1 rounded-lg opacity-30 bg-gradient-to-b from-transparent via-transparent to-black"></span>
-                <span className="relative flex items-center gap-2 text-xl">
+                <span className="relative flex items-center gap-2 text-base sm:text-lg sm:text-xl">
                   {gameMode === 'scribe' ? <PenTool className="w-6 h-6" /> : <Scroll className="w-6 h-6" />} 
                   {gameMode === 'scribe' ? 'Comenzar Transcripción' : 'Tomar la Pluma'}
                 </span>
@@ -177,25 +177,25 @@ const StartScreen: React.FC<StartScreenProps> = ({
 
               <button
                 onClick={onOpenLeaderboard}
-                className="group relative inline-flex items-center justify-center px-6 py-4 font-display font-bold text-parchment-900 transition-all duration-200 bg-gold/20 border-2 border-parchment-800 font-lg rounded-sm hover:bg-gold/40 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-parchment-900"
+                className="group relative inline-flex w-full sm:w-auto items-center justify-center px-4 sm:px-6 py-3 sm:py-4 font-display font-bold text-parchment-900 transition-all duration-200 bg-gold/20 border-2 border-parchment-800 font-lg rounded-sm hover:bg-gold/40 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-parchment-900"
               >
-                <span className="relative flex items-center gap-2 text-lg">
+                <span className="relative flex items-center gap-2 text-base sm:text-lg">
                   <Trophy className="w-5 h-5 text-blood" /> Ver Anales
                 </span>
               </button>
             </div>
 
-            <div className="flex items-center gap-6 mt-2">
+            <div className="flex flex-col sm:flex-row items-center gap-2 sm:gap-6 mt-2 text-center">
               <button
                 onClick={() => setShowNotebook(true)}
-                className="inline-flex items-center gap-1.5 text-sm font-serif font-bold text-parchment-800 hover:text-parchment-950 hover:underline"
+                className="inline-flex min-h-10 items-center gap-1.5 text-sm font-serif font-bold text-parchment-800 hover:text-parchment-950 hover:underline"
               >
                 <BookMarked size={16} className="text-blood" /> Cuaderno de Titivillus
               </button>
 
               <button
                 onClick={onTutorial}
-                className="inline-flex items-center gap-1.5 text-sm font-serif font-bold text-parchment-800/80 hover:text-parchment-950 hover:underline"
+                className="inline-flex min-h-10 items-center gap-1.5 text-sm font-serif font-bold text-parchment-800/80 hover:text-parchment-950 hover:underline"
               >
                 <HelpCircle size={16} /> ¿Cómo jugar?
               </button>
@@ -223,8 +223,8 @@ const StartScreen: React.FC<StartScreenProps> = ({
       </div>
 
       {/* Connection Status Indicator */}
-      <div className="absolute bottom-2 right-2 flex items-center gap-2 text-xs font-sans opacity-50 bg-black/20 p-1 rounded backdrop-blur-sm">
-        <div className={`w-2 h-2 rounded-full ${isSupabaseConfigured ? 'bg-green-500 shadow-[0_0_5px_rgba(34,197,94,0.8)]' : 'bg-red-500 shadow-[0_0_5px_rgba(239,68,68,0.8)]'}`}></div>
+      <div className="mt-3 flex max-w-full items-center justify-center gap-2 px-2 py-1 text-center text-[10px] sm:text-xs font-sans opacity-70 bg-black/20 rounded backdrop-blur-sm">
+        <div className={`w-2 h-2 shrink-0 rounded-full ${isSupabaseConfigured ? 'bg-green-500 shadow-[0_0_5px_rgba(34,197,94,0.8)]' : 'bg-red-500 shadow-[0_0_5px_rgba(239,68,68,0.8)]'}`}></div>
         <span className="text-parchment-200">
           {isSupabaseConfigured ? 'Conexión con los Archivos: Establecida' : 'Conexión con los Archivos: Modo de Pruebas'}
         </span>

@@ -194,27 +194,36 @@ s()
 
 ---
 
-## 📱 Compilación para Android y Google Play
+## 📱 Aplicación para Android
 
-El proyecto está configurado como PWA y como proyecto nativo de Android con **Capacitor** y flujo automatizado en **GitHub Actions**:
+La web se empaqueta como aplicación Android nativa con **Capacitor**. El proyecto Android está en `android/`; para compilarlo localmente se necesitan Node.js, Android Studio con Android SDK (API 36) y JDK 17.
 
-### 1. Compilación Automática en la Nube (GitHub Actions)
-El archivo de flujo de compilación está preparado en `ci/build-android.yml`.
-Para activarlo en GitHub:
-- En la interfaz web de tu repositorio de GitHub, añade un nuevo archivo en `.github/workflows/build-android.yml` pegando el contenido de `ci/build-android.yml` (o muévelo directamente desde tu terminal / VS Code).
-- Cada vez que hagas `push` o pulses «Run workflow» en la pestaña **Actions**, GitHub compilará automáticamente:
-  1. **`titivillus-android-apk`**: Archivo `.apk` para instalar y probar en tu móvil al instante.
-  2. **`titivillus-google-play-aab`**: Archivo `.aab` (Android App Bundle) optimizado para subir a Google Play Store.
+En Windows, usa una ruta de proyecto que no contenga `#`: Vite no puede compilar correctamente desde una ruta con ese carácter. La compilación de GitHub Actions no se ve afectada.
 
-### 2. Cómo instalar el APK en tu móvil Android
-1. Desde el navegador de tu móvil, entra en tu repositorio en GitHub.
-2. Ve a la pestaña **Actions** -> pulsa en la última ejecución de compilación.
-3. En la sección **Artifacts** al pie de página, toca sobre **`titivillus-android-apk`**.
-4. Al completarse la descarga, abre el archivo e instálalo (permite «Instalar desde esta fuente» si Android te lo solicita).
+### Compilar en tu ordenador
+Desde la raíz del repositorio:
 
-### 3. Publicación en Google Play Store
-1. Crea tu cuenta en [Google Play Console](https://play.google.com/console/) (pago único de 25 USD).
-2. Crea una nueva aplicación llamada **El Desafío de Titivillus**.
-3. En la sección de versiones, sube el archivo descargado de **`titivillus-google-play-aab`**.
-4. Completa la ficha de la tienda con el icono (512x512 px disponible en `public/pwa-512x512.png`), capturas de pantalla y la clasificación de contenido.
+```bash
+npm ci
+npm run android:sync
+```
 
+Luego abre el proyecto en Android Studio:
+
+```bash
+npm run android:open
+```
+
+O compila un APK de depuración desde PowerShell:
+
+```powershell
+Set-Location android
+.\gradlew.bat assembleDebug
+```
+
+El APK instalable se genera en `android/app/build/outputs/apk/debug/app-debug.apk`. Para instalarlo en un dispositivo conectado con la depuración USB activada, ejecuta `.\gradlew.bat installDebug` desde `android/`.
+
+### Compilación en GitHub Actions
+El flujo de `.github/workflows/build-android.yml` se ejecuta al hacer `push` a `main`/`master` o manualmente desde **Actions → Build Android APK & Google Play AAB → Run workflow**. Descarga el APK `titivillus-android-apk` en **Artifacts** de la ejecución completada.
+
+El flujo también genera `titivillus-google-play-aab`, pero ese AAB **no está firmado** y no se puede publicar directamente en Google Play. Para distribuir en la tienda hay que configurar una clave de firma privada y protegerla como secretos de GitHub, sin guardar la clave en el repositorio.

@@ -63,8 +63,15 @@ const GameOverScreen: React.FC<GameOverScreenProps> = ({
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen p-4 text-parchment-900 font-serif">
-      <div className="max-w-xl w-full bg-parchment-200 border-4 border-parchment-800 rounded shadow-2xl p-8 text-center animate-ink-blot relative overflow-hidden">
+    <div className="game-over-scroll h-screen h-[100dvh] min-h-0 flex flex-col items-center justify-start overflow-x-hidden overflow-y-auto overscroll-y-contain p-4 text-parchment-900 font-serif">
+      <style>{`
+        @media (orientation: portrait) and (min-height: 700px) {
+          .game-over-scroll {
+            justify-content: center;
+          }
+        }
+      `}</style>
+      <div className="max-w-xl w-full shrink-0 bg-parchment-200 border-4 border-parchment-800 rounded shadow-2xl p-8 text-center animate-ink-blot relative overflow-hidden my-2 sm:my-6">
         
         {isGrandVictory && (
            <div className="absolute top-0 left-0 w-full bg-gold/30 h-2"></div>

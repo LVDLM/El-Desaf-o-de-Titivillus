@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Scroll, Feather, Trophy, PenTool, Edit3, Zap, HelpCircle, Clock, BookMarked } from 'lucide-react';
+import { Scroll, Feather, Trophy, PenTool, Edit3, Zap, HelpCircle, Clock, BookMarked, Smartphone, RotateCw } from 'lucide-react';
 import { isSupabaseConfigured } from '../services/supabaseClient';
 import TitivillusNotebookModal from './TitivillusNotebookModal';
 
@@ -71,7 +71,19 @@ const StartScreen: React.FC<StartScreenProps> = ({
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen p-2 sm:p-4 text-parchment-900 relative">
+    <div className="start-screen-scroll h-screen h-[100dvh] min-h-0 flex flex-col items-center justify-start overflow-x-hidden overflow-y-auto overscroll-y-contain p-2 sm:p-4 text-parchment-900 relative">
+      <style>{`
+        @media (orientation: portrait) and (max-width: 640px) {
+          .phone-landscape-hint {
+            display: flex;
+          }
+        }
+        @media (orientation: portrait) and (min-height: 700px) {
+          .start-screen-scroll {
+            justify-content: center;
+          }
+        }
+      `}</style>
       
       {/* Titivillus Notebook Modal */}
       <TitivillusNotebookModal 
@@ -79,7 +91,7 @@ const StartScreen: React.FC<StartScreenProps> = ({
         onClose={() => setShowNotebook(false)} 
       />
 
-      <div className="max-w-2xl w-full bg-parchment-200 border-4 sm:border-8 border-parchment-800 rounded-lg shadow-2xl p-4 sm:p-6 md:p-8 relative overflow-hidden transition-all duration-500">
+      <div className="max-w-2xl w-full shrink-0 bg-parchment-200 border-4 sm:border-8 border-parchment-800 rounded-lg shadow-2xl p-4 sm:p-6 md:p-8 relative overflow-hidden transition-all duration-500 my-2 sm:my-4">
         {/* Decorative Corners */}
         <div className="absolute top-0 left-0 w-12 h-12 sm:w-16 sm:h-16 border-t-4 border-l-4 border-gold m-2"></div>
         <div className="absolute top-0 right-0 w-12 h-12 sm:w-16 sm:h-16 border-t-4 border-r-4 border-gold m-2"></div>
@@ -100,7 +112,13 @@ const StartScreen: React.FC<StartScreenProps> = ({
               className="w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 object-contain animate-bounce drop-shadow-md select-none pointer-events-none" 
             />
           </div>
-          
+
+          <div className="phone-landscape-hint hidden items-center justify-center gap-2 rounded border border-gold/60 bg-gold/10 px-3 py-2 mb-6 text-sm font-bold text-parchment-900">
+            <Smartphone size={18} className="shrink-0" />
+            <span>Gira el móvil a horizontal para comparar mejor los dos textos.</span>
+            <RotateCw size={18} className="shrink-0" />
+          </div>
+
           <h1 className="text-3xl sm:text-5xl md:text-6xl font-display font-bold text-parchment-900 mb-2 tracking-tight sm:tracking-tighter">
             El Desafío de
           </h1>

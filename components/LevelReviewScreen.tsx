@@ -20,8 +20,15 @@ const LevelReviewScreen: React.FC<LevelReviewScreenProps> = ({
   const errorTokens = tokens.filter(t => t.isError);
 
   return (
-    <div className="flex flex-col items-center justify-start sm:justify-center min-h-[100dvh] p-2 sm:p-4 overflow-y-auto overscroll-contain text-parchment-900 font-serif">
-      <div className="max-w-3xl w-full bg-parchment-200 border-4 border-parchment-800 rounded-lg shadow-2xl p-4 sm:p-6 md:p-8 relative overflow-hidden animate-ink-blot my-2 sm:my-6">
+    <div className="level-review-scroll h-screen h-[100dvh] min-h-0 flex flex-col items-center justify-start p-2 sm:p-4 overflow-x-hidden overflow-y-auto overscroll-y-contain text-parchment-900 font-serif">
+      <style>{`
+        @media (orientation: portrait) and (min-height: 700px) {
+          .level-review-scroll {
+            justify-content: center;
+          }
+        }
+      `}</style>
+      <div className="max-w-3xl w-full shrink-0 bg-parchment-200 border-4 border-parchment-800 rounded-lg shadow-2xl p-4 sm:p-6 md:p-8 relative overflow-hidden animate-ink-blot my-2 sm:my-6">
         
         {/* Decorative corner borders */}
         <div className="absolute top-0 left-0 w-12 h-12 border-t-4 border-l-4 border-gold m-2 pointer-events-none"></div>

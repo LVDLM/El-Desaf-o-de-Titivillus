@@ -8,26 +8,26 @@ on:
 jobs:
   build:
     name: Compilar APK (Pruebas) y AAB (Google Play)
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
 
     steps:
       - name: Descargar repositorio
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
-      - name: Configurar Node.js 20
-        uses: actions/setup-node@v4
+      - name: Configurar Node.js 24
+        uses: actions/setup-node@v6
         with:
-          node-version: 20
+          node-version: 24
           cache: 'npm'
 
-      - name: Configurar Java JDK 17
-        uses: actions/setup-java@v4
+      - name: Configurar Java JDK 21
+        uses: actions/setup-java@v5
         with:
           distribution: 'temurin'
-          java-version: 17
+          java-version: 21
 
       - name: Instalar dependencias web
-        run: npm install
+        run: npm ci
 
       - name: Compilar aplicacion web (PWA + React)
         run: npm run build
@@ -55,7 +55,7 @@ jobs:
           path: android/app/build/outputs/apk/debug/app-debug.apk
           retention-days: 14
 
-      - name: Subir AAB de Google Play como artefacto descargable
+      - name: Subir AAB sin firmar (requiere firma para Google Play)
         uses: actions/upload-artifact@v4
         with:
           name: titivillus-google-play-aab

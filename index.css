@@ -1,0 +1,57 @@
+@import "tailwindcss";
+
+@theme {
+  --font-serif: "Libre Baskerville", serif;
+  --font-display: "Cinzel", serif;
+
+  --color-parchment-100: #fcf5e5;
+  --color-parchment-200: #f4e4bc;
+  --color-parchment-300: #e6cf95;
+  --color-parchment-800: #5c4033;
+  --color-parchment-900: #3e2b22;
+  --color-ink: #2b2b2b;
+  --color-blood: #8a0303;
+  --color-gold: #c5a004;
+
+  --animate-ink-blot: ink-blot 0.5s ease-out forwards;
+  --animate-shake: shake 0.5s cubic-bezier(.36, .07, .19, .97) both;
+
+  @keyframes ink-blot {
+    0% {
+      transform: scale(0);
+      opacity: 0;
+    }
+    100% {
+      transform: scale(1);
+      opacity: 1;
+    }
+  }
+
+  @keyframes shake {
+    10%, 90% {
+      transform: translate3d(-1px, 0, 0);
+    }
+    20%, 80% {
+      transform: translate3d(2px, 0, 0);
+    }
+    30%, 50%, 70% {
+      transform: translate3d(-4px, 0, 0);
+    }
+    40%, 60% {
+      transform: translate3d(4px, 0, 0);
+    }
+  }
+}
+
+body {
+  background-color: #2b2b2b;
+}
+
+.scroll-bar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+.scroll-bar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}

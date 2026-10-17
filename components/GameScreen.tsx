@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { LevelData, TextToken, ScribeDiscrepancy } from '../types';
 import { Hourglass, AlertOctagon, BookOpen, Feather, LogOut, AlertTriangle, PenTool, CheckCircle, Zap, Type } from 'lucide-react';
 
@@ -75,6 +75,92 @@ const GameScreen: React.FC<GameScreenProps> = ({
   const [timeLeft, setTimeLeft] = useState(levelData.timeLimit);
   const [showQuitConfirm, setShowQuitConfirm] = useState(false);
   const [tutorialMessage, setTutorialMessage] = useState<string | null>(null);
+  const gameTextGridRef = useRef<HTMLDivElement>(null);
+  const scrollTrackRef = useRef<HTMLDivElement>(null);
+  const scrollDragRef = useRef<{ startY: number; startScrollTop: number; scrollRange: number; trackRange: number } | null>(null);
+  const [scrollThumb, setScrollThumb] = useState({ height: 100, top: 0, value: 0, maxScroll: 0 });
+
+  const updateScrollThumb = useCallback(() => {
+    const grid = gameTextGridRef.current;
+    if (!grid) return;
+
+    const maxScroll = Math.max(0, grid.scrollHeight - grid.clientHeight);
+    const height = maxScroll > 0 ? Math.max(12, (grid.clientHeight / grid.scrollHeight) * 100) : 100;
+    const value = maxScroll > 0 ? Math.round((grid.scrollTop / maxScroll) * 100) : 0;
+    const top = maxScroll > 0 ? (grid.scrollTop / maxScroll) * (100 - height) : 0;
+
+    setScrollThumb({ height, top, value, maxScroll });
+  }, []);
+
+  const handleScrollTrackPointerDown = (event: React.PointerEvent<HTMLDivElement>) => {
+    const grid = gameTextGridRef.current;
+    const track = scrollTrackRef.current;
+    if (!grid || !track || scrollThumb.maxScroll <= 0) return;
+
+    const thumbHeight = (scrollThumb.height / 100) * track.clientHeight;
+    const trackRange = track.clientHeight - thumbHeight;
+    event.currentTarget.setPointerCapture(event.pointerId);
+
+    const bounds = track.getBoundingClientRect();
+    const position = trackRange > 0
+      ? Math.max(0, Math.min(trackRange, event.clientY - bounds.top - thumbHeight / 2)) / trackRange
+      : 0;
+    grid.scrollTop = position * scrollThumb.maxScroll;
+    scrollDragRef.current = {
+      startY: event.clientY,
+      startScrollTop: grid.scrollTop,
+      scrollRange: scrollThumb.maxScroll,
+      trackRange
+    };
+    updateScrollThumb();
+  };
+
+  const handleScrollTrackPointerMove = (event: React.PointerEvent<HTMLDivElement>) => {
+    const grid = gameTextGridRef.current;
+    const drag = scrollDragRef.current;
+    if (!grid || !drag || drag.trackRange <= 0) return;
+
+    grid.scrollTop = drag.startScrollTop + ((event.clientY - drag.startY) / drag.trackRange) * drag.scrollRange;
+    updateScrollThumb();
+  };
+
+  const handleScrollTrackPointerUp = () => {
+    scrollDragRef.current = null;
+  };
+
+  const handleScrollTrackKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
+    const grid = gameTextGridRef.current;
+    if (!grid || scrollThumb.maxScroll <= 0) return;
+
+    const page = grid.clientHeight * 0.9;
+    const increments: Record<string, number> = {
+      ArrowDown: 40,
+      ArrowUp: -40,
+      PageDown: page,
+      PageUp: -page,
+      Home: -grid.scrollTop,
+      End: scrollThumb.maxScroll - grid.scrollTop
+    };
+    const increment = increments[event.key];
+    if (increment === undefined) return;
+
+    event.preventDefault();
+    grid.scrollTop += increment;
+    updateScrollThumb();
+  };
+
+  useEffect(() => {
+    const grid = gameTextGridRef.current;
+    if (!grid) return;
+
+    const resizeObserver = new ResizeObserver(updateScrollThumb);
+    resizeObserver.observe(grid);
+    window.addEventListener('resize', updateScrollThumb);
+    return () => {
+      resizeObserver.disconnect();
+      window.removeEventListener('resize', updateScrollThumb);
+    };
+  }, [updateScrollThumb]);
 
   // Typography size accessibility control ('sm' | 'md' | 'lg')
   const [fontSize, setFontSize] = useState<'sm' | 'md' | 'lg'>(() => {
@@ -107,6 +193,10 @@ const GameScreen: React.FC<GameScreenProps> = ({
       localStorage.setItem('titivillus_font_size', size);
     } catch (e) {}
   };
+
+  useEffect(() => {
+    updateScrollThumb();
+  }, [updateScrollThumb, tokens, fontSize, gameMode, scribeText, isScribeSubmitted]);
 
   // Reset tokens and state when levelData changes
   useEffect(() => {
@@ -319,7 +409,34 @@ const GameScreen: React.FC<GameScreenProps> = ({
   }[fontSize];
 
   return (
-    <div className="flex flex-col items-center min-h-screen p-2 md:p-4 pt-4 md:pt-8 text-parchment-900 font-serif relative">       <style>{`         @media (orientation: landscape) {           .game-text-grid {             grid-template-columns: repeat(2, minmax(0, 1fr)) !important;           }           .game-text-panel {             max-height: calc(100dvh - 10rem) !important;             min-height: 0 !important;             overflow-y: auto !important;             overscroll-behavior-y: contain;           }         }       `}</style>
+    <div className="flex flex-col items-center min-h-screen p-2 md:p-4 pt-4 md:pt-8 text-parchment-900 font-serif relative">
+      <style>{`
+        @media (orientation: landscape) {
+          .game-text-grid {
+            grid-template-columns: minmax(0, 1fr) 2.5rem minmax(0, 1fr) !important;
+            gap: 0 !important;
+            max-height: calc(100dvh - 10rem);
+            min-height: 0;
+            overflow-y: auto;
+            overscroll-behavior-y: contain;
+          }
+          .game-text-panel {
+            max-height: none !important;
+            min-height: 0 !important;
+            overflow-y: visible !important;
+          }
+          .game-scroll-gutter {
+            display: block;
+            position: sticky;
+            top: 0;
+            height: calc(100dvh - 10rem);
+            align-self: start;
+          }
+          .landscape-scroll-instruction {
+            display: block;
+          }
+        }
+      `}</style>
       
       {/* Header / HUD */}
       <div className="w-full max-w-6xl flex flex-wrap justify-between items-center gap-2 mb-4 md:mb-6 px-4 py-3 bg-parchment-800 text-parchment-100 rounded shadow-lg border-2 border-gold sticky top-2 z-40">
@@ -385,7 +502,12 @@ const GameScreen: React.FC<GameScreenProps> = ({
       </div>
 
       {/* Main Game Area - Split View */}
-      <div className="game-text-grid w-full max-w-6xl grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8 flex-grow">
+      <div
+        id="game-text-grid"
+        ref={gameTextGridRef}
+        onScroll={updateScrollThumb}
+        className="game-text-grid w-full max-w-6xl grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8 flex-grow"
+      >
         
         {/* Left Column: The "Original" (Book Model) */}
         <div className="flex flex-col h-full">
@@ -418,6 +540,34 @@ const GameScreen: React.FC<GameScreenProps> = ({
               </div>
             )}
           </div>
+        </div>
+
+        <div className="game-scroll-gutter hidden" aria-hidden={scrollThumb.maxScroll <= 0}>
+          {scrollThumb.maxScroll > 0 && (
+            <div
+              ref={scrollTrackRef}
+              role="scrollbar"
+              aria-label="Desplazamiento compartido de los textos"
+              aria-controls="game-text-grid"
+              aria-orientation="vertical"
+              aria-valuemin={0}
+              aria-valuemax={100}
+              aria-valuenow={scrollThumb.value}
+              tabIndex={0}
+              onKeyDown={handleScrollTrackKeyDown}
+              onPointerDown={handleScrollTrackPointerDown}
+              onPointerMove={handleScrollTrackPointerMove}
+              onPointerUp={handleScrollTrackPointerUp}
+              onPointerCancel={handleScrollTrackPointerUp}
+              onLostPointerCapture={handleScrollTrackPointerUp}
+              className="relative mx-auto h-full w-8 touch-none cursor-pointer border-x border-parchment-700/40 bg-parchment-900/10 focus:outline-none focus:ring-2 focus:ring-gold"
+            >
+              <div
+                className="absolute left-1/2 w-3 -translate-x-1/2 rounded-full border border-parchment-900/50 bg-gold shadow-md"
+                style={{ height: `${scrollThumb.height}%`, top: `${scrollThumb.top}%` }}
+              />
+            </div>
+          )}
         </div>
 
         {/* Right Column: Interactive Area */}
@@ -595,6 +745,7 @@ const GameScreen: React.FC<GameScreenProps> = ({
           ) : (
             <>
               <p>Compara tu manuscrito (derecha) con el original (izquierda).</p>
+              <p className="landscape-scroll-instruction hidden">Arrastra el separador central para desplazar ambos textos a la vez.</p>
               <p>Pincha sobre las <span className="text-gold">palabras, signos o huecos</span> erróneos para aplicar la corrección.</p>
             </>
           )}

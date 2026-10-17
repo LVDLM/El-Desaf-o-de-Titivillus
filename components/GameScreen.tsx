@@ -319,7 +319,7 @@ const GameScreen: React.FC<GameScreenProps> = ({
   }[fontSize];
 
   return (
-    <div className="flex flex-col items-center min-h-screen p-2 md:p-4 pt-4 md:pt-8 text-parchment-900 font-serif relative">
+    <div className="flex flex-col items-center min-h-screen p-2 md:p-4 pt-4 md:pt-8 text-parchment-900 font-serif relative">       <style>{`         @media (orientation: landscape) {           .game-text-grid {             grid-template-columns: repeat(2, minmax(0, 1fr)) !important;           }           .game-text-panel {             max-height: calc(100dvh - 10rem) !important;             min-height: 0 !important;             overflow-y: auto !important;             overscroll-behavior-y: contain;           }         }       `}</style>
       
       {/* Header / HUD */}
       <div className="w-full max-w-6xl flex flex-wrap justify-between items-center gap-2 mb-4 md:mb-6 px-4 py-3 bg-parchment-800 text-parchment-100 rounded shadow-lg border-2 border-gold sticky top-2 z-40">
@@ -385,7 +385,7 @@ const GameScreen: React.FC<GameScreenProps> = ({
       </div>
 
       {/* Main Game Area - Split View */}
-      <div className="w-full max-w-6xl grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8 flex-grow">
+      <div className="game-text-grid w-full max-w-6xl grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8 flex-grow">
         
         {/* Left Column: The "Original" (Book Model) */}
         <div className="flex flex-col h-full">
@@ -393,7 +393,7 @@ const GameScreen: React.FC<GameScreenProps> = ({
             <BookOpen size={20} />
             <h3 className="font-display font-bold uppercase tracking-widest text-sm">Texto Original (Modelo)</h3>
           </div>
-          <div className="bg-parchment-300 shadow-2xl relative flex-grow rounded-l-md border-r-4 border-parchment-900 p-6 md:p-10 flex flex-col justify-between overflow-hidden">
+          <div className="game-text-panel bg-parchment-300 shadow-2xl relative flex-grow rounded-l-md border-r-4 border-parchment-900 p-6 md:p-10 flex flex-col justify-between overflow-y-auto">
             <div className="absolute inset-0 bg-black/5 pointer-events-none"></div>
             
             <div className={`relative ${fontClass} text-justify text-ink font-serif mb-8 select-none`}>
@@ -429,7 +429,7 @@ const GameScreen: React.FC<GameScreenProps> = ({
             </h3>
           </div>
           
-          <div className="bg-parchment-100 shadow-2xl relative flex-grow rounded-r-md p-6 md:p-10 overflow-hidden min-h-[40vh] flex flex-col">
+          <div className="game-text-panel bg-parchment-100 shadow-2xl relative flex-grow rounded-r-md p-6 md:p-10 overflow-y-auto min-h-[40vh] flex flex-col">
             <div className="absolute inset-0 pointer-events-none opacity-20 bg-[url('https://www.transparenttextures.com/patterns/aged-paper.png')]"></div>
             
             {gameMode === 'scribe' ? (

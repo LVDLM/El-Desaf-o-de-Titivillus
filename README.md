@@ -196,7 +196,7 @@ s()
 
 ## 📱 Aplicación para Android
 
-La web se empaqueta como aplicación Android nativa con **Capacitor**. El proyecto Android está en `android/`; para compilarlo localmente se necesitan Node.js 24, Android Studio con Android SDK (API 36) y JDK 17.
+La web se empaqueta como aplicación Android nativa con **Capacitor**. El proyecto Android está en `android/`; para compilarlo localmente se necesitan Node.js 24, Android Studio con Android SDK (API 36) y JDK 21.
 
 En Windows, usa una ruta de proyecto que no contenga `#`: Vite no puede compilar correctamente desde una ruta con ese carácter. La compilación de GitHub Actions no se ve afectada.
 

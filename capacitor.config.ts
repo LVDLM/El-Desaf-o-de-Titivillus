@@ -5,6 +5,11 @@ const config: CapacitorConfig = {
   appName: 'El Desafío de Titivillus',
   webDir: 'dist',
   backgroundColor: '#f4e4bc',
+  plugins: {
+    SystemBars: {
+      hidden: true
+    }
+  },
   server: {
     androidScheme: 'https'
   }

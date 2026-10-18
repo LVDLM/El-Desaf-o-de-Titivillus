@@ -78,11 +78,6 @@ const StartScreen: React.FC<StartScreenProps> = ({
             display: flex;
           }
         }
-        @media (orientation: portrait) and (min-height: 700px) {
-          .start-screen-scroll {
-            justify-content: center;
-          }
-        }
       `}</style>
       
       {/* Titivillus Notebook Modal */}
